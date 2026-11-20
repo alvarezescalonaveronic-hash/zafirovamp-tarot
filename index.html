@@ -175,13 +175,13 @@
         <!-- Hero Section -->
         <section class="text-center max-w-3xl mx-auto space-y-4">
             <div class="inline-block px-4 py-1 rounded-full bg-velvet border border-gold/40 text-gold text-xs font-gothic tracking-widest uppercase">
-                Baraja Completa · 78 Arcanos
+                Baraja Completa · 78 Cartas
             </div>
             <h2 class="font-gothic text-3xl sm:text-5xl font-bold text-white leading-tight">
                 Aquí no endulzamos la verdad. <span class="text-transparent bg-clip-text bg-gradient-to-r from-vamp to-vampLight">Las cartas hablan claro.</span>
             </h2>
             <p class="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                Elige tu consulta gratuita, dale un poco de contexto real al mazo y recibe una lectura directa. Sin rodeos ni falsas esperanzas.
+                Elige tu consulta gratuita, dale un poco de contexto real al mazo y recibe una lectura directa y fácil de entender. Sin rodeos ni palabras raras.
             </p>
         </section>
 
@@ -215,7 +215,7 @@
 
                 <button onclick="selectOracle('life')" id="tab-life" class="oracle-tab col-span-2 lg:col-span-1 p-3 rounded-2xl border border-gold/40 bg-gradient-to-br from-velvet to-void hover:border-gold text-left transition-all">
                     <div class="text-gold text-xs font-bold uppercase tracking-wider mb-1">05 · Esencia</div>
-                    <div class="font-gothic text-sm font-bold text-white">Tu Arcano de Vida</div>
+                    <div class="font-gothic text-sm font-bold text-white">Tu Carta de Vida</div>
                     <div class="text-[11px] text-gray-400 mt-0.5">Luz, sombra y amor</div>
                 </button>
             </div>
@@ -236,7 +236,7 @@
                 <div class="bg-void/80 border border-white/10 rounded-2xl p-4">
                     <div class="flex justify-between items-center mb-2">
                         <label for="context-input" class="text-xs font-semibold text-gray-300 uppercase tracking-wider">
-                            Dale un poco de contexto al Tarot <span class="text-gray-500 font-normal">(Opcional)</span>
+                            Cuéntale un poco al Tarot qué pasa <span class="text-gray-500 font-normal">(Opcional)</span>
                         </label>
                         <span id="char-counter" class="text-xs text-vampLight font-mono">0 / 140</span>
                     </div>
@@ -244,7 +244,7 @@
                         placeholder="Ej: Llevamos 2 meses sin hablar pero ve mis estados... / Siento que el dinero no me rinde..."
                         class="w-full bg-abyss border border-vamp/30 focus:border-vamp rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none resize-none transition-colors"></textarea>
                     <p class="text-[11px] text-gray-400 mt-1.5">
-                        * El mazo analizará tu situación puntual para que la respuesta sea coherente y directa.
+                        El mazo adaptará la explicación a tu situación puntual para que entiendas exactamente qué hacer.
                     </p>
                 </div>
 
@@ -287,10 +287,10 @@
                     <!-- Interpretation Text Box -->
                     <div class="bg-void/90 border border-gold/40 rounded-2xl p-6 space-y-4 shadow-inner">
                         <div class="flex items-center justify-between flex-wrap gap-2">
-                            <span class="text-xs font-gothic uppercase tracking-widest text-gold font-bold">✦ Veredicto de Zafirovamp</span>
+                            <span class="text-xs font-gothic uppercase tracking-widest text-gold font-bold">✦ Veredicto Claro de Zafirovamp</span>
                             <span id="result-timestamp" class="text-[11px] text-gray-500"></span>
                         </div>
-                        <div id="interpretation-content" class="text-sm sm:text-base text-gray-100 leading-relaxed space-y-3">
+                        <div id="interpretation-content" class="text-sm sm:text-base text-gray-100 leading-relaxed space-y-4">
                             <!-- Interpretation paragraphs -->
                         </div>
 
@@ -313,8 +313,8 @@
             <div id="life-arcana-panel" class="hidden space-y-6">
                 <div class="border-b border-white/10 pb-4 flex flex-wrap items-center justify-between gap-4">
                     <div>
-                        <h3 class="font-gothic text-2xl font-bold text-gold">Tu Arcano Personal de Vida</h3>
-                        <p class="text-sm text-gray-300 mt-1">Calculado según tu fecha de nacimiento. Tu esencia, tu luz y tu peor sombra en el amor.</p>
+                        <h3 class="font-gothic text-2xl font-bold text-gold">Tu Carta Personal de Vida</h3>
+                        <p class="text-sm text-gray-300 mt-1">Calculada según tu fecha de nacimiento. Tu forma de ser, tu mayor virtud y tu punto débil en el amor.</p>
                     </div>
                     <span class="text-xs bg-void px-3 py-1.5 rounded-full border border-vamp/40 text-vampLight">
                         Acceso Ilimitado · Perfil
@@ -331,13 +331,13 @@
                             <h4 id="life-arcana-title" class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1"></h4>
                         </div>
                         <div class="space-y-3 text-sm text-gray-200 leading-relaxed">
-                            <p><strong class="text-gold">✦ Tu Luz y Poder:</strong> <span id="life-arcana-light"></span></p>
-                            <p><strong class="text-vampLight">✦ Tu Sombra en el Amor:</strong> <span id="life-arcana-shadow"></span></p>
-                            <p><strong class="text-purple-300">✦ Consejo sin filtros:</strong> <span id="life-arcana-advice"></span></p>
+                            <p><strong class="text-gold">✦ Tu mayor fortaleza:</strong> <span id="life-arcana-light"></span></p>
+                            <p><strong class="text-vampLight">✦ Tu punto débil en el amor:</strong> <span id="life-arcana-shadow"></span></p>
+                            <p><strong class="text-purple-300">✦ Consejo directo para ti:</strong> <span id="life-arcana-advice"></span></p>
                         </div>
                         <div class="pt-2">
                             <button onclick="generateLifeStoryImage()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-vamp to-pink-600 text-white font-bold text-xs flex items-center gap-2 hover:brightness-110 transition-all shadow-lg">
-                                <span>Compartir mi Arcano en Historias</span>
+                                <span>Compartir mi Carta en Historias</span>
                             </button>
                         </div>
                     </div>
@@ -383,7 +383,7 @@
                         </div>
                         <h4 class="font-gothic text-xl font-bold text-white">Pregunta Normal Detallada</h4>
                         <p class="text-xs text-gray-200 leading-relaxed">
-                            Análisis profundo de tu pregunta con explicación clara de intenciones, bloqueos, energías ocultas y consejo directo del Tarot.
+                            Análisis profundo de tu pregunta con explicación clara de intenciones, bloqueos, situaciones ocultas y consejo directo del Tarot.
                         </p>
                     </div>
                     <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="mt-6 w-full py-3 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs text-center shadow-lg transition-all">
@@ -468,7 +468,7 @@
         <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
             <div class="text-center sm:text-left">
                 <span class="font-gothic font-bold text-vampLight text-sm">@zafirovamp_tarotista</span>
-                <p class="mt-1">Tarot directo, intuitivo y sin filtros. Todos los derechos reservados.</p>
+                <p class="mt-1">Tarot directo, claro y sin filtros. Todos los derechos reservados.</p>
             </div>
             <div class="flex items-center gap-4">
                 <a href="https://www.instagram.com/zafirovamp_tarotista?cnvx=dm1mNGw0M2tscGp0" target="_blank" rel="noopener noreferrer" class="hover:text-vampLight transition-colors flex items-center gap-1.5">
@@ -503,7 +503,7 @@
                 </div>
                 <h2 class="font-gothic text-2xl font-bold text-white">Antes de abrir el mazo...</h2>
                 <p class="text-xs text-gray-300 leading-relaxed">
-                    Para sintonizar las 78 cartas con tu energía y calcular tu <span class="text-gold font-semibold">Arcano Personal de Vida</span>, ingresa tus datos reales.
+                    Para conectar las 78 cartas contigo y calcular tu <span class="text-gold font-semibold">Carta Personal de Vida</span>, ingresa tus datos reales.
                 </p>
             </div>
 
@@ -660,7 +660,7 @@
                         <tr>
                             <th class="py-3 px-2">Nombre</th>
                             <th class="py-3 px-2">Nacimiento</th>
-                            <th class="py-3 px-2">Arcano Vida</th>
+                            <th class="py-3 px-2">Carta Vida</th>
                             <th class="py-3 px-2">Device ID</th>
                             <th class="py-3 px-2">Referidos</th>
                             <th class="py-3 px-2">Registro</th>
@@ -698,88 +698,309 @@
         let firebaseReady = false;
 
         try {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                const firebaseConfig = JSON.parse(__firebase_config);
-                const app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-
-                const initAuth = async () => {
-                    try {
-                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } else {
-                            await signInAnonymously(auth);
-                        }
-                    } catch (err) {
-                        console.warn("Auth fallback:", err);
+            const firebaseConfig = {
+                apiKey: "AIzaSyAo6y10-mwPWbhZXGSIxXRkwrdXXwY8tok",
+                authDomain: "zafirovamp-tarot.firebaseapp.com",
+                projectId: "zafirovamp-tarot",
+                storageBucket: "zafirovamp-tarot.firebasestorage.app",
+                messagingSenderId: "646047924179",
+                appId: "1:646047924179:web:6e4cbab9e5c86ef7b0f926"
+            };
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+           
+            const initAuth = async () => {
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
                     }
-                };
-                initAuth();
+                } catch (err) {
+                    console.warn("Auth fallback:", err);
+                }
+            };
+            initAuth();
 
-                onAuthStateChanged(auth, (user) => {
-                    currentFirebaseUser = user;
-                    if (user) {
-                        firebaseReady = true;
-                        syncUserWithCloud();
-                        subscribeToPublicReviews();
-                    }
-                });
-            }
+            onAuthStateChanged(auth, (user) => {
+                currentFirebaseUser = user;
+                if (user) {
+                    firebaseReady = true;
+                    syncUserWithCloud();
+                    subscribeToPublicReviews();
+                }
+            });
         } catch (e) {
             console.warn("Running in local resilient mode:", e);
         }
 
         // ---------------------------------------------------------------------
-        // 2. COMPLETE 78 TAROT DECK DATA (22 MAJOR + 56 MINOR ARCANA)
+        // 2. COMPLETE 78 TAROT DECK DATA (CLEAR, NATURAL & DIRECT LANGUAGE)
         // ---------------------------------------------------------------------
         const MAJOR_ARCANA = [
-            { id: 0, num: "0", name: "El Loco", suit: "major", symbol: "fool", raw: "Impulsividad total, cero compromiso y ganas de saltar al vacío sin pensar en las consecuencias.", love: "Alguien que quiere aventura rápida pero le huye a las responsabilidades serias.", money: "Gastos impulsivos o decisiones arriesgadas sin planificar.", advice: "Atrévete a soltar lo que pesa, pero no seas ingenuo." },
-            { id: 1, num: "I", name: "El Mago", suit: "major", symbol: "magician", raw: "Tienes todas las herramientas en la mesa, pero cuidado con la manipulación y las palabras bonitas vacías.", love: "Alguien con mucha labia que sabe exactamente qué decir para envolverte.", money: "Momento ideal para iniciar algo propio usando tu ingenio.", advice: "Usa tu inteligencia y no te dejes endulzar el oído." },
-            { id: 2, num: "II", name: "La Sacerdotisa", suit: "major", symbol: "priestess", raw: "Hay secretos ocultos detrás del telón. Tu intuición ya te avisó lo que pasa, deja de ignorarla.", love: "Silencio, distancia fría o cosas que te están ocultando.", money: "Guarda tus planes en silencio; no le cuentes tus movimientos a nadie.", advice: "Confía en tu corazonada, nunca se equivoca." },
-            { id: 3, num: "III", name: "La Emperatriz", suit: "major", symbol: "empress", raw: "Abundancia, magnetismo y fertilidad. Cuando te valoras, atraes todo sin tener que perseguir nada.", love: "Energía de atracción fuerte, cariño genuino y bienestar.", money: "Crecimiento económico y frutos que empiezan a verse.", advice: "Ponte en primer lugar y deja que vengan a ti." },
-            { id: 4, num: "IV", name: "El Emperador", suit: "major", symbol: "emperor", raw: "Terquedad extrema, orgullo y necesidad de controlarlo todo. Nadie quiere dar su brazo a torcer.", love: "Alguien frío y orgulloso que prefiere tener la razón antes que pedir perdón.", money: "Estructura, disciplina y orden estricto para poder avanzar.", advice: "Baja la guardia o quédate solo con tu orgullo." },
-            { id: 5, num: "V", name: "El Hierofante", suit: "major", symbol: "hierophant", raw: "Las apariencias, las reglas tradicionales y el 'qué dirán' están pesando más que la verdad.", love: "Vínculo sostenido por costumbre, compromiso social o consejos de terceros.", money: "Sigue los pasos formales y busca asesoría seria.", advice: "No te quedes en un sitio solo por cumplir con los demás." },
-            { id: 6, num: "VI", name: "Los Enamorados", suit: "major", symbol: "lovers", raw: "Una encrucijada inevitable. Hay atracción, sí, pero también una decisión que define el rumbo.", love: "Química fuerte, pero hay que elegir entre lo fácil y lo que realmente vale.", money: "Alianzas o decisiones clave donde debes elegir un solo camino.", advice: "Decide con coherencia, no solo por impulso." },
-            { id: 7, num: "VII", name: "El Carro", suit: "major", symbol: "chariot", raw: "Avance rápido y determinación. O tomas las riendas de tu vida o te pasan por encima.", love: "Alguien que avanza hacia lo que quiere o se marcha sin mirar atrás.", money: "Movimiento, viajes o impulso fuerte para sacar un proyecto.", advice: "Toma el control y no permitas que nadie frene tu paso." },
-            { id: 8, num: "VIII", name: "La Fuerza", suit: "major", symbol: "strength", raw: "Domina tus impulsos y tu ansiedad. El verdadero poder está en mantener la calma sin hacer drama.", love: "Paciencia y autocontrol frente a actitudes inmaduras.", money: "Constancia firme; no te desesperes si los resultados toman tiempo.", advice: "Controla tus emociones y actúa con frialdad elegante." },
-            { id: 9, num: "IX", name: "El Ermitaño", suit: "major", symbol: "hermit", raw: "Aislamiento, distancia y soledad necesaria. Es momento de apagar el ruido externo y pensar.", love: "Alejamiento emocional, frialdad o necesidad de estar a solas.", money: "Trabaja en silencio y enfócate en tu propio plan sin distracciones.", advice: "Aléjate del chisme y busca respuestas dentro de ti." },
-            { id: 10, num: "X", name: "La Rueda de la Fortuna", suit: "major", symbol: "wheel", raw: "Giro inesperado del destino y karma en movimiento. Lo que estaba arriba baja y viceversa.", love: "Cambios repentinos; ciclos que vuelven o giros que te sacan de tu zona de confort.", money: "Oportunidad inesperada que mueve el estancamiento.", advice: "Adáptate al cambio, la rueda nunca se queda quieta." },
-            { id: 11, num: "XI", name: "La Justicia", suit: "major", symbol: "justice", raw: "Causa y efecto puro. Cada quien recibe exactamente lo que sembró, sin favoritismos.", love: "Verdades que salen a la luz y equilibrio frío; se cobra el karma.", money: "Poner cuentas claras, contratos o pagos justos.", advice: "Sé objetivo, corta lo injusto y asume tus decisiones." },
-            { id: 12, num: "XII", name: "El Colgado", suit: "major", symbol: "hanged", raw: "Estancamiento total y pausa forzada. Estás sacrificando energía donde no hay avance.", love: "Relación en pausa donde uno da todo y el otro no mueve un dedo.", money: "Bloqueo temporal; necesitas cambiar de estrategia urgente.", advice: "Deja de sacrificarte por quien no hace nada por ti." },
-            { id: 13, num: "XIII", name: "La Muerte", suit: "major", symbol: "death", raw: "Final definitivo y corte radical. Algo ya murió y seguir insistiendo solo trae desgaste.", love: "Cierre de ciclo obligatorio; entierra el pasado para poder renacer.", money: "Fin de una etapa laboral o forma de ganar dinero; toca reinventarse.", advice: "Suelta de una vez lo que ya no tiene vida." },
-            { id: 14, num: "XIV", name: "La Templanza", suit: "major", symbol: "temperance", raw: "Calma, sanación y equilibrio. Después de la tormenta llega la paz si sabes esperar.", love: "Relación tranquila que sana heridas o necesidad de bajarle al drama.", money: "Administración equilibrada y flujo constante sin excesos.", advice: "Respira, ten paciencia y no fuerces los tiempos." },
-            { id: 15, num: "XV", name: "El Diablo", suit: "major", symbol: "devil", raw: "Toxicidad, obsesión, manipulación o ataduras materiales. Sabes que hace daño pero cuesta soltar.", love: "Pura atracción física, dependencia emocional o juegos tóxicos.", money: "Ambición, deudas o entornos laborales pesados con envidia.", advice: "Rompe las cadenas; no confundas obsesión con amor." },
-            { id: 16, num: "XVI", name: "La Torre", suit: "major", symbol: "tower", raw: "Ruptura brusca y caída de mentiras. Se derrumba lo que estaba construido sobre bases falsas.", love: "Discusión fuerte, verdad revelada de golpe o ruptura inevitable.", money: "Gasto imprevisto o caída de un plan inestable.", advice: "Deja que se caiga lo falso para construir sobre firme." },
-            { id: 17, num: "XVII", name: "La Estrella", suit: "major", symbol: "star", raw: "Luz propia, autenticidad y renovación. Tu brillo natural molesta a quienes viven en la sombra.", love: "Sanación emocional, esperanza real y conexión transparente.", money: "Caminos abiertos y claridad para nuevos proyectos.", advice: "Brilla sin pedir permiso y mantente fiel a tu esencia." },
-            { id: 18, num: "XVIII", name: "La Luna", suit: "major", symbol: "moon", raw: "Confusión, miedos, mentiras y doble cara. Nada es lo que parece en este momento.", love: "Engaños, ilusiones falsas o alguien que se esconde en las sombras.", money: "Falta de claridad; ten cuidado con estafas o promesas vacías.", advice: "No tomes decisiones a ciegas; espera a que se aclare el panorama." },
-            { id: 19, num: "XIX", name: "El Sol", suit: "major", symbol: "sun", raw: "Claridad absoluta, éxito y verdad expuesta. Todo sale a la luz y trae bienestar.", love: "Sinceridad total, alegría compartida y vínculo sano.", money: "Éxito, ingresos claros y reconocimiento merecido.", advice: "Disfruta el momento con total transparencia." },
-            { id: 20, num: "XX", name: "El Juicio", suit: "major", symbol: "judgement", raw: "Despertar brusco y llamado a la verdad. El pasado regresa para ser juzgado o cerrado.", love: "Reaparición de alguien del pasado o momento de abrir los ojos.", money: "Oportunidad de reivindicarte y tomar decisiones maduras.", advice: "Despierta, aprende la lección y no repitas errores." },
-            { id: 21, num: "XXI", name: "El Mundo", suit: "major", symbol: "world", raw: "Cierre exitoso de ciclo y plenitud. Ya aprendiste la lección y estás listo para subir de nivel.", love: "Realización personal o cierre sano para abrirte a algo completo.", money: "Meta cumplida, expansión y estabilidad lograda.", advice: "Cierra esta puerta con orgullo y avanza." }
+            {
+                id: 0, num: "0", name: "El Loco", suit: "major", symbol: "fool",
+                raw: "Estás frente a una situación donde nadie quiere amarrarse ni pensar en las consecuencias. Hay ganas de experimentar y lanzarse sin planificar, pero esa misma falta de seriedad puede dejar todo en el aire de un día para otro.",
+                love: "Esa persona vive el momento sin hacer planes a futuro. Puede haber diversión y química rápida, pero hoy no está dispuesta a asumir un compromiso real ni responsabilidades contigo.",
+                money: "Cuidado con gastar por impulso o meterte en negocios sin revisar los detalles. Es buen momento para probar ideas nuevas, pero sin arriesgar el dinero que necesitas para vivir.",
+                advice: "Atrévete a soltar lo que te aburre o te pesa, pero mantén los pies en la tierra para que nadie juegue con tu tiempo."
+            },
+            {
+                id: 1, num: "I", name: "El Mago", suit: "major", symbol: "magician",
+                raw: "Tienes todo a tu favor para lograr lo que te propones si tomas la iniciativa ahora mismo. Sin embargo, esta carta también advierte sobre personas muy hábiles con las palabras que saben exactamente qué decir para convencerte.",
+                love: "Hay mucho encanto y labia de por medio. Alguien sabe cómo envolverte con promesas bonitas o mensajes estratégicos, así que fíjate más en lo que hace que en lo que dice.",
+                money: "Es un momento excelente para empezar un proyecto propio, vender una idea o buscar ingresos extra usando tu talento y creatividad.",
+                advice: "Confía en tu capacidad para resolver problemas, pero no te dejes endulzar el oído por cualquiera."
+            },
+            {
+                id: 2, num: "II", name: "La Sacerdotisa", suit: "major", symbol: "priestess",
+                raw: "Hay cosas importantes que todavía no te han contado o que se están manejando en silencio detrás de ti. Aunque por fuera parezca que no pasa nada, en el fondo se están moviendo muchas intenciones ocultas.",
+                love: "Hay silencio, frialdad o secretos que esa persona se guarda. Si sientes que algo no te cuadra o que te ocultan información, hazle caso a tu instinto porque tienes razón.",
+                money: "No le cuentes tus planes de dinero o trabajo a todo el mundo. Guarda tus proyectos en reserva hasta que ya estén firmes y seguros.",
+                advice: "Observa en silencio y confía en tu corazonada; ya sabes la respuesta aunque no tengas pruebas."
+            },
+            {
+                id: 3, num: "III", name: "La Emperatriz", suit: "major", symbol: "empress",
+                raw: "Estás entrando en una etapa de crecimiento, estabilidad y magnetismo personal. Cuando te das tu lugar y te cuidas, las oportunidades y las personas correctas llegan solas sin que tengas que rogarles.",
+                love: "Hay un interés genuino, cariño sincero y fuerte atracción física y emocional. Es una energía muy favorable para disfrutar de una relación sana o atraer a alguien que sí te valore.",
+                money: "Tus esfuerzos empiezan a dar frutos visibles. Se acercan mejoras económicas, estabilidad y buenas noticias en tus proyectos.",
+                advice: "Ponte en primer lugar, consiéntete y deja de perseguir lo que debe llegar a ti por mérito propio."
+            },
+            {
+                id: 4, num: "IV", name: "El Emperador", suit: "major", symbol: "emperor",
+                raw: "Aquí manda el orgullo, la terquedad y la necesidad de tener el control absoluto. Nadie quiere ceder ni dar el primer paso, lo que vuelve el ambiente rígido y difícil de llevar.",
+                love: "Estás lidiando con alguien frío y muy orgulloso que prefiere quedarse solo con su razón antes que pedir disculpas o mostrar sentimientos.",
+                money: "Para que el dinero te rinda necesitas orden, disciplina y poner límites claros en tu trabajo o negocio. No dejes nada a la suerte.",
+                advice: "Decide si prefieres tener la razón o tener paz; a veces bajar un poco la guardia evita problemas innecesarios."
+            },
+            {
+                id: 5, num: "V", name: "El Hierofante", suit: "major", symbol: "hierophant",
+                raw: "Las apariencias, las costumbres familiares o el miedo al 'qué dirán' están pesando más que lo que realmente quieres. Se está siguiendo un camino tradicional aunque por dentro ya no te llene.",
+                love: "La relación o la actitud de esa persona está muy marcada por lo que opinan los demás, por compromisos formales o por hacer lo que se supone que es correcto.",
+                money: "Te conviene hacer las cosas por la vía legal, formal y ordenada. Buscar consejos de alguien con más experiencia te ahorrará errores.",
+                advice: "No te quedes en un lugar o con una persona solo por cumplir con las expectativas de los demás."
+            },
+            {
+                id: 6, num: "VI", name: "Los Enamorados", suit: "major", symbol: "lovers",
+                raw: "Estás frente a una decisión importante donde no puedes quedarte a medias. Hay una conexión fuerte, pero la vida te pide elegir con madurez entre lo que te da placer inmediato y lo que te conviene de verdad.",
+                love: "Existe mucha química y atracción mutua, pero también dudas o terceras opciones que obligan a definir qué se quiere realmente en esta historia.",
+                money: "Se presenta una decisión clave entre dos caminos laborales o una posible sociedad. Evalúa bien con quién te asocias.",
+                advice: "Elige pensando en tu tranquilidad a largo plazo y no solo por la emoción del momento."
+            },
+            {
+                id: 7, num: "VII", name: "El Carro", suit: "major", symbol: "chariot",
+                raw: "Las cosas empiezan a moverse con rapidez y determinación. Es momento de tomar el control de tu vida con seguridad, porque si dudas demasiado otros decidirán por ti.",
+                love: "Alguien toma impulso para acercarse con decisión o, por el contrario, decide seguir su camino sin mirar atrás. Se acaba la incertidumbre.",
+                money: "Viene avance rápido en proyectos, compras importantes, viajes o metas laborales que por fin arrancan con fuerza.",
+                advice: "Mantente firme en lo que quieres y no permitas que las opiniones ajenas frenen tu paso."
+            },
+            {
+                id: 8, num: "VIII", name: "La Fuerza", suit: "major", symbol: "strength",
+                raw: "Tienes toda la capacidad para superar esta situación, pero necesitas controlar los impulsos y la ansiedad. El verdadero poder está en mantener la calma y actuar con inteligencia en lugar de explotar.",
+                love: "Toca tener paciencia frente a actitudes inmaduras o cambios de humor. Con calma y firmeza logras que la otra persona baje sus defensas.",
+                money: "La constancia y el esfuerzo diario te van a dar resultados seguros, aunque sientas que el avance es un poco lento.",
+                advice: "Respira profundo, domina tus emociones y demuestra tu carácter con tranquilidad, sin hacer drama."
+            },
+            {
+                id: 9, num: "IX", name: "El Ermitaño", suit: "major", symbol: "hermit",
+                raw: "Hay una necesidad clara de distancia, silencio y espacio personal. No es momento de buscar respuestas afuera ni de forzar conversaciones, sino de alejarte del ruido para aclarar tus propias ideas.",
+                love: "Esa persona está cerrada en su mundo, distante o evitando el contacto emocional. Insistir ahora solo hará que se aleje más.",
+                money: "Enfócate en trabajar en silencio, organizar tus cuentas y analizar bien tus pasos antes de hacer cualquier inversión.",
+                advice: "Apártate un poco del chisme y la presión externa; las respuestas que buscas ya están dentro de ti."
+            },
+            {
+                id: 10, num: "X", name: "La Rueda de la Fortuna", suit: "major", symbol: "wheel",
+                raw: "Se acerca un giro inesperado que cambia por completo el panorama actual. Lo que parecía estancado empieza a moverse de golpe, trayendo sorpresas que no tenías calculadas.",
+                love: "Vienen cambios repentinos: alguien del pasado puede reaparecer de la nada o una situación que estaba fría da un vuelco total.",
+                money: "Llega una oportunidad inesperada o un golpe de suerte que destraba tu economía y mueve el dinero a tu favor.",
+                advice: "No te resistas a los cambios; aprovecha el movimiento para acomodarte en una mejor posición."
+            },
+            {
+                id: 11, num: "XI", name: "La Justicia", suit: "major", symbol: "justice",
+                raw: "Cada quien empieza a recibir exactamente lo que sembró con sus actos. Las verdades salen a la luz y se pone orden donde antes hubo abusos o excusas.",
+                love: "Llega el momento de poner las cartas sobre la mesa con total honestidad. Si hubo engaños o falta de interés, la balanza se equilibra a tu favor.",
+                money: "Se resuelven trámites, contratos, pagos pendientes o asuntos legales de forma justa y transparente.",
+                advice: "Sé objetivo, corta de raíz lo que no es justo para ti y asume con madurez tus decisiones."
+            },
+            {
+                id: 12, num: "XII", name: "El Colgado", suit: "major", symbol: "hanged",
+                raw: "La situación está completamente pausada y por más que empujes ahora mismo no va a avanzar. Estás gastando demasiada energía en algo que no te devuelve nada a cambio.",
+                love: "La relación o el contacto está estancado; sientes que tú pones todo el interés mientras la otra persona sigue cómoda sin mover un dedo.",
+                money: "Hay un retraso temporal en pagos o proyectos. Necesitas cambiar de estrategia en lugar de seguir intentando lo mismo.",
+                advice: "Deja de sacrificarte por quien no hace ni el mínimo esfuerzo por ti y mira la situación desde otro ángulo."
+            },
+            {
+                id: 13, num: "XIII", name: "La Muerte", suit: "major", symbol: "death",
+                raw: "Esta etapa llegó a su final definitivo. Seguir aferrándote a lo que ya terminó solo te produce cansancio y frustración; hace falta cerrar esa puerta para que entre algo nuevo.",
+                love: "Es el cierre obligatorio de un ciclo o de una forma de relacionarse. Aunque duela soltar, es la única manera de dejar espacio para alguien mejor.",
+                money: "Termina una etapa laboral o una forma de ganar dinero que ya no daba para más; toca reinventarse y empezar de cero.",
+                advice: "Acepta el final sin miedo y suelta de una vez lo que ya no tiene futuro."
+            },
+            {
+                id: 14, num: "XIV", name: "La Templanza", suit: "major", symbol: "temperance",
+                raw: "Después de momentos de tensión o incertidumbre, por fin empieza a llegar la calma. Las cosas se van acomodando poco a poco si sabes mantener la paciencia y el equilibrio.",
+                love: "Se suavizan los roces y llega un ambiente más tranquilo y sano. Es momento de hablar con calma y sanar heridas recientes.",
+                money: "Tu economía se estabiliza gracias a una buena administración. No habrá excesos, pero tampoco te faltará lo necesario.",
+                advice: "No corras ni fuerces los tiempos; deja que todo fluya a su ritmo natural."
+            },
+            {
+                id: 15, num: "XV", name: "El Diablo", suit: "major", symbol: "devil",
+                raw: "Estás metido en una dinámica de apego, obsesión o manipulación donde sabes perfectamente que algo te hace daño, pero te cuesta soltarlo por costumbre o deseo.",
+                love: "Hay mucha atracción física y enganche emocional, pero también celos, control o juegos tóxicos que te quitan la paz.",
+                money: "Cuidado con deudas innecesarias, ambiciones desmedidas o ambientes de trabajo pesados llenos de envidia.",
+                advice: "Abre los ojos y rompe esa dependencia; no confundas la obsesión o la costumbre con amor verdadero."
+            },
+            {
+                id: 16, num: "XVI", name: "La Torre", suit: "major", symbol: "tower",
+                raw: "Se viene abajo una mentira, una falsa ilusión o una situación que ya estaba sostenida con alfileres. Aunque al principio sea un golpe fuerte, te libera de algo falso.",
+                love: "Puede haber una discusión fuerte, una verdad que se descubre de golpe o una ruptura repentina que cambia todo el panorama.",
+                money: "Prepárate para un gasto imprevisto o el cambio brusco de un plan económico que no tenía bases firmes.",
+                advice: "No intentes pegar lo que ya se rompió; deja que se caiga lo falso para construir sobre algo real."
+            },
+            {
+                id: 17, num: "XVII", name: "La Estrella", suit: "major", symbol: "star",
+                raw: "Llega una etapa de renovación, claridad y alivio después de un mal momento. Recuperas la confianza en ti y empiezas a destacar de forma natural sin tener que esforzarte.",
+                love: "Hay esperanza real, sanación emocional y conexión sincera. Te sientes más tranquilo y atractivo para personas con buenas intenciones.",
+                money: "Se abren caminos nuevos y llegan ideas claras para mejorar tus ingresos con tranquilidad y confianza.",
+                advice: "Mantente fiel a tu esencia, confía en lo que vales y no apagues tu brillo por agradar a nadie."
+            },
+            {
+                id: 18, num: "XVIII", name: "La Luna", suit: "major", symbol: "moon",
+                raw: "El ambiente está lleno de dudas, confusión y medias verdades. Nada es tan claro como parece en este momento y alguien podría estar ocultando sus verdaderas intenciones.",
+                love: "Cuidado con engaños, ilusiones falsas o personas que dicen una cosa y hacen otra a tus espaldas. Hay mucha inseguridad en el aire.",
+                money: "No es buen momento para firmar acuerdos ni prestar dinero; hay poca claridad y riesgo de malos entendidos o estafas.",
+                advice: "No tomes decisiones importantes a ciegas; espera un poco hasta que toda la verdad salga a la luz."
+            },
+            {
+                id: 19, num: "XIX", name: "El Sol", suit: "major", symbol: "sun",
+                raw: "Se despejan todas las dudas y la verdad queda completamente expuesta. Viene una etapa de alegría, éxito y claridad donde todo empieza a salir bien.",
+                love: "Sinceridad total, buenos momentos compartidos y una relación transparente donde sabes perfectamente qué lugar ocupas.",
+                money: "Excelente momento para tus finanzas: llegan logros, reconocimiento por tu esfuerzo y entradas de dinero claras.",
+                advice: "Disfruta este buen momento sin desconfianza y celebra tus avances con orgullo."
+            },
+            {
+                id: 20, num: "XX", name: "El Juicio", suit: "major", symbol: "judgement",
+                raw: "Es hora de abrir los ojos y enfrentar una verdad que venías evitando. Situaciones o personas del pasado regresan para que tomes una decisión definitiva y madura.",
+                love: "Alguien del pasado puede volver a buscarte o te toca tomar una decisión final sobre si sigues en esa historia o la cierras para siempre.",
+                money: "Llega una segunda oportunidad en el trabajo o un llamado importante que te permite demostrar de lo que eres capaz.",
+                advice: "Aprende de lo que ya viviste, despierta y no vuelvas a cometer los mismos errores."
+            },
+            {
+                id: 21, num: "XXI", name: "El Mundo", suit: "major", symbol: "world",
+                raw: "Cierras una etapa importante con éxito y aprendizaje. Ya superaste una prueba difícil y estás listo para avanzar hacia metas mucho más grandes y satisfactorias.",
+                love: "Te sientes completo contigo mismo, lo que te permite vivir una relación madura o cerrar una historia en paz para abrirte a algo mejor.",
+                money: "Cumples una meta económica o laboral importante y logras estabilidad después de mucho esfuerzo.",
+                advice: "Cierra este capítulo con orgullo y prepárate para subir de nivel en tu vida."
+            }
         ];
 
         const SUITS_CONFIG = [
-            { key: "cups", name: "Copas", es: "Emociones y Vínculos" },
-            { key: "swords", name: "Espadas", es: "Mente, Verdad y Cortes" },
-            { key: "wands", name: "Bastos", es: "Acción, Pasión y Impulso" },
-            { key: "pentacles", name: "Oros", es: "Dinero, Trabajo y Realidad" }
+            { key: "cups", name: "Copas", es: "sentimientos y relaciones" },
+            { key: "swords", name: "Espadas", es: "decisiones, verdades y pensamientos" },
+            { key: "wands", name: "Bastos", es: "acciones, ganas e iniciativas" },
+            { key: "pentacles", name: "Oros", es: "dinero, trabajo y estabilidad" }
         ];
 
         const MINOR_RANKS = [
-            { r: "As", label: "As", cup: "Inicio emocional puro o apertura del corazón.", sword: "Verdad tajante que corta la confusión de raíz.", wand: "Chispazo de pasión, deseo físico o impulso nuevo.", pent: "Oportunidad material tangible y entrada de dinero." },
-            { r: "2", label: "Dos", cup: "Reciprocidad, unión genuina y conexión mutua.", sword: "Bloqueo mental, venda en los ojos y negación a ver la verdad.", wand: "Planificación, mirar hacia el futuro y evaluar opciones.", pent: "Malabares emocionales o financieros; inestabilidad constante." },
-            { r: "3", label: "Tres", cup: "Círculo social, celebraciones y posibles chismes entre amigos.", sword: "Decepción, dolor claro y verdades que duelen pero liberan.", wand: "Expansión, espera activa y mirar resultados a distancia.", pent: "Trabajo en equipo, opiniones de terceros y construcción." },
-            { r: "4", label: "Cuatro", cup: "Apatía, brazos cruzados y desinterés por lo que se ofrece.", sword: "Pausa forzada, estancamiento, cansancio mental y silencio.", wand: "Estabilidad, celebración y bases firmes en casa o pareja.", pent: "Tacañería emocional, apego, control y miedo a soltar." },
-            { r: "5", label: "Cinco", cup: "Tristeza, nostalgia y lamentarse por lo que ya se perdió.", sword: "Conflictos, ego, discusiones sucias y ganar a costa de lastimar.", wand: "Caos, competencia, desorden y gente peleando por tener razón.", pent: "Carencia, sensación de abandono, vacío y frustración." },
-            { r: "6", label: "Seis", cup: "Nostalgia, recuerdos del pasado o alguien que vuelve a tu mente.", sword: "Huida hacia aguas tranquilas; dejar atrás un ambiente tóxico.", wand: "Reconocimiento, victoria y subir el ego frente a otros.", pent: "Migajas de atención o dinero desigual; uno da más que el otro." },
-            { r: "7", label: "Siete", cup: "Fantasías, ilusiones falsas y mil opciones que no aterrizan.", sword: "Mentiras, evasión, actuar a escondidas y autoengaño.", wand: "Defender tu postura con uñas y dientes ante ataques.", pent: "Impaciencia porque los frutos tardan en crecer; frustración." },
-            { r: "8", label: "Ocho", cup: "Dar la espalda y marcharse de donde ya no hay nada real.", sword: "Sentirse atrapado por los propios miedos y complejos mentales.", wand: "Mensajes rápidos, chismes veloces o acciones impulsivas.", pent: "Trabajo duro, constancia, esfuerzo diario y perfeccionamiento." },
-            { r: "9", label: "Nueve", cup: "Satisfacción personal, orgullo y disfrutar tus propios logros.", sword: "Ansiedad nocturna, insomnio, culpa y sobrepensar todo.", wand: "Estar a la defensiva, agotado pero con el muro bien alto.", pent: "Independencia, seguridad propia y disfrutar tu libertad." },
-            { r: "10", label: "Diez", cup: "Plenitud emocional, armonía y felicidad compartida.", sword: "Traición final, tocar fondo y cierre doloroso pero definitivo.", wand: "Sobrecarga de responsabilidades; llevar demasiado peso solo.", pent: "Estabilidad sólida, respaldo familiar y seguridad material." },
-            { r: "Sota", label: "Sota", cup: "Mensajes tiernos, interés tímido o acercamiento inocente.", sword: "Espionaje en redes sociales, vigilancia y curiosidad fría.", wand: "Coqueteo inmaduro, impulsos y mensajes sin compromiso.", pent: "Propuesta pequeña pero real; avanzar paso a paso." },
-            { r: "Caballo", label: "Caballo", cup: "Propuesta romántica, seducción y dejarse llevar por el sentir.", sword: "Acción rápida, impulsiva, cortante y sin medir consecuencias.", wand: "Pura calentura, aventura rápida que llega y se va igual de rápido.", pent: "Avance lento, seguro, paciente y sin presiones." },
-            { r: "Reina", label: "Reina", cup: "Mujer empática, intuitiva y con el corazón abierto.", sword: "Mujer fría, directa, inteligente que corta lo que no sirve.", wand: "Mujer magnética, segura, atractiva y con carácter fuerte.", pent: "Mujer estable, práctica, valiosa y autosuficiente." },
-            { r: "Rey", label: "Rey", cup: "Hombre con sentimientos profundos pero que se los guarda.", sword: "Hombre frío, calculador, cortante y extremadamente racional.", wand: "Hombre apasionado, dominante, con ego alto y liderazgo.", pent: "Hombre enfocado en lo material, estable y protector." }
+            {
+                r: "As", label: "As",
+                cup: "Se abre una oportunidad bonita para empezar algo sincero desde el corazón o renovar tus sentimientos.",
+                sword: "Llega una verdad directa que aclara toda la confusión y te obliga a tomar una decisión firme.",
+                wand: "Hay un chispazo fuerte de ganas, atracción física o entusiasmo para arrancar algo nuevo de inmediato.",
+                pent: "Aparece una oportunidad real y concreta de dinero, trabajo o mejora material que puedes aprovechar."
+            },
+            {
+                r: "2", label: "Dos",
+                cup: "Existe interés mutuo, buena conexión y ganas reales de compartir tiempo y afecto de igual a igual.",
+                sword: "Estás bloqueado tratando de no ver una realidad evidente; evadir la decisión solo alarga el problema.",
+                wand: "Estás evaluando tus opciones y planeando tu próximo paso antes de arriesgarte a actuar.",
+                pent: "Andas haciendo malabares para equilibrar tus gastos o tu tiempo; hay mucha inestabilidad en el día a día."
+            },
+            {
+                r: "3", label: "Tres",
+                cup: "Hay reuniones, salidas con amigos y ambiente social, aunque también pueden surgir chismes o comentarios de terceros.",
+                sword: "Sale a la luz una decepción o una verdad que duele en el momento, pero que te abre los ojos de una vez.",
+                wand: "Ya hiciste tu parte y ahora estás esperando ver resultados concretos; las cosas empiezan a expandirse.",
+                pent: "El trabajo en equipo o la ayuda de otras personas será clave para sacar adelante lo que estás construyendo."
+            },
+            {
+                r: "4", label: "Cuatro",
+                cup: "Hay aburrimiento, apatía y pocas ganas de aceptar lo que te ofrecen porque sientes que nada te entusiasma.",
+                sword: "Necesitas hacer una pausa obligatoria para descansar la mente, bajar el estrés y alejarte de peleas.",
+                wand: "Se percibe estabilidad, tranquilidad y un ambiente firme donde puedes celebrar logros con los tuyos.",
+                pent: "Hay miedo a soltar, apego excesivo o tacañería tanto con el dinero como con las demostraciones de afecto."
+            },
+            {
+                r: "5", label: "Cinco",
+                cup: "Te estás quedando pegado en la tristeza por lo que salió mal, sin darte cuenta de las oportunidades que aún tienes cerca.",
+                sword: "Hay discusiones pesadas, orgullo y ganas de ganar la pelea a toda costa, aunque eso termine lastimando a todos.",
+                wand: "Mucho desorden, competencia y gente opinando o peleando sin ponerse de acuerdo en nada.",
+                pent: "Sensación de escasez, abandono o frustración porque sientes que no tienes el apoyo o los recursos que necesitas."
+            },
+            {
+                r: "6", label: "Seis",
+                cup: "Vuelven los recuerdos del pasado, la nostalgia o noticias de alguien que marcó una etapa anterior de tu vida.",
+                sword: "Decides alejarte de un ambiente tenso o problemático para buscar por fin un poco de paz mental.",
+                wand: "Llega un momento de reconocimiento donde te sientes seguro, valorado y con ganas de demostrar lo que logras.",
+                pent: "Hay un desequilibrio claro: una persona está dando mucho tiempo, atención o dinero mientras la otra apenas da migajas."
+            },
+            {
+                r: "7", label: "Siete",
+                cup: "Hay muchas fantasías, promesas en el aire o varias opciones a la vez que te confunden y no aterrizan en nada real.",
+                sword: "Alguien está actuando a escondidas, evitando dar la cara o diciendo medias verdades para salirse con la suya.",
+                wand: "Te toca mantenerte firme y defender tu posición frente a críticas o personas que intentan pasarte por encima.",
+                pent: "Sientes impaciencia y frustración porque estás trabajando duro pero los resultados todavía tardan en verse."
+            },
+            {
+                r: "8", label: "Ocho",
+                cup: "Tomas la decisión de dar la espalda y alejarte de una situación o persona donde ya no recibes nada bueno.",
+                sword: "Te sientes atrapado por tus propios miedos y dudas mentales, cuando en realidad tienes salida si te atreves.",
+                wand: "Todo se acelera de golpe: llegan mensajes rápidos, noticias inesperadas o movimientos que no esperabas tan pronto.",
+                pent: "Es etapa de enfocarte en tu trabajo, ser constante y cuidar cada detalle para construir resultados sólidos."
+            },
+            {
+                r: "9", label: "Nueve",
+                cup: "Te sientes satisfecho contigo mismo, disfrutando tu tranquilidad y los logros que has conseguido por tu cuenta.",
+                sword: "Hay mucha ansiedad nocturna, preocupación excesiva y darle demasiadas vueltas en la cabeza a un problema.",
+                wand: "Estás cansado y a la defensiva porque sientes que has tenido que aguantar mucho, pero sigues sin rendirte.",
+                pent: "Disfrutas de independencia, seguridad personal y estabilidad gracias a tu propio esfuerzo sin depender de nadie."
+            },
+            {
+                r: "10", label: "Diez",
+                cup: "Armonía emocional, bienestar y un ambiente cálido donde te sientes querido y en paz con tu entorno.",
+                sword: "Se cierra de forma dolorosa pero definitiva una situación que ya te tenía agotado; de aquí en adelante solo toca mejorar.",
+                wand: "Estás cargando con demasiadas responsabilidades y problemas ajenos que te tienen al borde del agotamiento.",
+                pent: "Estabilidad sólida, seguridad económica y respaldo familiar que te dan tranquilidad a largo plazo."
+            },
+            {
+                r: "Sota", label: "Sota",
+                cup: "Llega un mensaje tierno, un gesto amable o un acercamiento algo tímido de alguien que siente curiosidad por ti.",
+                sword: "Hay vigilancia en redes sociales, curiosidad fría y alguien pendiente de lo que haces sin atreverse a hablar.",
+                wand: "Hay coqueteo, entusiasmo y mensajes impulsivos, pero todavía con poca madurez o sin compromiso serio.",
+                pent: "Se presenta una oportunidad pequeña pero segura para aprender algo nuevo o empezar a generar ingresos."
+            },
+            {
+                r: "Caballo", label: "Caballo",
+                cup: "Alguien se acerca con actitud romántica, detalles y ganas de conquistar dejándose llevar por lo que siente.",
+                sword: "Acciones rápidas, impulsivas y palabras muy directas que pueden cortar una situación sin medir consecuencias.",
+                wand: "Mucha pasión, aventura rápida y ganas de acción inmediata, pero con tendencia a desaparecer igual de rápido.",
+                pent: "Las cosas avanzan despacio pero con paso firme, seguro y sin promesas vacías."
+            },
+            {
+                r: "Reina", label: "Reina",
+                cup: "Representa sensibilidad, intuición y cariño sincero; actuar desde la empatía pero sin dejar que abusen de tu nobleza.",
+                sword: "Representa claridad mental, franqueza y poner límites firmes para cortar de raíz lo que no te conviene.",
+                wand: "Representa seguridad personal, carisma y carácter fuerte para atraer lo que quieres sin pedir permiso.",
+                pent: "Representa una actitud práctica, estable y enfocada en cuidar tu bienestar, tu trabajo y tu independencia."
+            },
+            {
+                r: "Rey", label: "Rey",
+                cup: "Representa sentimientos profundos pero reservados; alguien que siente mucho por dentro aunque le cueste expresarlo.",
+                sword: "Representa una postura fría, muy racional y directa que analiza todo con la cabeza y deja las emociones a un lado.",
+                wand: "Representa liderazgo, carácter dominante y determinación para tomar decisiones fuertes sin dudar.",
+                pent: "Representa estabilidad, enfoque en el dinero y una actitud protectora pero muy práctica ante la vida."
+            }
         ];
 
         // Build Full 78-Card Array
@@ -801,7 +1022,7 @@
                     raw: meaning,
                     love: meaning,
                     money: meaning,
-                    advice: `Presta atención a la energía de ${suit.es.toLowerCase()} que marca esta carta.`
+                    advice: `Toma decisiones prácticas en temas de ${suit.es} y no te quedes solo esperando a que otros actúen.`
                 });
             });
         });
@@ -842,7 +1063,6 @@
                     <polygon points="70,55 77,76 99,76 81,89 88,110 70,97 52,110 59,89 41,76 63,76" fill="none" stroke="${accent}" stroke-width="2"/>
                 `;
             } else {
-                // Major Arcana Unique Mystical Engraving
                 centralIcon = `
                     <circle cx="70" cy="85" r="34" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="3 3"/>
                     <polygon points="70,48 98,98 42,98" fill="none" stroke="${accent}" stroke-width="2"/>
@@ -862,13 +1082,10 @@
                     <rect width="140" height="210" rx="12" fill="url(#bg-${card.id})" stroke="${accent}" stroke-width="2"/>
                     <rect x="7" y="7" width="126" height="196" rx="8" fill="none" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.5"/>
                     
-                    <!-- Top Number / Roman -->
                     <text x="70" y="25" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="bold">${card.num}</text>
                     
-                    <!-- Central Symbolic Art -->
                     ${centralIcon}
                     
-                    <!-- Bottom Banner -->
                     <rect x="12" y="156" width="116" height="36" rx="6" fill="#0a080d" fill-opacity="0.85" stroke="${accent}" stroke-width="0.8"/>
                     <text x="70" y="178" text-anchor="middle" fill="#ffffff" font-family="Cinzel, serif" font-size="9.5" font-weight="bold">${card.name.toUpperCase()}</text>
                 </svg>
@@ -918,7 +1135,6 @@
             createdAt: new Date().toISOString()
         };
 
-        // Load from localStorage first
         const savedLocal = localStorage.getItem("zafirovamp_user_v1");
         if (savedLocal) {
             try {
@@ -926,7 +1142,6 @@
             } catch (e) {}
         }
 
-        // Check 24h energy reset
         function checkDailyResets() {
             const now = Date.now();
             const twentyFourHours = 24 * 60 * 60 * 1000;
@@ -959,7 +1174,6 @@
                     const snap = await getDoc(userRef);
                     if (snap.exists()) {
                         const cloudData = snap.data();
-                        // Sync cloud energy rewards (e.g., if a friend completed a reading!)
                         if (cloudData.energy > userState.energy) {
                             userState.energy = cloudData.energy;
                             showToast("¡Recompensa Acreditada!", "Un amigo invitado completó su lectura. Ganaste +2 tiradas.");
@@ -979,7 +1193,6 @@
         // 5. LIFE ARCANA NUMEROLOGY CALCULATOR
         // ---------------------------------------------------------------------
         function calculateLifeArcana(dobString) {
-            // dobString format: YYYY-MM-DD
             const digits = dobString.replace(/\D/g, "");
             let sum = 0;
             for (let ch of digits) sum += parseInt(ch, 10);
@@ -988,7 +1201,7 @@
                 for (let ch of sum.toString()) temp += parseInt(ch, 10);
                 sum = temp;
             }
-            if (sum === 22) sum = 0; // El Loco
+            if (sum === 22) sum = 0;
             return sum;
         }
 
@@ -1021,14 +1234,12 @@
             userState.lastReset = Date.now();
             userState.createdAt = new Date().toISOString();
 
-            // Anti-Cheat check on incoming referral
             if (REF_PARAM && firebaseReady && db) {
                 try {
                     const inviterRef = doc(db, "artifacts", appId, "public", "data", "users", REF_PARAM);
                     const inviterSnap = await getDoc(inviterRef);
                     if (inviterSnap.exists()) {
                         const inviterData = inviterSnap.data();
-                        // Block self-referral via same device fingerprint
                         if (inviterData.deviceFp === DEVICE_FP || REF_PARAM === newUserId) {
                             userState.referredBy = null;
                         } else {
@@ -1055,13 +1266,12 @@
             if (!userState.referredBy || !firebaseReady || !db) return;
 
             try {
-                // Verify no previous user in Firestore already used this exact Device Fingerprint
                 const inviterRef = doc(db, "artifacts", appId, "public", "data", "users", userState.referredBy);
                 const inviterSnap = await getDoc(inviterRef);
                 if (!inviterSnap.exists()) return;
 
                 const inviterData = inviterSnap.data();
-                if (inviterData.deviceFp === DEVICE_FP) return; // Same device cheat blocked
+                if (inviterData.deviceFp === DEVICE_FP) return;
 
                 const now = Date.now();
                 const twentyFourHours = 24 * 60 * 60 * 1000;
@@ -1070,7 +1280,6 @@
                     currentDailyRefs = 0;
                 }
 
-                // Cap at 2 rewarded referrals per day (+4 extra pulls max)
                 if (currentDailyRefs < 2) {
                     await updateDoc(inviterRef, {
                         energy: (inviterData.energy || 0) + 2,
@@ -1084,7 +1293,7 @@
         }
 
         // ---------------------------------------------------------------------
-        // 7. ORACLE TABS, CONTEXT ENGINE & 78-CARD READING EXECUTION
+        // 7. ORACLE TABS, EXPANDED CLEAR INTERPRETATION ENGINE & 78-CARD READING
         // ---------------------------------------------------------------------
         let currentOracle = "daily";
         let lastReadingData = null;
@@ -1097,7 +1306,7 @@
             },
             ex: {
                 title: "¿Qué trama / siente tu Ex?",
-                desc: "Tirada de 2 cartas: Carta 1 (Intención Oculta) + Carta 2 (Acción Real).",
+                desc: "Tirada de 2 cartas: Carta 1 (Lo que piensa por dentro) + Carta 2 (Lo que realmente va a hacer).",
                 count: 2
             },
             envy: {
@@ -1107,7 +1316,7 @@
             },
             money: {
                 title: "Bloqueo de Dinero y Caminos",
-                desc: "Descubre qué energía o actitud te está trancando la economía hoy.",
+                desc: "Descubre qué actitud o situación te está trancando la economía hoy.",
                 count: 1
             }
         };
@@ -1142,38 +1351,55 @@
 
         function buildContextualInterpretation(oracleType, cards, contextText) {
             const ctx = contextText.toLowerCase();
-            let contextHook = "";
+            const userName = userState.name ? `${userState.name}, ` : "";
+            let contextIntro = "";
 
-            if (ctx.includes("silencio") || ctx.includes("hablar") || ctx.includes("bloque") || ctx.includes("distancia")) {
-                contextHook = "Sobre ese silencio y distancia que mencionas: ";
-            } else if (ctx.includes("dinero") || ctx.includes("trabajo") || ctx.includes("plata") || ctx.includes("negocio")) {
-                contextHook = "Aterrizando esto a tu situación económica y laboral: ";
-            } else if (ctx.includes("amig") || ctx.includes("familia") || ctx.includes("envidia") || ctx.includes("chisme")) {
-                contextHook = "Mirando directamente a esas personas de tu entorno: ";
-            } else if (ctx.includes("infiel") || ctx.includes("otra") || ctx.includes("otro") || ctx.includes("ex")) {
-                contextHook = "Yendo al grano sobre esa persona por la que preguntas: ";
+            if (ctx.includes("silencio") || ctx.includes("hablar") || ctx.includes("bloque") || ctx.includes("distancia") || ctx.includes("ignora")) {
+                contextIntro = `${userName}viendo ese silencio y la distancia que mencionas en tu consulta, las cartas muestran exactamente lo que está pasando detrás de esa actitud: `;
+            } else if (ctx.includes("dinero") || ctx.includes("trabajo") || ctx.includes("plata") || ctx.includes("negocio") || ctx.includes("deuda") || ctx.includes("empleo")) {
+                contextIntro = `${userName}llevando este mensaje directamente a tu situación de trabajo y dinero, esto es lo que tienes que tener claro hoy: `;
+            } else if (ctx.includes("amig") || ctx.includes("familia") || ctx.includes("envidia") || ctx.includes("chisme") || ctx.includes("gente") || ctx.includes("vecin")) {
+                contextIntro = `${userName}poniendo la lupa sobre esas personas de tu entorno por las que preguntas, la respuesta es muy clara: `;
+            } else if (ctx.includes("infiel") || ctx.includes("otra") || ctx.includes("otro") || ctx.includes("ex") || ctx.includes("pareja") || ctx.includes("amor") || ctx.includes("gusta")) {
+                contextIntro = `${userName}yendo directo al grano sobre esa persona que tienes en mente, las cartas dejan al descubierto sus verdaderas intenciones: `;
             } else if (contextText.trim().length > 0) {
-                contextHook = `Tomando en cuenta tu contexto ("${contextText.trim()}"): `;
+                contextIntro = `${userName}tomando en cuenta lo que escribiste ("${escapeHTML(contextText.trim())}"), el mensaje que te sale hoy se explica así: `;
+            } else {
+                contextIntro = `${userName}aunque no hayas escrito detalles, las cartas van directo al punto sobre lo que más te conviene saber ahora mismo: `;
             }
 
             if (oracleType === "ex") {
                 const c1 = cards[0];
                 const c2 = cards[1];
                 return `
-                    <p><strong class="text-vampLight">1. Su Intención Oculta (${c1.name}):</strong> ${contextHook}${c1.love}</p>
-                    <p><strong class="text-gold">2. Su Acción Real (${c2.name}):</strong> Más allá de lo que piense o diga, en los hechos se mueve así: ${c2.raw}</p>
-                    <p class="text-gray-300 italic pt-1"><strong>Consejo directo:</strong> ${c1.advice}</p>
+                    <p><strong class="text-vampLight">1. Lo que piensa y siente por dentro (${c1.name}):</strong> ${contextIntro}${c1.love} Esto te deja ver que su actitud no es casualidad, sino el reflejo de cómo está manejando sus emociones en este momento.</p>
+                    <p><strong class="text-gold">2. Lo que realmente va a hacer (${c2.name}):</strong> Una cosa es lo que dice o lo que te hace creer en redes sociales, y otra muy distinta cómo actúa en la vida real. En los hechos, su comportamiento va por este lado: ${c2.raw}</p>
+                    <p class="text-gray-300 bg-abyss/80 border-l-2 border-vamp pl-3 py-2 rounded-r-lg"><strong>Lo que te conviene hacer ahora:</strong> ${c1.advice} No te quedes esperando señales confusas; guíate siempre por hechos concretos y cuida tu tranquilidad.</p>
                 `;
             }
 
             const c = cards[0];
-            let specificAngle = c.raw;
-            if (oracleType === "money") specificAngle = c.money;
-            if (oracleType === "envy") specificAngle = `${c.raw} Si sientes mala vibra ahí, hazle caso a la carta porque no estás exagerando.`;
+
+            if (oracleType === "money") {
+                return `
+                    <p><strong class="text-vampLight">Lo que está pasando con tu economía (${c.name}):</strong> ${contextIntro}${c.money}</p>
+                    <p><strong class="text-gold">Por qué sientes ese freno hoy:</strong> En el día a día esto significa que ${c.raw.charAt(0).toLowerCase() + c.raw.slice(1)} Muchas veces el dinero se tranca no por mala suerte, sino por decisiones apresuradas, desorden o confiar en propuestas poco claras.</p>
+                    <p class="text-gray-300 bg-abyss/80 border-l-2 border-gold pl-3 py-2 rounded-r-lg"><strong>Paso práctico para destrabar esto:</strong> ${c.advice} Revisa bien dónde estás poniendo tu tiempo y tu esfuerzo esta semana para que te rinda de verdad.</p>
+                `;
+            }
+
+            if (oracleType === "envy") {
+                return `
+                    <p><strong class="text-vampLight">La verdad sobre esa persona o entorno (${c.name}):</strong> ${contextIntro}${c.raw}</p>
+                    <p><strong class="text-gold">¿Suma o resta en tu vida?:</strong> Cuando sale esta carta en una consulta sobre personas cercanas, te confirma que debes manejar tus asuntos con prudencia. No todo el que te sonríe o pregunta cómo te va celebra tus logros con sinceridad; evita contar tus planes antes de concretarlos.</p>
+                    <p class="text-gray-300 bg-abyss/80 border-l-2 border-vamp pl-3 py-2 rounded-r-lg"><strong>Cómo proteger tu tranquilidad:</strong> ${c.advice} Mantén una distancia cordial con quienes te generan duda y confía en tu propio criterio.</p>
+                `;
+            }
 
             return `
-                <p><strong class="text-vampLight">${c.name}:</strong> ${contextHook}${specificAngle}</p>
-                <p class="text-gray-300 italic pt-1"><strong>Veredicto sin adornos:</strong> ${c.advice}</p>
+                <p><strong class="text-vampLight">El mensaje principal para ti (${c.name}):</strong> ${contextIntro}${c.raw}</p>
+                <p><strong class="text-gold">Cómo aplicarlo en tu día a día:</strong> En tus relaciones y asuntos personales, esta carta te recuerda que ${c.love.charAt(0).toLowerCase() + c.love.slice(1)} Presta atención a las señales que ya tienes frente a ti en lugar de buscar excusas.</p>
+                <p class="text-gray-300 bg-abyss/80 border-l-2 border-vamp pl-3 py-2 rounded-r-lg"><strong>Consejo claro para hoy:</strong> ${c.advice}</p>
             `;
         }
 
@@ -1187,40 +1413,35 @@
             const btn = document.getElementById("btn-draw");
             btn.disabled = true;
             btn.classList.add("animate-shuffle");
-            btn.textContent = "Barajando los 78 Arcanos...";
+            btn.textContent = "Barajando las 78 Cartas...";
 
             setTimeout(async () => {
                 btn.classList.remove("animate-shuffle");
                 btn.disabled = false;
                 btn.textContent = "✦ Barajar y Revelar la Verdad ✦";
 
-                // Deduct 1 energy
                 userState.energy = Math.max(0, userState.energy - 1);
                 saveUserState();
 
-                // Pick unique random cards from 78-card deck
                 const needed = ORACLES_META[currentOracle].count;
                 const shuffled = [...FULL_DECK].sort(() => Math.random() - 0.5);
                 const drawnCards = shuffled.slice(0, needed);
                 const contextText = document.getElementById("context-input").value.trim();
 
-                // Render Flip Cards
                 const stage = document.getElementById("cards-stage");
                 stage.innerHTML = "";
                 drawnCards.forEach((card, idx) => {
-                    const roleLabel = currentOracle === "ex" ? (idx === 0 ? "Intención Oculta" : "Acción Real") : "Arcano Revelado";
+                    const roleLabel = currentOracle === "ex" ? (idx === 0 ? "Lo que Piensa" : "Lo que Hará") : "Carta Revelada";
                     const cardWrapper = document.createElement("div");
                     cardWrapper.className = "flex flex-col items-center gap-2";
                     cardWrapper.innerHTML = `
                         <span class="text-[11px] font-gothic uppercase tracking-widest text-gold">${roleLabel}</span>
                         <div class="w-40 h-60 sm:w-44 sm:h-64 perspective-1000 cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
                             <div class="card-inner relative w-full h-full preserve-3d">
-                                <!-- Back of Card -->
                                 <div class="absolute inset-0 backface-hidden rounded-xl bg-gradient-to-br from-velvet via-abyss to-void border-2 border-vamp flex flex-col items-center justify-center p-4 shadow-xl">
                                     <div class="w-16 h-16 rounded-full border border-gold/60 flex items-center justify-center text-vamp text-2xl">☾</div>
                                     <span class="font-gothic text-[10px] tracking-widest text-gold mt-3 uppercase">Zafirovamp</span>
                                 </div>
-                                <!-- Front of Card -->
                                 <div class="absolute inset-0 backface-hidden rotate-y-180 rounded-xl shadow-2xl">
                                     ${getCardSVG(card)}
                                 </div>
@@ -1229,7 +1450,6 @@
                     `;
                     stage.appendChild(cardWrapper);
 
-                    // Auto flip smoothly after mount
                     setTimeout(() => {
                         const inner = cardWrapper.querySelector(".card-inner");
                         if (inner) inner.classList.add("rotate-y-180");
@@ -1241,14 +1461,12 @@
                 document.getElementById("result-timestamp").textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 document.getElementById("reading-result-area").classList.remove("hidden");
 
-                // Save for Story Canvas Generator
                 lastReadingData = {
                     oracleTitle: ORACLES_META[currentOracle].title,
                     cards: drawnCards,
                     plainSummary: document.getElementById("interpretation-content").innerText
                 };
 
-                // Log reading to Firestore (visible only in Developer Dashboard)
                 if (firebaseReady && db) {
                     try {
                         await addDoc(collection(db, "artifacts", appId, "public", "data", "readings"), {
@@ -1264,7 +1482,6 @@
                     }
                 }
 
-                // Trigger referral credit if this was an invited friend's first reading
                 await processReferralRewardIfEligible();
                 updateEnergyLockoutUI();
             }, 650);
@@ -1277,7 +1494,6 @@
             const canvas = document.getElementById("story-canvas");
             const ctx = canvas.getContext("2d");
 
-            // Background Gradient
             const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
             grad.addColorStop(0, "#0a080d");
             grad.addColorStop(0.5, "#1d142c");
@@ -1285,7 +1501,6 @@
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, 1080, 1920);
 
-            // Outer Gold & Pink Borders
             ctx.strokeStyle = "#d4af37";
             ctx.lineWidth = 4;
             ctx.strokeRect(48, 48, 984, 1824);
@@ -1294,7 +1509,6 @@
             ctx.lineWidth = 2;
             ctx.strokeRect(68, 68, 944, 1784);
 
-            // Header Title
             ctx.fillStyle = "#d4af37";
             ctx.font = "bold 34px Cinzel, serif";
             ctx.textAlign = "center";
@@ -1304,7 +1518,6 @@
             ctx.font = "bold 46px Cinzel, serif";
             ctx.fillText(title.toUpperCase(), 540, 235);
 
-            // Convert Card SVG to Image and draw centered
             const svgString = getCardSVG(card);
             const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
             const url = URL.createObjectURL(svgBlob);
@@ -1319,22 +1532,20 @@
                 img.src = url;
             });
 
-            // Verdict Box
             ctx.fillStyle = "rgba(10, 8, 13, 0.85)";
             ctx.fillRect(110, 990, 860, 620);
             ctx.strokeStyle = "#ff4d94";
             ctx.lineWidth = 2;
             ctx.strokeRect(110, 990, 860, 620);
 
-            // Wrap Text inside Box
             ctx.fillStyle = "#ffffff";
-            ctx.font = "34px Inter, sans-serif";
+            ctx.font = "30px Inter, sans-serif";
             ctx.textAlign = "center";
             const words = bodyText.replace(/\n+/g, " ").split(" ");
             let line = "";
-            let y = 1075;
+            let y = 1065;
             const maxWidth = 780;
-            const lineHeight = 48;
+            const lineHeight = 44;
 
             for (let n = 0; n < words.length; n++) {
                 const testLine = line + words[n] + " ";
@@ -1343,14 +1554,13 @@
                     ctx.fillText(line.trim(), 540, y);
                     line = words[n] + " ";
                     y += lineHeight;
-                    if (y > 1540) break;
+                    if (y > 1550) break;
                 } else {
                     line = testLine;
                 }
             }
-            if (y <= 1540) ctx.fillText(line.trim(), 540, y);
+            if (y <= 1550) ctx.fillText(line.trim(), 540, y);
 
-            // Watermark Footer
             ctx.fillStyle = "#d4af37";
             ctx.font = "bold 42px Cinzel, serif";
             ctx.fillText("@zafirovamp_tarotista", 540, 1730);
@@ -1359,7 +1569,6 @@
             ctx.font = "28px Inter, sans-serif";
             ctx.fillText("Pide tu lectura privada en Instagram o WhatsApp", 540, 1785);
 
-            // Trigger Download
             const link = document.createElement("a");
             link.download = `zafirovamp-tarot-${Date.now()}.png`;
             link.href = canvas.toDataURL("image/png");
@@ -1374,8 +1583,8 @@
 
         window.generateLifeStoryImage = function() {
             const arcana = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
-            const summary = `Mi Arcano de Vida es ${arcana.name}. Luz: ${arcana.raw} En el amor: ${arcana.love}`;
-            renderStoryToCanvas("Mi Arcano de Vida", arcana, summary);
+            const summary = `Mi Carta de Vida es ${arcana.name}. Fortaleza: ${arcana.raw} En el amor: ${arcana.love}`;
+            renderStoryToCanvas("Mi Carta de Vida", arcana, summary);
         };
 
         // ---------------------------------------------------------------------
@@ -1550,7 +1759,6 @@
         function loadDeveloperData() {
             if (!firebaseReady || !db) return;
 
-            // Subscribe to Users
             onSnapshot(collection(db, "artifacts", appId, "public", "data", "users"), (snap) => {
                 const tbody = document.getElementById("admin-users-tbody");
                 tbody.innerHTML = "";
@@ -1579,7 +1787,6 @@
                 document.getElementById("stat-total-referrals").textContent = totalRefs;
             }, err => console.warn(err));
 
-            // Subscribe to Readings
             onSnapshot(collection(db, "artifacts", appId, "public", "data", "readings"), (snap) => {
                 const tbody = document.getElementById("admin-readings-tbody");
                 tbody.innerHTML = "";
@@ -1662,7 +1869,6 @@
             }[tag]));
         }
 
-        // Spawn subtle floating particles
         function initParticles() {
             const container = document.getElementById("particles-container");
             for (let i = 0; i < 16; i++) {
@@ -1679,7 +1885,6 @@
             }
         }
 
-        // Boot App
         window.addEventListener("DOMContentLoaded", () => {
             initParticles();
             checkDailyResets();
