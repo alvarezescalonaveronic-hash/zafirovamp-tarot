@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@zafirovamp_tarotista | Tarot Sin Filtros</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#0a080d',
+                        abyss: '#130d1d',
+                        velvet: '#1d142c',
+                        vamp: '#ff4d94',
+                        vampLight: '#ff85b3',
+                        gold: '#d4af37',
+                        goldDim: '#9e8022'
+                    },
+                    fontFamily: {
+                        gothic: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3s infinite',
+                        'shuffle': 'shuffleCard 0.6s ease-in-out'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(255, 77, 148, 0.25)' },
+                            '50%': { boxShadow: '0 0 28px rgba(255, 77, 148, 0.55)' }
+                        },
+                        shuffleCard: {
+                            '0%': { transform: 'translateX(0) rotate(0deg)' },
+                            '25%': { transform: 'translateX(-18px) rotate(-6deg)' },
+                            '50%': { transform: 'translateX(18px) rotate(6deg)' },
+                            '75%': { transform: 'translateX(-10px) rotate(-3deg)' },
+                            '100%': { transform: 'translateX(0) rotate(0deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a080d;
+            color: #f3eef8;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(255, 77, 148, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(212, 175, 55, 0.07) 0%, transparent 45%);
+        }
+
+        /* 3D Card Flip Mechanics */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Subtle Gothic Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a080d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #36244d;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff4d94;
+        }
+
+        /* Ambient Particles */
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.35;
+            animation: rise linear infinite;
+        }
+        @keyframes rise {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.45; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-vamp selection:text-white">
+
+    <!-- Floating Ambient Particles Container -->
+    <div id="particles-container" aria-hidden="true"></div>
+
+    <!-- Notification Toast / Custom Alert -->
+    <div id="toast-box" class="fixed top-5 right-5 z-50 hidden max-w-sm bg-velvet border border-vamp/60 text-white px-4 py-3 rounded-xl shadow-2xl backdrop-blur-md transition-all duration-300">
+        <div class="flex items-start gap-3">
+            <span id="toast-icon" class="text-vamp text-lg mt-0.5">✦</span>
+            <div>
+                <h4 id="toast-title" class="font-gothic text-sm font-bold text-vampLight">Mensaje del Oráculo</h4>
+                <p id="toast-msg" class="text-xs text-gray-200 mt-0.5 leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-30 bg-void/85 backdrop-blur-md border-b border-vamp/20">
+        <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand & Secret Trigger (5 fast clicks on the crescent moon/sigil) -->
+            <div class="flex items-center gap-3 select-none">
+                <div id="secret-sigil" title="" class="w-10 h-10 rounded-full bg-gradient-to-br from-velvet to-abyss border border-gold/60 flex items-center justify-center shadow-lg cursor-default active:scale-95 transition-transform">
+                    <svg class="w-6 h-6 text-vamp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        <circle cx="12" cy="12" r="1.5" fill="#d4af37" stroke="none"></circle>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-gothic text-lg sm:text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-vampLight via-white to-gold">
+                        ZAFIROVAMP
+                    </h1>
+                    <p class="text-[11px] text-gray-400 tracking-widest uppercase">Tarot Crudo & Sin Filtros</p>
+                </div>
+            </div>
+
+            <!-- User Energy & Profile Status -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div id="user-badge" class="hidden sm:flex items-center gap-2 bg-velvet/80 border border-gold/30 px-3 py-1.5 rounded-full text-xs">
+                    <span class="text-gold">✦</span>
+                    <span id="header-username" class="font-medium text-gray-200">Visitante</span>
+                    <span class="text-gray-500">|</span>
+                    <span id="header-arcana-short" class="text-vampLight font-gothic">Arcano</span>
+                </div>
+
+                <!-- Energy Pill -->
+                <div class="flex items-center gap-1.5 bg-abyss border border-vamp/50 px-3 py-1.5 rounded-full text-xs font-semibold shadow-inner">
+                    <span class="w-2 h-2 rounded-full bg-vamp animate-ping"></span>
+                    <span class="text-gray-300">Energía:</span>
+                    <span id="energy-display" class="text-vampLight font-bold">2/2</span>
+                </div>
+
+                <!-- Invite Friend Button -->
+                <button onclick="openInviteModal()" class="bg-gradient-to-r from-vamp to-pink-600 hover:from-pink-500 hover:to-vamp text-white text-xs font-semibold px-3.5 py-2 rounded-full shadow-lg shadow-vamp/25 transition-all flex items-center gap-1.5">
+                    <span>+2 Tiradas</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-12 relative z-10">
+
+        <!-- Hero Section -->
+        <section class="text-center max-w-3xl mx-auto space-y-4">
+            <div class="inline-block px-4 py-1 rounded-full bg-velvet border border-gold/40 text-gold text-xs font-gothic tracking-widest uppercase">
+                Baraja Completa · 78 Arcanos
+            </div>
+            <h2 class="font-gothic text-3xl sm:text-5xl font-bold text-white leading-tight">
+                Aquí no endulzamos la verdad. <span class="text-transparent bg-clip-text bg-gradient-to-r from-vamp to-vampLight">Las cartas hablan claro.</span>
+            </h2>
+            <p class="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                Elige tu consulta gratuita, dale un poco de contexto real al mazo y recibe una lectura directa. Sin rodeos ni falsas esperanzas.
+            </p>
+        </section>
+
+        <!-- Oracle Selector Tabs -->
+        <section id="oracle-workspace" class="bg-abyss/90 border border-vamp/30 rounded-3xl p-5 sm:p-8 shadow-2xl backdrop-blur-md">
+            <!-- Tabs -->
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-2.5 mb-8">
+                <button onclick="selectOracle('daily')" id="tab-daily" class="oracle-tab active-tab p-3 rounded-2xl border border-vamp bg-velvet text-left transition-all">
+                    <div class="text-vamp text-xs font-bold uppercase tracking-wider mb-1">01 · Hoy</div>
+                    <div class="font-gothic text-sm font-bold text-white">Carta del Día</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">1 Carta sin filtros</div>
+                </button>
+
+                <button onclick="selectOracle('ex')" id="tab-ex" class="oracle-tab p-3 rounded-2xl border border-white/10 bg-void/60 hover:border-vamp/50 text-left transition-all">
+                    <div class="text-vampLight text-xs font-bold uppercase tracking-wider mb-1">02 · Amor / Ex</div>
+                    <div class="font-gothic text-sm font-bold text-white">¿Qué trama tu Ex?</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Intención + Acción</div>
+                </button>
+
+                <button onclick="selectOracle('envy')" id="tab-envy" class="oracle-tab p-3 rounded-2xl border border-white/10 bg-void/60 hover:border-vamp/50 text-left transition-all">
+                    <div class="text-gold text-xs font-bold uppercase tracking-wider mb-1">03 · Entorno</div>
+                    <div class="font-gothic text-sm font-bold text-white">Doble Cara y Envidia</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">¿Suma o resta?</div>
+                </button>
+
+                <button onclick="selectOracle('money')" id="tab-money" class="oracle-tab p-3 rounded-2xl border border-white/10 bg-void/60 hover:border-vamp/50 text-left transition-all">
+                    <div class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">04 · Caminos</div>
+                    <div class="font-gothic text-sm font-bold text-white">Bloqueo de Dinero</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Qué te frena hoy</div>
+                </button>
+
+                <button onclick="selectOracle('life')" id="tab-life" class="oracle-tab col-span-2 lg:col-span-1 p-3 rounded-2xl border border-gold/40 bg-gradient-to-br from-velvet to-void hover:border-gold text-left transition-all">
+                    <div class="text-gold text-xs font-bold uppercase tracking-wider mb-1">05 · Esencia</div>
+                    <div class="font-gothic text-sm font-bold text-white">Tu Arcano de Vida</div>
+                    <div class="text-[11px] text-gray-400 mt-0.5">Luz, sombra y amor</div>
+                </button>
+            </div>
+
+            <!-- Interactive Reading Panel (Oracles 1 to 4) -->
+            <div id="standard-oracle-panel" class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                    <div>
+                        <h3 id="oracle-title" class="font-gothic text-2xl font-bold text-vampLight">Carta del Día sin Filtros</h3>
+                        <p id="oracle-desc" class="text-sm text-gray-300 mt-1">El mensaje directo que necesitas escuchar hoy, te guste o no.</p>
+                    </div>
+                    <span class="text-xs bg-void px-3 py-1.5 rounded-full border border-gold/30 text-gold self-start">
+                        Costo: 1 Punto de Energía
+                    </span>
+                </div>
+
+                <!-- Optional Context Box (Max 140 chars) -->
+                <div class="bg-void/80 border border-white/10 rounded-2xl p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <label for="context-input" class="text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                            Dale un poco de contexto al Tarot <span class="text-gray-500 font-normal">(Opcional)</span>
+                        </label>
+                        <span id="char-counter" class="text-xs text-vampLight font-mono">0 / 140</span>
+                    </div>
+                    <textarea id="context-input" maxlength="140" rows="2"
+                        placeholder="Ej: Llevamos 2 meses sin hablar pero ve mis estados... / Siento que el dinero no me rinde..."
+                        class="w-full bg-abyss border border-vamp/30 focus:border-vamp rounded-xl p-3 text-sm text-white placeholder-gray-500 focus:outline-none resize-none transition-colors"></textarea>
+                    <p class="text-[11px] text-gray-400 mt-1.5">
+                        * El mazo analizará tu situación puntual para que la respuesta sea coherente y directa.
+                    </p>
+                </div>
+
+                <!-- Draw Action Button or Out-of-Energy Warning -->
+                <div id="draw-action-area" class="text-center py-2">
+                    <button id="btn-draw" onclick="performReading()" class="px-8 py-4 rounded-full bg-gradient-to-r from-vamp via-pink-600 to-purple-700 hover:brightness-110 text-white font-gothic font-bold text-base tracking-wider shadow-xl shadow-vamp/30 transition-all transform hover:scale-[1.02] active:scale-95">
+                        ✦ Barajar y Revelar la Verdad ✦
+                    </button>
+                </div>
+
+                <!-- Zero Energy Lockout Banner -->
+                <div id="zero-energy-banner" class="hidden bg-gradient-to-br from-velvet to-void border border-vamp/60 rounded-2xl p-6 text-center space-y-4">
+                    <div class="w-12 h-12 mx-auto rounded-full bg-vamp/20 border border-vamp flex items-center justify-center text-vamp text-xl">
+                        ⏳
+                    </div>
+                    <h4 class="font-gothic text-xl font-bold text-white">Te quedaste sin energía por hoy</h4>
+                    <p class="text-sm text-gray-200 max-w-xl mx-auto leading-relaxed italic">
+                        "El Tarot no es un juguete ni cambia la verdad porque insistas. Vuelve en 24h, invita a un amigo real para ganar +2 tiradas o escríbeme al privado para profundizar hoy."
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-3 pt-2">
+                        <button onclick="openInviteModal()" class="px-5 py-2.5 rounded-full bg-velvet border border-gold text-gold hover:bg-gold hover:text-void text-xs font-bold transition-all">
+                            Invitar Amigo (+2 Tiradas)
+                        </button>
+                        <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-vamp hover:bg-pink-500 text-white text-xs font-bold shadow-lg transition-all">
+                            Consulta Privada en WhatsApp
+                        </a>
+                        <a href="https://wa.me/c/584160502813" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-void border border-white/20 hover:border-white text-gray-200 text-xs font-bold transition-all">
+                            Ver Catálogo Oficial
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Reading Results Container -->
+                <div id="reading-result-area" class="hidden pt-4 border-t border-white/10 space-y-6">
+                    <!-- Cards Stage -->
+                    <div id="cards-stage" class="flex flex-wrap justify-center gap-6 sm:gap-10 py-4">
+                        <!-- Dynamic SVG Flip Cards injected here -->
+                    </div>
+
+                    <!-- Interpretation Text Box -->
+                    <div class="bg-void/90 border border-gold/40 rounded-2xl p-6 space-y-4 shadow-inner">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <span class="text-xs font-gothic uppercase tracking-widest text-gold font-bold">✦ Veredicto de Zafirovamp</span>
+                            <span id="result-timestamp" class="text-[11px] text-gray-500"></span>
+                        </div>
+                        <div id="interpretation-content" class="text-sm sm:text-base text-gray-100 leading-relaxed space-y-3">
+                            <!-- Interpretation paragraphs -->
+                        </div>
+
+                        <!-- Action Bar: Download Story & Book Private Reading -->
+                        <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                            <button onclick="generateStoryImage()" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-goldDim to-gold text-void font-bold text-xs sm:text-sm flex items-center justify-center gap-2 hover:brightness-110 transition-all shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                Descargar para Historia (IG / WhatsApp)
+                            </button>
+
+                            <a id="deepen-whatsapp-link" href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-5 py-3 rounded-xl bg-velvet border border-vamp text-vampLight hover:bg-vamp hover:text-white font-semibold text-xs sm:text-sm text-center transition-all">
+                                ¿Quieres nombres y detalles? Escríbeme al privado →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Life Arcana Panel (Module 5) -->
+            <div id="life-arcana-panel" class="hidden space-y-6">
+                <div class="border-b border-white/10 pb-4 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-gothic text-2xl font-bold text-gold">Tu Arcano Personal de Vida</h3>
+                        <p class="text-sm text-gray-300 mt-1">Calculado según tu fecha de nacimiento. Tu esencia, tu luz y tu peor sombra en el amor.</p>
+                    </div>
+                    <span class="text-xs bg-void px-3 py-1.5 rounded-full border border-vamp/40 text-vampLight">
+                        Acceso Ilimitado · Perfil
+                    </span>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6 items-center bg-void/80 border border-gold/30 rounded-2xl p-6">
+                    <div id="life-card-visual" class="flex justify-center">
+                        <!-- Life Arcana SVG rendered here -->
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <span id="life-user-meta" class="text-xs text-gray-400 uppercase tracking-wider"></span>
+                            <h4 id="life-arcana-title" class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1"></h4>
+                        </div>
+                        <div class="space-y-3 text-sm text-gray-200 leading-relaxed">
+                            <p><strong class="text-gold">✦ Tu Luz y Poder:</strong> <span id="life-arcana-light"></span></p>
+                            <p><strong class="text-vampLight">✦ Tu Sombra en el Amor:</strong> <span id="life-arcana-shadow"></span></p>
+                            <p><strong class="text-purple-300">✦ Consejo sin filtros:</strong> <span id="life-arcana-advice"></span></p>
+                        </div>
+                        <div class="pt-2">
+                            <button onclick="generateLifeStoryImage()" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-vamp to-pink-600 text-white font-bold text-xs flex items-center gap-2 hover:brightness-110 transition-all shadow-lg">
+                                <span>Compartir mi Arcano en Historias</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Private Consultations & Catalog Section -->
+        <section id="servicios" class="space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="text-xs font-gothic tracking-widest uppercase text-vampLight">Lecturas Personalizadas</span>
+                <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1">Consultas Privadas con Zafirovamp</h3>
+                <p class="text-sm text-gray-400 mt-2">Si necesitas profundizar en tu caso con respuestas detalladas y directas, agenda tu sesión privada.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1: Short Question -->
+                <div class="bg-abyss border border-white/10 hover:border-vamp/50 rounded-2xl p-6 flex flex-col justify-between transition-all">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-vampLight bg-vamp/10 px-3 py-1 rounded-full">Rápida</span>
+                            <span class="font-gothic text-2xl font-bold text-gold">$1.5 <span class="text-xs font-sans text-gray-400">USD (BCV)</span></span>
+                        </div>
+                        <h4 class="font-gothic text-xl font-bold text-white">Pregunta Corta (Sí o No)</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Ideal para salir de una duda puntual de inmediato. Respuesta directa, clara y sin rodeos sobre una situación concreta.
+                        </p>
+                    </div>
+                    <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="mt-6 w-full py-3 rounded-xl bg-velvet hover:bg-vamp text-white font-semibold text-xs text-center border border-vamp/40 transition-all">
+                        Pedir Pregunta Corta
+                    </a>
+                </div>
+
+                <!-- Card 2: Normal Detailed Question -->
+                <div class="bg-gradient-to-b from-velvet to-abyss border-2 border-vamp rounded-2xl p-6 flex flex-col justify-between shadow-xl shadow-vamp/10 relative">
+                    <div class="absolute -top-3 right-5 bg-vamp text-white text-[10px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full">
+                        Más Pedida
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 px-3 py-1 rounded-full">Detallada</span>
+                            <span class="font-gothic text-2xl font-bold text-gold">$2.0 <span class="text-xs font-sans text-gray-400">USD (BCV)</span></span>
+                        </div>
+                        <h4 class="font-gothic text-xl font-bold text-white">Pregunta Normal Detallada</h4>
+                        <p class="text-xs text-gray-200 leading-relaxed">
+                            Análisis profundo de tu pregunta con explicación clara de intenciones, bloqueos, energías ocultas y consejo directo del Tarot.
+                        </p>
+                    </div>
+                    <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="mt-6 w-full py-3 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs text-center shadow-lg transition-all">
+                        Agendar Pregunta Detallada
+                    </a>
+                </div>
+
+                <!-- Card 3: Full Catalog -->
+                <div class="bg-abyss border border-gold/40 hover:border-gold rounded-2xl p-6 flex flex-col justify-between transition-all">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold uppercase tracking-wider text-gold bg-gold/10 px-3 py-1 rounded-full">Paquetes</span>
+                            <span class="font-gothic text-sm font-bold text-gray-300">Ver Precios</span>
+                        </div>
+                        <h4 class="font-gothic text-xl font-bold text-white">Catálogo Completo y Especiales</h4>
+                        <p class="text-xs text-gray-300 leading-relaxed">
+                            Explora tiradas completas de amor, ex parejas, detector de envidias, lecturas generales y paquetes promocionales con sus precios en imagen.
+                        </p>
+                    </div>
+                    <a href="https://wa.me/c/584160502813" target="_blank" rel="noopener noreferrer" class="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-goldDim to-gold text-void font-bold text-xs text-center hover:brightness-110 transition-all">
+                        Abrir Catálogo de WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <!-- Payment Methods Banner -->
+            <div class="bg-velvet/60 border border-white/10 rounded-2xl p-4 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-gray-300">
+                <span class="font-gothic text-gold font-bold uppercase tracking-wider">Métodos de Pago Aceptados:</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-vamp"></span> Pago Móvil (Tasa BCV)</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-gold"></span> Binance Pay</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-purple-400"></span> Zinli</span>
+                <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-blue-400"></span> PayPal</span>
+            </div>
+        </section>
+
+        <!-- Anonymous Reviews Section -->
+        <section id="resenas" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
+                <div>
+                    <span class="text-xs font-gothic tracking-widest uppercase text-gold">Prueba Social</span>
+                    <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1">Experiencias Reales (Anónimas)</h3>
+                </div>
+                <p class="text-xs text-gray-400">Tu identidad permanece 100% oculta al publicar.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+                <!-- Submit Anonymous Review Form -->
+                <div class="bg-abyss border border-vamp/30 rounded-2xl p-5 space-y-4 self-start">
+                    <h4 class="font-gothic text-lg font-bold text-vampLight">Deja tu Reseña Anónima</h4>
+                    <form id="review-form" onsubmit="submitAnonymousReview(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Calificación</label>
+                            <div class="flex gap-2" id="star-selector">
+                                <button type="button" onclick="setRating(1)" class="star-btn text-2xl text-gold">★</button>
+                                <button type="button" onclick="setRating(2)" class="star-btn text-2xl text-gold">★</button>
+                                <button type="button" onclick="setRating(3)" class="star-btn text-2xl text-gold">★</button>
+                                <button type="button" onclick="setRating(4)" class="star-btn text-2xl text-gold">★</button>
+                                <button type="button" onclick="setRating(5)" class="star-btn text-2xl text-gold">★</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="review-text" class="block text-xs text-gray-400 mb-1">Tu experiencia con la lectura</label>
+                            <textarea id="review-text" required maxlength="220" rows="3" placeholder="Cuenta cómo te fue con el oráculo o con tu lectura privada..." class="w-full bg-void border border-white/15 focus:border-vamp rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs transition-all">
+                            Publicar de Forma Anónima
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Reviews Wall -->
+                <div id="reviews-list" class="lg:col-span-2 grid sm:grid-cols-2 gap-4 max-h-[420px] overflow-y-auto pr-1">
+                    <!-- Dynamic reviews loaded from Firestore -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-void border-t border-white/10 py-8 mt-12 relative z-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <div class="text-center sm:text-left">
+                <span class="font-gothic font-bold text-vampLight text-sm">@zafirovamp_tarotista</span>
+                <p class="mt-1">Tarot directo, intuitivo y sin filtros. Todos los derechos reservados.</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="https://www.instagram.com/zafirovamp_tarotista?cnvx=dm1mNGw0M2tscGp0" target="_blank" rel="noopener noreferrer" class="hover:text-vampLight transition-colors flex items-center gap-1.5">
+                    <span>Instagram</span>
+                </a>
+                <span>•</span>
+                <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" class="hover:text-vampLight transition-colors flex items-center gap-1.5">
+                    <span>WhatsApp</span>
+                </a>
+                <span>•</span>
+                <a href="https://wa.me/c/584160502813" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors flex items-center gap-1.5">
+                    <span>Catálogo</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Action Button -->
+    <a href="https://w.app/zafirovamp" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp"
+       class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-gradient-to-tr from-vamp to-pink-600 text-white flex items-center justify-center shadow-2xl shadow-vamp/40 hover:scale-110 transition-transform animate-pulse-glow">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+    </a>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 1: ONBOARDING (NOMBRE Y FECHA DE NACIMIENTO)                     -->
+    <!-- ===================================================================== -->
+    <div id="onboarding-modal" class="fixed inset-0 z-50 hidden bg-void/95 backdrop-blur-lg flex items-center justify-center p-4">
+        <div class="bg-abyss border-2 border-vamp/60 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
+            <div class="text-center space-y-2">
+                <div class="w-14 h-14 mx-auto rounded-full bg-velvet border border-gold flex items-center justify-center text-vamp text-2xl shadow-lg">
+                    ☾
+                </div>
+                <h2 class="font-gothic text-2xl font-bold text-white">Antes de abrir el mazo...</h2>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Para sintonizar las 78 cartas con tu energía y calcular tu <span class="text-gold font-semibold">Arcano Personal de Vida</span>, ingresa tus datos reales.
+                </p>
+            </div>
+
+            <form id="onboarding-form" onsubmit="completeOnboarding(event)" class="space-y-4">
+                <div>
+                    <label for="user-name-input" class="block text-xs font-semibold uppercase tracking-wider text-vampLight mb-1.5">
+                        Tu Nombre o Apodo *
+                    </label>
+                    <input type="text" id="user-name-input" required minlength="2" maxlength="30" placeholder="Ej: Valeria"
+                        class="w-full bg-void border border-white/20 focus:border-vamp rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none">
+                </div>
+
+                <div>
+                    <label for="user-dob-input" class="block text-xs font-semibold uppercase tracking-wider text-vampLight mb-1.5">
+                        Fecha de Nacimiento *
+                    </label>
+                    <input type="date" id="user-dob-input" required max="2015-12-31" min="1940-01-01"
+                        class="w-full bg-void border border-white/20 focus:border-vamp rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-vamp to-pink-600 hover:brightness-110 text-white font-gothic font-bold text-sm tracking-wider shadow-lg shadow-vamp/30 transition-all">
+                    Entrar al Oráculo
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 2: INVITE FRIEND (+2 TIRADAS ANTI-TRAMPA)                       -->
+    <!-- ===================================================================== -->
+    <div id="invite-modal" class="fixed inset-0 z-50 hidden bg-void/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-abyss border border-gold/50 rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+            <div class="flex justify-between items-start">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-widest text-gold">Sistema de Recompensas</span>
+                    <h3 class="font-gothic text-xl font-bold text-white mt-0.5">Gana +2 Tiradas Gratis</h3>
+                </div>
+                <button onclick="closeInviteModal()" class="text-gray-400 hover:text-white text-xl leading-none">&times;</button>
+            </div>
+
+            <p class="text-xs text-gray-300 leading-relaxed">
+                Comparte tu enlace único con un amigo por Instagram o WhatsApp. Cuando esa persona entre desde tu link y <strong class="text-vampLight">haga su primera lectura real</strong>, recibirás automáticamente <strong class="text-gold">+2 tiradas extras</strong>.
+            </p>
+
+            <div class="bg-void border border-white/15 rounded-xl p-3 space-y-2">
+                <label class="text-[10px] uppercase tracking-wider text-gray-400 block">Tu Enlace Único de Invitación</label>
+                <div class="flex gap-2">
+                    <input type="text" id="referral-link-input" readonly class="w-full bg-abyss border border-white/10 rounded-lg px-3 py-2 text-xs text-vampLight font-mono focus:outline-none">
+                    <button onclick="copyReferralLink()" class="px-4 py-2 rounded-lg bg-vamp hover:bg-pink-500 text-white font-bold text-xs shrink-0 transition-all">
+                        Copiar
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-velvet/70 border border-vamp/30 rounded-xl p-3 text-[11px] text-gray-300 space-y-1">
+                <p class="font-semibold text-vampLight">Reglas del sistema:</p>
+                <ul class="list-disc list-inside space-y-0.5 text-gray-400">
+                    <li>Solo cuentan dispositivos nuevos reales (anti-trampa activo).</li>
+                    <li>La recompensa se acredita al completar la primera tirada del invitado.</li>
+                    <li>Máximo +4 tiradas extras por día (2 amigos diarios).</li>
+                </ul>
+                <p class="pt-1 text-gold font-semibold">Amigos invitados hoy: <span id="daily-referrals-count">0</span>/2</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 3: SECRET DEVELOPER AUTH (HIDDEN TRIGGER ONLY)                  -->
+    <!-- ===================================================================== -->
+    <div id="dev-auth-modal" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-abyss border border-vamp/50 rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                <h3 class="font-gothic text-base font-bold text-vampLight tracking-wider">Acceso Restringido</h3>
+                <button onclick="closeDevAuthModal()" class="text-gray-500 hover:text-white text-lg">&times;</button>
+            </div>
+            <form onsubmit="verifyDevCredentials(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[11px] uppercase tracking-wider text-gray-400 mb-1">Clave Maestra</label>
+                    <input type="password" id="dev-master-key" required autocomplete="off" class="w-full bg-void border border-white/15 focus:border-vamp rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[11px] uppercase tracking-wider text-gray-400 mb-1">Frase de Seguridad</label>
+                    <input type="password" id="dev-secret-phrase" required autocomplete="off" class="w-full bg-void border border-white/15 focus:border-vamp rounded-lg px-3 py-2 text-sm text-white focus:outline-none">
+                </div>
+                <button type="submit" class="w-full py-2.5 rounded-lg bg-vamp hover:bg-pink-600 text-white font-bold text-xs tracking-wider uppercase transition-all">
+                    Desbloquear Sistema
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- MODAL 4: PRIVATE DEVELOPER DASHBOARD (LISSET ONLY)                    -->
+    <!-- ===================================================================== -->
+    <div id="dev-dashboard-modal" class="fixed inset-0 z-50 hidden bg-void/98 backdrop-blur-xl overflow-y-auto p-4 sm:p-8">
+        <div class="max-w-6xl mx-auto space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-vamp/40 pb-4">
+                <div>
+                    <span class="text-xs font-mono text-vamp uppercase tracking-widest">Modo Desarrolladora Activo</span>
+                    <h2 class="font-gothic text-2xl sm:text-3xl font-bold text-white">Panel Privado de Zafirovamp</h2>
+                </div>
+                <button onclick="closeDevDashboard()" class="px-4 py-2 rounded-xl bg-velvet border border-vamp text-vampLight hover:bg-vamp hover:text-white text-xs font-bold transition-all">
+                    Cerrar Panel Secreto
+                </button>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div class="bg-abyss border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400">Usuarios Registrados</div>
+                    <div id="stat-total-users" class="font-gothic text-2xl font-bold text-white mt-1">0</div>
+                </div>
+                <div class="bg-abyss border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400">Tiradas Realizadas</div>
+                    <div id="stat-total-readings" class="font-gothic text-2xl font-bold text-vampLight mt-1">0</div>
+                </div>
+                <div class="bg-abyss border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400">Referidos Exitosos</div>
+                    <div id="stat-total-referrals" class="font-gothic text-2xl font-bold text-gold mt-1">0</div>
+                </div>
+                <div class="bg-abyss border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400">Reseñas Publicadas</div>
+                    <div id="stat-total-reviews" class="font-gothic text-2xl font-bold text-emerald-400 mt-1">0</div>
+                </div>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="flex gap-2 border-b border-white/10 pb-2">
+                <button onclick="switchAdminTab('readings')" id="admin-tab-readings" class="px-4 py-2 rounded-lg bg-vamp text-white text-xs font-bold">Historial de Tiradas</button>
+                <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Usuarios & Dispositivos</button>
+                <button onclick="switchAdminTab('reviews')" id="admin-tab-reviews" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Moderar Reseñas</button>
+            </div>
+
+            <!-- Tab 1: Readings Log -->
+            <div id="admin-panel-readings" class="bg-abyss border border-white/10 rounded-2xl p-4 overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="text-gray-400 border-b border-white/10 uppercase">
+                        <tr>
+                            <th class="py-3 px-2">Fecha</th>
+                            <th class="py-3 px-2">Usuario</th>
+                            <th class="py-3 px-2">Oráculo</th>
+                            <th class="py-3 px-2">Contexto Escrito</th>
+                            <th class="py-3 px-2">Cartas Obtenidas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-readings-tbody" class="divide-y divide-white/5 text-gray-200"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab 2: Users Log -->
+            <div id="admin-panel-users" class="hidden bg-abyss border border-white/10 rounded-2xl p-4 overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead class="text-gray-400 border-b border-white/10 uppercase">
+                        <tr>
+                            <th class="py-3 px-2">Nombre</th>
+                            <th class="py-3 px-2">Nacimiento</th>
+                            <th class="py-3 px-2">Arcano Vida</th>
+                            <th class="py-3 px-2">Device ID</th>
+                            <th class="py-3 px-2">Referidos</th>
+                            <th class="py-3 px-2">Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-users-tbody" class="divide-y divide-white/5 text-gray-200"></tbody>
+                </table>
+            </div>
+
+            <!-- Tab 3: Moderate Reviews -->
+            <div id="admin-panel-reviews" class="hidden space-y-3">
+                <div id="admin-reviews-list" class="grid sm:grid-cols-2 gap-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for 9:16 Instagram Story Generation -->
+    <canvas id="story-canvas" width="1080" height="1920" class="hidden"></canvas>
+
+    <!-- ===================================================================== -->
+    <!-- APPLICATION LOGIC & FIREBASE INTEGRATION                              -->
+    <!-- ===================================================================== -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ---------------------------------------------------------------------
+        // 1. FIREBASE INITIALIZATION & SAFE FALLBACK
+        // ---------------------------------------------------------------------
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'zafirovamp-tarot-app';
+        let db = null;
+        let auth = null;
+        let currentFirebaseUser = null;
+        let firebaseReady = false;
+
+        try {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                const firebaseConfig = JSON.parse(__firebase_config);
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                const initAuth = async () => {
+                    try {
+                        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                            await signInWithCustomToken(auth, __initial_auth_token);
+                        } else {
+                            await signInAnonymously(auth);
+                        }
+                    } catch (err) {
+                        console.warn("Auth fallback:", err);
+                    }
+                };
+                initAuth();
+
+                onAuthStateChanged(auth, (user) => {
+                    currentFirebaseUser = user;
+                    if (user) {
+                        firebaseReady = true;
+                        syncUserWithCloud();
+                        subscribeToPublicReviews();
+                    }
+                });
+            }
+        } catch (e) {
+            console.warn("Running in local resilient mode:", e);
+        }
+
+        // ---------------------------------------------------------------------
+        // 2. COMPLETE 78 TAROT DECK DATA (22 MAJOR + 56 MINOR ARCANA)
+        // ---------------------------------------------------------------------
+        const MAJOR_ARCANA = [
+            { id: 0, num: "0", name: "El Loco", suit: "major", symbol: "fool", raw: "Impulsividad total, cero compromiso y ganas de saltar al vacío sin pensar en las consecuencias.", love: "Alguien que quiere aventura rápida pero le huye a las responsabilidades serias.", money: "Gastos impulsivos o decisiones arriesgadas sin planificar.", advice: "Atrévete a soltar lo que pesa, pero no seas ingenuo." },
+            { id: 1, num: "I", name: "El Mago", suit: "major", symbol: "magician", raw: "Tienes todas las herramientas en la mesa, pero cuidado con la manipulación y las palabras bonitas vacías.", love: "Alguien con mucha labia que sabe exactamente qué decir para envolverte.", money: "Momento ideal para iniciar algo propio usando tu ingenio.", advice: "Usa tu inteligencia y no te dejes endulzar el oído." },
+            { id: 2, num: "II", name: "La Sacerdotisa", suit: "major", symbol: "priestess", raw: "Hay secretos ocultos detrás del telón. Tu intuición ya te avisó lo que pasa, deja de ignorarla.", love: "Silencio, distancia fría o cosas que te están ocultando.", money: "Guarda tus planes en silencio; no le cuentes tus movimientos a nadie.", advice: "Confía en tu corazonada, nunca se equivoca." },
+            { id: 3, num: "III", name: "La Emperatriz", suit: "major", symbol: "empress", raw: "Abundancia, magnetismo y fertilidad. Cuando te valoras, atraes todo sin tener que perseguir nada.", love: "Energía de atracción fuerte, cariño genuino y bienestar.", money: "Crecimiento económico y frutos que empiezan a verse.", advice: "Ponte en primer lugar y deja que vengan a ti." },
+            { id: 4, num: "IV", name: "El Emperador", suit: "major", symbol: "emperor", raw: "Terquedad extrema, orgullo y necesidad de controlarlo todo. Nadie quiere dar su brazo a torcer.", love: "Alguien frío y orgulloso que prefiere tener la razón antes que pedir perdón.", money: "Estructura, disciplina y orden estricto para poder avanzar.", advice: "Baja la guardia o quédate solo con tu orgullo." },
+            { id: 5, num: "V", name: "El Hierofante", suit: "major", symbol: "hierophant", raw: "Las apariencias, las reglas tradicionales y el 'qué dirán' están pesando más que la verdad.", love: "Vínculo sostenido por costumbre, compromiso social o consejos de terceros.", money: "Sigue los pasos formales y busca asesoría seria.", advice: "No te quedes en un sitio solo por cumplir con los demás." },
+            { id: 6, num: "VI", name: "Los Enamorados", suit: "major", symbol: "lovers", raw: "Una encrucijada inevitable. Hay atracción, sí, pero también una decisión que define el rumbo.", love: "Química fuerte, pero hay que elegir entre lo fácil y lo que realmente vale.", money: "Alianzas o decisiones clave donde debes elegir un solo camino.", advice: "Decide con coherencia, no solo por impulso." },
+            { id: 7, num: "VII", name: "El Carro", suit: "major", symbol: "chariot", raw: "Avance rápido y determinación. O tomas las riendas de tu vida o te pasan por encima.", love: "Alguien que avanza hacia lo que quiere o se marcha sin mirar atrás.", money: "Movimiento, viajes o impulso fuerte para sacar un proyecto.", advice: "Toma el control y no permitas que nadie frene tu paso." },
+            { id: 8, num: "VIII", name: "La Fuerza", suit: "major", symbol: "strength", raw: "Domina tus impulsos y tu ansiedad. El verdadero poder está en mantener la calma sin hacer drama.", love: "Paciencia y autocontrol frente a actitudes inmaduras.", money: "Constancia firme; no te desesperes si los resultados toman tiempo.", advice: "Controla tus emociones y actúa con frialdad elegante." },
+            { id: 9, num: "IX", name: "El Ermitaño", suit: "major", symbol: "hermit", raw: "Aislamiento, distancia y soledad necesaria. Es momento de apagar el ruido externo y pensar.", love: "Alejamiento emocional, frialdad o necesidad de estar a solas.", money: "Trabaja en silencio y enfócate en tu propio plan sin distracciones.", advice: "Aléjate del chisme y busca respuestas dentro de ti." },
+            { id: 10, num: "X", name: "La Rueda de la Fortuna", suit: "major", symbol: "wheel", raw: "Giro inesperado del destino y karma en movimiento. Lo que estaba arriba baja y viceversa.", love: "Cambios repentinos; ciclos que vuelven o giros que te sacan de tu zona de confort.", money: "Oportunidad inesperada que mueve el estancamiento.", advice: "Adáptate al cambio, la rueda nunca se queda quieta." },
+            { id: 11, num: "XI", name: "La Justicia", suit: "major", symbol: "justice", raw: "Causa y efecto puro. Cada quien recibe exactamente lo que sembró, sin favoritismos.", love: "Verdades que salen a la luz y equilibrio frío; se cobra el karma.", money: "Poner cuentas claras, contratos o pagos justos.", advice: "Sé objetivo, corta lo injusto y asume tus decisiones." },
+            { id: 12, num: "XII", name: "El Colgado", suit: "major", symbol: "hanged", raw: "Estancamiento total y pausa forzada. Estás sacrificando energía donde no hay avance.", love: "Relación en pausa donde uno da todo y el otro no mueve un dedo.", money: "Bloqueo temporal; necesitas cambiar de estrategia urgente.", advice: "Deja de sacrificarte por quien no hace nada por ti." },
+            { id: 13, num: "XIII", name: "La Muerte", suit: "major", symbol: "death", raw: "Final definitivo y corte radical. Algo ya murió y seguir insistiendo solo trae desgaste.", love: "Cierre de ciclo obligatorio; entierra el pasado para poder renacer.", money: "Fin de una etapa laboral o forma de ganar dinero; toca reinventarse.", advice: "Suelta de una vez lo que ya no tiene vida." },
+            { id: 14, num: "XIV", name: "La Templanza", suit: "major", symbol: "temperance", raw: "Calma, sanación y equilibrio. Después de la tormenta llega la paz si sabes esperar.", love: "Relación tranquila que sana heridas o necesidad de bajarle al drama.", money: "Administración equilibrada y flujo constante sin excesos.", advice: "Respira, ten paciencia y no fuerces los tiempos." },
+            { id: 15, num: "XV", name: "El Diablo", suit: "major", symbol: "devil", raw: "Toxicidad, obsesión, manipulación o ataduras materiales. Sabes que hace daño pero cuesta soltar.", love: "Pura atracción física, dependencia emocional o juegos tóxicos.", money: "Ambición, deudas o entornos laborales pesados con envidia.", advice: "Rompe las cadenas; no confundas obsesión con amor." },
+            { id: 16, num: "XVI", name: "La Torre", suit: "major", symbol: "tower", raw: "Ruptura brusca y caída de mentiras. Se derrumba lo que estaba construido sobre bases falsas.", love: "Discusión fuerte, verdad revelada de golpe o ruptura inevitable.", money: "Gasto imprevisto o caída de un plan inestable.", advice: "Deja que se caiga lo falso para construir sobre firme." },
+            { id: 17, num: "XVII", name: "La Estrella", suit: "major", symbol: "star", raw: "Luz propia, autenticidad y renovación. Tu brillo natural molesta a quienes viven en la sombra.", love: "Sanación emocional, esperanza real y conexión transparente.", money: "Caminos abiertos y claridad para nuevos proyectos.", advice: "Brilla sin pedir permiso y mantente fiel a tu esencia." },
+            { id: 18, num: "XVIII", name: "La Luna", suit: "major", symbol: "moon", raw: "Confusión, miedos, mentiras y doble cara. Nada es lo que parece en este momento.", love: "Engaños, ilusiones falsas o alguien que se esconde en las sombras.", money: "Falta de claridad; ten cuidado con estafas o promesas vacías.", advice: "No tomes decisiones a ciegas; espera a que se aclare el panorama." },
+            { id: 19, num: "XIX", name: "El Sol", suit: "major", symbol: "sun", raw: "Claridad absoluta, éxito y verdad expuesta. Todo sale a la luz y trae bienestar.", love: "Sinceridad total, alegría compartida y vínculo sano.", money: "Éxito, ingresos claros y reconocimiento merecido.", advice: "Disfruta el momento con total transparencia." },
+            { id: 20, num: "XX", name: "El Juicio", suit: "major", symbol: "judgement", raw: "Despertar brusco y llamado a la verdad. El pasado regresa para ser juzgado o cerrado.", love: "Reaparición de alguien del pasado o momento de abrir los ojos.", money: "Oportunidad de reivindicarte y tomar decisiones maduras.", advice: "Despierta, aprende la lección y no repitas errores." },
+            { id: 21, num: "XXI", name: "El Mundo", suit: "major", symbol: "world", raw: "Cierre exitoso de ciclo y plenitud. Ya aprendiste la lección y estás listo para subir de nivel.", love: "Realización personal o cierre sano para abrirte a algo completo.", money: "Meta cumplida, expansión y estabilidad lograda.", advice: "Cierra esta puerta con orgullo y avanza." }
+        ];
+
+        const SUITS_CONFIG = [
+            { key: "cups", name: "Copas", es: "Emociones y Vínculos" },
+            { key: "swords", name: "Espadas", es: "Mente, Verdad y Cortes" },
+            { key: "wands", name: "Bastos", es: "Acción, Pasión y Impulso" },
+            { key: "pentacles", name: "Oros", es: "Dinero, Trabajo y Realidad" }
+        ];
+
+        const MINOR_RANKS = [
+            { r: "As", label: "As", cup: "Inicio emocional puro o apertura del corazón.", sword: "Verdad tajante que corta la confusión de raíz.", wand: "Chispazo de pasión, deseo físico o impulso nuevo.", pent: "Oportunidad material tangible y entrada de dinero." },
+            { r: "2", label: "Dos", cup: "Reciprocidad, unión genuina y conexión mutua.", sword: "Bloqueo mental, venda en los ojos y negación a ver la verdad.", wand: "Planificación, mirar hacia el futuro y evaluar opciones.", pent: "Malabares emocionales o financieros; inestabilidad constante." },
+            { r: "3", label: "Tres", cup: "Círculo social, celebraciones y posibles chismes entre amigos.", sword: "Decepción, dolor claro y verdades que duelen pero liberan.", wand: "Expansión, espera activa y mirar resultados a distancia.", pent: "Trabajo en equipo, opiniones de terceros y construcción." },
+            { r: "4", label: "Cuatro", cup: "Apatía, brazos cruzados y desinterés por lo que se ofrece.", sword: "Pausa forzada, estancamiento, cansancio mental y silencio.", wand: "Estabilidad, celebración y bases firmes en casa o pareja.", pent: "Tacañería emocional, apego, control y miedo a soltar." },
+            { r: "5", label: "Cinco", cup: "Tristeza, nostalgia y lamentarse por lo que ya se perdió.", sword: "Conflictos, ego, discusiones sucias y ganar a costa de lastimar.", wand: "Caos, competencia, desorden y gente peleando por tener razón.", pent: "Carencia, sensación de abandono, vacío y frustración." },
+            { r: "6", label: "Seis", cup: "Nostalgia, recuerdos del pasado o alguien que vuelve a tu mente.", sword: "Huida hacia aguas tranquilas; dejar atrás un ambiente tóxico.", wand: "Reconocimiento, victoria y subir el ego frente a otros.", pent: "Migajas de atención o dinero desigual; uno da más que el otro." },
+            { r: "7", label: "Siete", cup: "Fantasías, ilusiones falsas y mil opciones que no aterrizan.", sword: "Mentiras, evasión, actuar a escondidas y autoengaño.", wand: "Defender tu postura con uñas y dientes ante ataques.", pent: "Impaciencia porque los frutos tardan en crecer; frustración." },
+            { r: "8", label: "Ocho", cup: "Dar la espalda y marcharse de donde ya no hay nada real.", sword: "Sentirse atrapado por los propios miedos y complejos mentales.", wand: "Mensajes rápidos, chismes veloces o acciones impulsivas.", pent: "Trabajo duro, constancia, esfuerzo diario y perfeccionamiento." },
+            { r: "9", label: "Nueve", cup: "Satisfacción personal, orgullo y disfrutar tus propios logros.", sword: "Ansiedad nocturna, insomnio, culpa y sobrepensar todo.", wand: "Estar a la defensiva, agotado pero con el muro bien alto.", pent: "Independencia, seguridad propia y disfrutar tu libertad." },
+            { r: "10", label: "Diez", cup: "Plenitud emocional, armonía y felicidad compartida.", sword: "Traición final, tocar fondo y cierre doloroso pero definitivo.", wand: "Sobrecarga de responsabilidades; llevar demasiado peso solo.", pent: "Estabilidad sólida, respaldo familiar y seguridad material." },
+            { r: "Sota", label: "Sota", cup: "Mensajes tiernos, interés tímido o acercamiento inocente.", sword: "Espionaje en redes sociales, vigilancia y curiosidad fría.", wand: "Coqueteo inmaduro, impulsos y mensajes sin compromiso.", pent: "Propuesta pequeña pero real; avanzar paso a paso." },
+            { r: "Caballo", label: "Caballo", cup: "Propuesta romántica, seducción y dejarse llevar por el sentir.", sword: "Acción rápida, impulsiva, cortante y sin medir consecuencias.", wand: "Pura calentura, aventura rápida que llega y se va igual de rápido.", pent: "Avance lento, seguro, paciente y sin presiones." },
+            { r: "Reina", label: "Reina", cup: "Mujer empática, intuitiva y con el corazón abierto.", sword: "Mujer fría, directa, inteligente que corta lo que no sirve.", wand: "Mujer magnética, segura, atractiva y con carácter fuerte.", pent: "Mujer estable, práctica, valiosa y autosuficiente." },
+            { r: "Rey", label: "Rey", cup: "Hombre con sentimientos profundos pero que se los guarda.", sword: "Hombre frío, calculador, cortante y extremadamente racional.", wand: "Hombre apasionado, dominante, con ego alto y liderazgo.", pent: "Hombre enfocado en lo material, estable y protector." }
+        ];
+
+        // Build Full 78-Card Array
+        const FULL_DECK = [...MAJOR_ARCANA];
+        let nextId = 22;
+        SUITS_CONFIG.forEach(suit => {
+            MINOR_RANKS.forEach(rank => {
+                let meaning = rank.cup;
+                if (suit.key === "swords") meaning = rank.sword;
+                if (suit.key === "wands") meaning = rank.wand;
+                if (suit.key === "pentacles") meaning = rank.pent;
+
+                FULL_DECK.push({
+                    id: nextId++,
+                    num: rank.r,
+                    name: `${rank.label} de ${suit.name}`,
+                    suit: suit.key,
+                    symbol: suit.key,
+                    raw: meaning,
+                    love: meaning,
+                    money: meaning,
+                    advice: `Presta atención a la energía de ${suit.es.toLowerCase()} que marca esta carta.`
+                });
+            });
+        });
+
+        // ---------------------------------------------------------------------
+        // 3. LIGHTWEIGHT GOTHIC SVG GENERATOR FOR ALL 78 CARDS
+        // ---------------------------------------------------------------------
+        function getCardSVG(card) {
+            const isMajor = card.suit === "major";
+            const accent = isMajor ? "#d4af37" : (card.suit === "cups" || card.suit === "wands" ? "#ff4d94" : "#ff85b3");
+            
+            let centralIcon = "";
+            if (card.suit === "cups") {
+                centralIcon = `
+                    <path d="M45 65 C45 95, 95 95, 95 65 L88 55 L52 55 Z" fill="none" stroke="${accent}" stroke-width="2.5"/>
+                    <line x1="70" y1="88" x2="70" y2="122" stroke="${accent}" stroke-width="2.5"/>
+                    <path d="M52 122 L88 122" stroke="${accent}" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="70" cy="42" r="4" fill="#d4af37"/>
+                `;
+            } else if (card.suit === "swords") {
+                centralIcon = `
+                    <line x1="70" y1="38" x2="70" y2="112" stroke="${accent}" stroke-width="3"/>
+                    <polygon points="70,32 64,44 76,44" fill="${accent}"/>
+                    <line x1="50" y1="108" x2="90" y2="108" stroke="#d4af37" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="70" y1="108" x2="70" y2="128" stroke="#d4af37" stroke-width="3"/>
+                    <circle cx="70" cy="131" r="3.5" fill="${accent}"/>
+                `;
+            } else if (card.suit === "wands") {
+                centralIcon = `
+                    <line x1="70" y1="36" x2="70" y2="132" stroke="${accent}" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M70 60 Q85 52 88 44" fill="none" stroke="#d4af37" stroke-width="2"/>
+                    <path d="M70 85 Q55 77 52 69" fill="none" stroke="#d4af37" stroke-width="2"/>
+                    <path d="M70 108 Q84 100 86 93" fill="none" stroke="#d4af37" stroke-width="2"/>
+                `;
+            } else if (card.suit === "pentacles") {
+                centralIcon = `
+                    <circle cx="70" cy="85" r="32" fill="none" stroke="#d4af37" stroke-width="2.5"/>
+                    <polygon points="70,55 77,76 99,76 81,89 88,110 70,97 52,110 59,89 41,76 63,76" fill="none" stroke="${accent}" stroke-width="2"/>
+                `;
+            } else {
+                // Major Arcana Unique Mystical Engraving
+                centralIcon = `
+                    <circle cx="70" cy="85" r="34" fill="none" stroke="#d4af37" stroke-width="1.5" stroke-dasharray="3 3"/>
+                    <polygon points="70,48 98,98 42,98" fill="none" stroke="${accent}" stroke-width="2"/>
+                    <polygon points="70,122 98,72 42,72" fill="none" stroke="#d4af37" stroke-width="1.5"/>
+                    <circle cx="70" cy="85" r="8" fill="${accent}" opacity="0.85"/>
+                `;
+            }
+
+            return `
+                <svg viewBox="0 0 140 210" xmlns="http://www.w3.org/2000/svg" class="w-full h-full rounded-xl">
+                    <defs>
+                        <linearGradient id="bg-${card.id}" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#1d142c"/>
+                            <stop offset="100%" stop-color="#0a080d"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="140" height="210" rx="12" fill="url(#bg-${card.id})" stroke="${accent}" stroke-width="2"/>
+                    <rect x="7" y="7" width="126" height="196" rx="8" fill="none" stroke="#d4af37" stroke-width="0.8" stroke-opacity="0.5"/>
+                    
+                    <!-- Top Number / Roman -->
+                    <text x="70" y="25" text-anchor="middle" fill="#d4af37" font-family="Cinzel, serif" font-size="13" font-weight="bold">${card.num}</text>
+                    
+                    <!-- Central Symbolic Art -->
+                    ${centralIcon}
+                    
+                    <!-- Bottom Banner -->
+                    <rect x="12" y="156" width="116" height="36" rx="6" fill="#0a080d" fill-opacity="0.85" stroke="${accent}" stroke-width="0.8"/>
+                    <text x="70" y="178" text-anchor="middle" fill="#ffffff" font-family="Cinzel, serif" font-size="9.5" font-weight="bold">${card.name.toUpperCase()}</text>
+                </svg>
+            `;
+        }
+
+        // ---------------------------------------------------------------------
+        // 4. DEVICE FINGERPRINTING & ANTI-CHEAT USER STATE
+        // ---------------------------------------------------------------------
+        function computeDeviceFingerprint() {
+            const nav = window.navigator;
+            const scr = window.screen;
+            const raw = [
+                nav.userAgent,
+                nav.language,
+                scr.width + "x" + scr.height,
+                scr.colorDepth,
+                Intl.DateTimeFormat().resolvedOptions().timeZone,
+                nav.hardwareConcurrency || "unk"
+            ].join("|");
+
+            let hash = 0;
+            for (let i = 0; i < raw.length; i++) {
+                const chr = raw.charCodeAt(i);
+                hash = ((hash << 5) - hash) + chr;
+                hash |= 0;
+            }
+            return "FP_" + Math.abs(hash).toString(36).toUpperCase();
+        }
+
+        const DEVICE_FP = computeDeviceFingerprint();
+        const URL_PARAMS = new URLSearchParams(window.location.search);
+        const REF_PARAM = URL_PARAMS.get("ref");
+
+        let userState = {
+            userId: null,
+            name: "",
+            dob: "",
+            lifeArcanaId: 0,
+            deviceFp: DEVICE_FP,
+            energy: 2,
+            lastReset: Date.now(),
+            referredBy: REF_PARAM || null,
+            hasCompletedFirstReading: false,
+            dailyReferralsCount: 0,
+            lastReferralReset: Date.now(),
+            createdAt: new Date().toISOString()
+        };
+
+        // Load from localStorage first
+        const savedLocal = localStorage.getItem("zafirovamp_user_v1");
+        if (savedLocal) {
+            try {
+                userState = { ...userState, ...JSON.parse(savedLocal) };
+            } catch (e) {}
+        }
+
+        // Check 24h energy reset
+        function checkDailyResets() {
+            const now = Date.now();
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            if (now - userState.lastReset >= twentyFourHours) {
+                userState.energy = 2;
+                userState.lastReset = now;
+                saveUserState();
+            }
+            if (now - userState.lastReferralReset >= twentyFourHours) {
+                userState.dailyReferralsCount = 0;
+                userState.lastReferralReset = now;
+                saveUserState();
+            }
+        }
+
+        function saveUserState() {
+            localStorage.setItem("zafirovamp_user_v1", JSON.stringify(userState));
+            updateUIStatus();
+            if (firebaseReady && userState.userId && db) {
+                const userRef = doc(db, "artifacts", appId, "public", "data", "users", userState.userId);
+                setDoc(userRef, userState, { merge: true }).catch(err => console.warn(err));
+            }
+        }
+
+        async function syncUserWithCloud() {
+            if (!firebaseReady || !db) return;
+            if (userState.userId) {
+                const userRef = doc(db, "artifacts", appId, "public", "data", "users", userState.userId);
+                try {
+                    const snap = await getDoc(userRef);
+                    if (snap.exists()) {
+                        const cloudData = snap.data();
+                        // Sync cloud energy rewards (e.g., if a friend completed a reading!)
+                        if (cloudData.energy > userState.energy) {
+                            userState.energy = cloudData.energy;
+                            showToast("¡Recompensa Acreditada!", "Un amigo invitado completó su lectura. Ganaste +2 tiradas.");
+                        }
+                        userState.dailyReferralsCount = cloudData.dailyReferralsCount || userState.dailyReferralsCount;
+                        saveUserState();
+                    } else {
+                        await setDoc(userRef, userState);
+                    }
+                } catch (e) {
+                    console.warn("Cloud sync error:", e);
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 5. LIFE ARCANA NUMEROLOGY CALCULATOR
+        // ---------------------------------------------------------------------
+        function calculateLifeArcana(dobString) {
+            // dobString format: YYYY-MM-DD
+            const digits = dobString.replace(/\D/g, "");
+            let sum = 0;
+            for (let ch of digits) sum += parseInt(ch, 10);
+            while (sum > 22) {
+                let temp = 0;
+                for (let ch of sum.toString()) temp += parseInt(ch, 10);
+                sum = temp;
+            }
+            if (sum === 22) sum = 0; // El Loco
+            return sum;
+        }
+
+        function renderLifeArcanaSection() {
+            const arcana = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
+            document.getElementById("life-card-visual").innerHTML = `<div class="w-44 h-64 shadow-2xl">${getCardSVG(arcana)}</div>`;
+            document.getElementById("life-user-meta").textContent = `${userState.name} · Nacido/a el ${userState.dob}`;
+            document.getElementById("life-arcana-title").textContent = `${arcana.num} — ${arcana.name}`;
+            document.getElementById("life-arcana-light").textContent = arcana.raw;
+            document.getElementById("life-arcana-shadow").textContent = arcana.love;
+            document.getElementById("life-arcana-advice").textContent = arcana.advice;
+        }
+
+        // ---------------------------------------------------------------------
+        // 6. ONBOARDING & ANTI-CHEAT REFERRAL VALIDATION
+        // ---------------------------------------------------------------------
+        window.completeOnboarding = async function(e) {
+            e.preventDefault();
+            const nameVal = document.getElementById("user-name-input").value.trim();
+            const dobVal = document.getElementById("user-dob-input").value;
+            if (!nameVal || !dobVal) return;
+
+            const newUserId = "USR_" + Date.now().toString(36).toUpperCase() + "_" + Math.random().toString(36).substring(2, 5).toUpperCase();
+            userState.userId = newUserId;
+            userState.name = nameVal;
+            userState.dob = dobVal;
+            userState.lifeArcanaId = calculateLifeArcana(dobVal);
+            userState.deviceFp = DEVICE_FP;
+            userState.energy = 2;
+            userState.lastReset = Date.now();
+            userState.createdAt = new Date().toISOString();
+
+            // Anti-Cheat check on incoming referral
+            if (REF_PARAM && firebaseReady && db) {
+                try {
+                    const inviterRef = doc(db, "artifacts", appId, "public", "data", "users", REF_PARAM);
+                    const inviterSnap = await getDoc(inviterRef);
+                    if (inviterSnap.exists()) {
+                        const inviterData = inviterSnap.data();
+                        // Block self-referral via same device fingerprint
+                        if (inviterData.deviceFp === DEVICE_FP || REF_PARAM === newUserId) {
+                            userState.referredBy = null;
+                        } else {
+                            userState.referredBy = REF_PARAM;
+                        }
+                    } else {
+                        userState.referredBy = null;
+                    }
+                } catch (err) {
+                    userState.referredBy = null;
+                }
+            }
+
+            saveUserState();
+            document.getElementById("onboarding-modal").classList.add("hidden");
+            showToast(`Bienvenido/a, ${userState.name}`, "Tu energía está lista. Tienes 2 tiradas gratuitas hoy.");
+        };
+
+        async function processReferralRewardIfEligible() {
+            if (userState.hasCompletedFirstReading) return;
+            userState.hasCompletedFirstReading = true;
+            saveUserState();
+
+            if (!userState.referredBy || !firebaseReady || !db) return;
+
+            try {
+                // Verify no previous user in Firestore already used this exact Device Fingerprint
+                const inviterRef = doc(db, "artifacts", appId, "public", "data", "users", userState.referredBy);
+                const inviterSnap = await getDoc(inviterRef);
+                if (!inviterSnap.exists()) return;
+
+                const inviterData = inviterSnap.data();
+                if (inviterData.deviceFp === DEVICE_FP) return; // Same device cheat blocked
+
+                const now = Date.now();
+                const twentyFourHours = 24 * 60 * 60 * 1000;
+                let currentDailyRefs = inviterData.dailyReferralsCount || 0;
+                if (now - (inviterData.lastReferralReset || 0) >= twentyFourHours) {
+                    currentDailyRefs = 0;
+                }
+
+                // Cap at 2 rewarded referrals per day (+4 extra pulls max)
+                if (currentDailyRefs < 2) {
+                    await updateDoc(inviterRef, {
+                        energy: (inviterData.energy || 0) + 2,
+                        dailyReferralsCount: currentDailyRefs + 1,
+                        lastReferralReset: now
+                    });
+                }
+            } catch (e) {
+                console.warn("Referral reward processing error:", e);
+            }
+        }
+
+        // ---------------------------------------------------------------------
+        // 7. ORACLE TABS, CONTEXT ENGINE & 78-CARD READING EXECUTION
+        // ---------------------------------------------------------------------
+        let currentOracle = "daily";
+        let lastReadingData = null;
+
+        const ORACLES_META = {
+            daily: {
+                title: "Carta del Día sin Filtros",
+                desc: "El mensaje directo que necesitas escuchar hoy, te guste o no.",
+                count: 1
+            },
+            ex: {
+                title: "¿Qué trama / siente tu Ex?",
+                desc: "Tirada de 2 cartas: Carta 1 (Intención Oculta) + Carta 2 (Acción Real).",
+                count: 2
+            },
+            envy: {
+                title: "Detector de Envidias y Doble Cara",
+                desc: "Piensa en esa persona o grupo de tu entorno. El mazo te dirá si suma o resta.",
+                count: 1
+            },
+            money: {
+                title: "Bloqueo de Dinero y Caminos",
+                desc: "Descubre qué energía o actitud te está trancando la economía hoy.",
+                count: 1
+            }
+        };
+
+        window.selectOracle = function(type) {
+            currentOracle = type;
+            document.querySelectorAll(".oracle-tab").forEach(btn => {
+                btn.classList.remove("border-vamp", "bg-velvet");
+                btn.classList.add("border-white/10", "bg-void/60");
+            });
+            const activeBtn = document.getElementById(`tab-${type}`);
+            activeBtn.classList.remove("border-white/10", "bg-void/60");
+            activeBtn.classList.add("border-vamp", "bg-velvet");
+
+            if (type === "life") {
+                document.getElementById("standard-oracle-panel").classList.add("hidden");
+                document.getElementById("life-arcana-panel").classList.remove("hidden");
+                renderLifeArcanaSection();
+            } else {
+                document.getElementById("life-arcana-panel").classList.add("hidden");
+                document.getElementById("standard-oracle-panel").classList.remove("hidden");
+                document.getElementById("oracle-title").textContent = ORACLES_META[type].title;
+                document.getElementById("oracle-desc").textContent = ORACLES_META[type].desc;
+                document.getElementById("reading-result-area").classList.add("hidden");
+                updateEnergyLockoutUI();
+            }
+        };
+
+        document.getElementById("context-input").addEventListener("input", function() {
+            document.getElementById("char-counter").textContent = `${this.value.length} / 140`;
+        });
+
+        function buildContextualInterpretation(oracleType, cards, contextText) {
+            const ctx = contextText.toLowerCase();
+            let contextHook = "";
+
+            if (ctx.includes("silencio") || ctx.includes("hablar") || ctx.includes("bloque") || ctx.includes("distancia")) {
+                contextHook = "Sobre ese silencio y distancia que mencionas: ";
+            } else if (ctx.includes("dinero") || ctx.includes("trabajo") || ctx.includes("plata") || ctx.includes("negocio")) {
+                contextHook = "Aterrizando esto a tu situación económica y laboral: ";
+            } else if (ctx.includes("amig") || ctx.includes("familia") || ctx.includes("envidia") || ctx.includes("chisme")) {
+                contextHook = "Mirando directamente a esas personas de tu entorno: ";
+            } else if (ctx.includes("infiel") || ctx.includes("otra") || ctx.includes("otro") || ctx.includes("ex")) {
+                contextHook = "Yendo al grano sobre esa persona por la que preguntas: ";
+            } else if (contextText.trim().length > 0) {
+                contextHook = `Tomando en cuenta tu contexto ("${contextText.trim()}"): `;
+            }
+
+            if (oracleType === "ex") {
+                const c1 = cards[0];
+                const c2 = cards[1];
+                return `
+                    <p><strong class="text-vampLight">1. Su Intención Oculta (${c1.name}):</strong> ${contextHook}${c1.love}</p>
+                    <p><strong class="text-gold">2. Su Acción Real (${c2.name}):</strong> Más allá de lo que piense o diga, en los hechos se mueve así: ${c2.raw}</p>
+                    <p class="text-gray-300 italic pt-1"><strong>Consejo directo:</strong> ${c1.advice}</p>
+                `;
+            }
+
+            const c = cards[0];
+            let specificAngle = c.raw;
+            if (oracleType === "money") specificAngle = c.money;
+            if (oracleType === "envy") specificAngle = `${c.raw} Si sientes mala vibra ahí, hazle caso a la carta porque no estás exagerando.`;
+
+            return `
+                <p><strong class="text-vampLight">${c.name}:</strong> ${contextHook}${specificAngle}</p>
+                <p class="text-gray-300 italic pt-1"><strong>Veredicto sin adornos:</strong> ${c.advice}</p>
+            `;
+        }
+
+        window.performReading = async function() {
+            checkDailyResets();
+            if (userState.energy <= 0) {
+                updateEnergyLockoutUI();
+                return;
+            }
+
+            const btn = document.getElementById("btn-draw");
+            btn.disabled = true;
+            btn.classList.add("animate-shuffle");
+            btn.textContent = "Barajando los 78 Arcanos...";
+
+            setTimeout(async () => {
+                btn.classList.remove("animate-shuffle");
+                btn.disabled = false;
+                btn.textContent = "✦ Barajar y Revelar la Verdad ✦";
+
+                // Deduct 1 energy
+                userState.energy = Math.max(0, userState.energy - 1);
+                saveUserState();
+
+                // Pick unique random cards from 78-card deck
+                const needed = ORACLES_META[currentOracle].count;
+                const shuffled = [...FULL_DECK].sort(() => Math.random() - 0.5);
+                const drawnCards = shuffled.slice(0, needed);
+                const contextText = document.getElementById("context-input").value.trim();
+
+                // Render Flip Cards
+                const stage = document.getElementById("cards-stage");
+                stage.innerHTML = "";
+                drawnCards.forEach((card, idx) => {
+                    const roleLabel = currentOracle === "ex" ? (idx === 0 ? "Intención Oculta" : "Acción Real") : "Arcano Revelado";
+                    const cardWrapper = document.createElement("div");
+                    cardWrapper.className = "flex flex-col items-center gap-2";
+                    cardWrapper.innerHTML = `
+                        <span class="text-[11px] font-gothic uppercase tracking-widest text-gold">${roleLabel}</span>
+                        <div class="w-40 h-60 sm:w-44 sm:h-64 perspective-1000 cursor-pointer" onclick="this.querySelector('.card-inner').classList.toggle('rotate-y-180')">
+                            <div class="card-inner relative w-full h-full preserve-3d">
+                                <!-- Back of Card -->
+                                <div class="absolute inset-0 backface-hidden rounded-xl bg-gradient-to-br from-velvet via-abyss to-void border-2 border-vamp flex flex-col items-center justify-center p-4 shadow-xl">
+                                    <div class="w-16 h-16 rounded-full border border-gold/60 flex items-center justify-center text-vamp text-2xl">☾</div>
+                                    <span class="font-gothic text-[10px] tracking-widest text-gold mt-3 uppercase">Zafirovamp</span>
+                                </div>
+                                <!-- Front of Card -->
+                                <div class="absolute inset-0 backface-hidden rotate-y-180 rounded-xl shadow-2xl">
+                                    ${getCardSVG(card)}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    stage.appendChild(cardWrapper);
+
+                    // Auto flip smoothly after mount
+                    setTimeout(() => {
+                        const inner = cardWrapper.querySelector(".card-inner");
+                        if (inner) inner.classList.add("rotate-y-180");
+                    }, 220 + idx * 250);
+                });
+
+                const htmlInterpretation = buildContextualInterpretation(currentOracle, drawnCards, contextText);
+                document.getElementById("interpretation-content").innerHTML = htmlInterpretation;
+                document.getElementById("result-timestamp").textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                document.getElementById("reading-result-area").classList.remove("hidden");
+
+                // Save for Story Canvas Generator
+                lastReadingData = {
+                    oracleTitle: ORACLES_META[currentOracle].title,
+                    cards: drawnCards,
+                    plainSummary: document.getElementById("interpretation-content").innerText
+                };
+
+                // Log reading to Firestore (visible only in Developer Dashboard)
+                if (firebaseReady && db) {
+                    try {
+                        await addDoc(collection(db, "artifacts", appId, "public", "data", "readings"), {
+                            userId: userState.userId,
+                            userName: userState.name,
+                            oracleType: ORACLES_META[currentOracle].title,
+                            context: contextText || "(Sin contexto)",
+                            cards: drawnCards.map(c => c.name).join(" + "),
+                            timestamp: new Date().toISOString()
+                        });
+                    } catch (e) {
+                        console.warn("Log reading error:", e);
+                    }
+                }
+
+                // Trigger referral credit if this was an invited friend's first reading
+                await processReferralRewardIfEligible();
+                updateEnergyLockoutUI();
+            }, 650);
+        };
+
+        // ---------------------------------------------------------------------
+        // 8. HTML5 CANVAS 9:16 STORY IMAGE GENERATOR
+        // ---------------------------------------------------------------------
+        async function renderStoryToCanvas(title, card, bodyText) {
+            const canvas = document.getElementById("story-canvas");
+            const ctx = canvas.getContext("2d");
+
+            // Background Gradient
+            const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
+            grad.addColorStop(0, "#0a080d");
+            grad.addColorStop(0.5, "#1d142c");
+            grad.addColorStop(1, "#0a080d");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1080, 1920);
+
+            // Outer Gold & Pink Borders
+            ctx.strokeStyle = "#d4af37";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(48, 48, 984, 1824);
+
+            ctx.strokeStyle = "#ff4d94";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(68, 68, 944, 1784);
+
+            // Header Title
+            ctx.fillStyle = "#d4af37";
+            ctx.font = "bold 34px Cinzel, serif";
+            ctx.textAlign = "center";
+            ctx.fillText("✦ ORÁCULO SIN FILTROS ✦", 540, 165);
+
+            ctx.fillStyle = "#ff85b3";
+            ctx.font = "bold 46px Cinzel, serif";
+            ctx.fillText(title.toUpperCase(), 540, 235);
+
+            // Convert Card SVG to Image and draw centered
+            const svgString = getCardSVG(card);
+            const svgBlob = new Blob([svgString], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(svgBlob);
+
+            await new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.drawImage(img, 330, 300, 420, 630);
+                    URL.revokeObjectURL(url);
+                    resolve();
+                };
+                img.src = url;
+            });
+
+            // Verdict Box
+            ctx.fillStyle = "rgba(10, 8, 13, 0.85)";
+            ctx.fillRect(110, 990, 860, 620);
+            ctx.strokeStyle = "#ff4d94";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(110, 990, 860, 620);
+
+            // Wrap Text inside Box
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "34px Inter, sans-serif";
+            ctx.textAlign = "center";
+            const words = bodyText.replace(/\n+/g, " ").split(" ");
+            let line = "";
+            let y = 1075;
+            const maxWidth = 780;
+            const lineHeight = 48;
+
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + " ";
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && n > 0) {
+                    ctx.fillText(line.trim(), 540, y);
+                    line = words[n] + " ";
+                    y += lineHeight;
+                    if (y > 1540) break;
+                } else {
+                    line = testLine;
+                }
+            }
+            if (y <= 1540) ctx.fillText(line.trim(), 540, y);
+
+            // Watermark Footer
+            ctx.fillStyle = "#d4af37";
+            ctx.font = "bold 42px Cinzel, serif";
+            ctx.fillText("@zafirovamp_tarotista", 540, 1730);
+
+            ctx.fillStyle = "#ff85b3";
+            ctx.font = "28px Inter, sans-serif";
+            ctx.fillText("Pide tu lectura privada en Instagram o WhatsApp", 540, 1785);
+
+            // Trigger Download
+            const link = document.createElement("a");
+            link.download = `zafirovamp-tarot-${Date.now()}.png`;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            showToast("Imagen Descargada", "Lista para subir a tus Historias de Instagram o Estados de WhatsApp.");
+        }
+
+        window.generateStoryImage = function() {
+            if (!lastReadingData) return;
+            renderStoryToCanvas(lastReadingData.oracleTitle, lastReadingData.cards[0], lastReadingData.plainSummary);
+        };
+
+        window.generateLifeStoryImage = function() {
+            const arcana = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
+            const summary = `Mi Arcano de Vida es ${arcana.name}. Luz: ${arcana.raw} En el amor: ${arcana.love}`;
+            renderStoryToCanvas("Mi Arcano de Vida", arcana, summary);
+        };
+
+        // ---------------------------------------------------------------------
+        // 9. ANONYMOUS REVIEWS (FIRESTORE)
+        // ---------------------------------------------------------------------
+        let selectedRating = 5;
+        window.setRating = function(r) {
+            selectedRating = r;
+            document.querySelectorAll(".star-btn").forEach((btn, idx) => {
+                btn.classList.toggle("text-gold", idx < r);
+                btn.classList.toggle("text-gray-600", idx >= r);
+            });
+        };
+
+        window.submitAnonymousReview = async function(e) {
+            e.preventDefault();
+            const text = document.getElementById("review-text").value.trim();
+            if (!text) return;
+
+            const reviewObj = {
+                rating: selectedRating,
+                text: text,
+                createdAt: new Date().toISOString()
+            };
+
+            if (firebaseReady && db) {
+                try {
+                    await addDoc(collection(db, "artifacts", appId, "public", "data", "reviews"), reviewObj);
+                    document.getElementById("review-text").value = "";
+                    showToast("¡Gracias por tu reseña!", "Tu experiencia anónima ya es visible en el muro.");
+                } catch (err) {
+                    showToast("Error", "No se pudo publicar la reseña en este momento.");
+                }
+            }
+        };
+
+        function subscribeToPublicReviews() {
+            if (!firebaseReady || !db) return;
+            const reviewsCol = collection(db, "artifacts", appId, "public", "data", "reviews");
+            onSnapshot(reviewsCol, (snapshot) => {
+                const list = document.getElementById("reviews-list");
+                const adminList = document.getElementById("admin-reviews-list");
+                list.innerHTML = "";
+                if (adminList) adminList.innerHTML = "";
+
+                const docs = [];
+                snapshot.forEach(d => docs.push({ id: d.id, ...d.data() }));
+                docs.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+
+                document.getElementById("stat-total-reviews").textContent = docs.length;
+
+                if (docs.length === 0) {
+                    list.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-gray-500 border border-dashed border-white/10 rounded-2xl">Sé la primera persona en dejar tu experiencia anónima.</div>`;
+                    return;
+                }
+
+                docs.forEach(rev => {
+                    const stars = "★".repeat(rev.rating || 5) + "☆".repeat(5 - (rev.rating || 5));
+                    const dateStr = rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : "Reciente";
+
+                    const card = document.createElement("div");
+                    card.className = "bg-abyss border border-white/10 rounded-2xl p-4 space-y-2";
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <span class="text-gold text-sm tracking-widest">${stars}</span>
+                            <span class="text-[10px] text-gray-500">Anónimo · ${dateStr}</span>
+                        </div>
+                        <p class="text-xs text-gray-200 leading-relaxed">"${escapeHTML(rev.text)}"</p>
+                    `;
+                    list.appendChild(card);
+
+                    if (adminList) {
+                        const adminCard = document.createElement("div");
+                        adminCard.className = "bg-void border border-white/15 rounded-xl p-3 flex justify-between items-start gap-3";
+                        adminCard.innerHTML = `
+                            <div>
+                                <div class="text-gold text-xs">${stars} <span class="text-gray-500">(${dateStr})</span></div>
+                                <p class="text-xs text-gray-300 mt-1">${escapeHTML(rev.text)}</p>
+                            </div>
+                            <button onclick="deleteReviewAdmin('${rev.id}')" class="px-2.5 py-1 rounded bg-red-900/50 hover:bg-red-600 text-red-200 hover:text-white text-[10px] font-bold shrink-0">
+                                Eliminar
+                            </button>
+                        `;
+                        adminList.appendChild(adminCard);
+                    }
+                });
+            }, (err) => console.warn("Reviews listener error:", err));
+        }
+
+        window.deleteReviewAdmin = async function(docId) {
+            if (!firebaseReady || !db) return;
+            try {
+                await deleteDoc(doc(db, "artifacts", appId, "public", "data", "reviews", docId));
+                showToast("Reseña eliminada", "El comentario fue borrado del muro.");
+            } catch (e) {
+                console.warn(e);
+            }
+        };
+
+        // ---------------------------------------------------------------------
+        // 10. HIDDEN DEVELOPER ACCESS (5 CLICKS ON SIGIL OR CTRL+ALT+Z)
+        // ---------------------------------------------------------------------
+        let sigilClicks = 0;
+        let sigilTimer = null;
+
+        document.getElementById("secret-sigil").addEventListener("click", () => {
+            sigilClicks++;
+            clearTimeout(sigilTimer);
+            if (sigilClicks >= 5) {
+                sigilClicks = 0;
+                openDevAccess();
+            } else {
+                sigilTimer = setTimeout(() => { sigilClicks = 0; }, 1800);
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.altKey && (e.key === "z" || e.key === "Z")) {
+                e.preventDefault();
+                openDevAccess();
+            }
+        });
+
+        function openDevAccess() {
+            if (sessionStorage.getItem("zafirovamp_dev_unlocked") === "true") {
+                openDevDashboard();
+            } else {
+                document.getElementById("dev-auth-modal").classList.remove("hidden");
+            }
+        }
+
+        window.closeDevAuthModal = function() {
+            document.getElementById("dev-auth-modal").classList.add("hidden");
+        };
+
+        window.verifyDevCredentials = function(e) {
+            e.preventDefault();
+            const key = document.getElementById("dev-master-key").value.trim();
+            const phrase = document.getElementById("dev-secret-phrase").value.trim();
+
+            if (key === "200629" && phrase === "Rhaelissnyra") {
+                sessionStorage.setItem("zafirovamp_dev_unlocked", "true");
+                document.getElementById("dev-master-key").value = "";
+                document.getElementById("dev-secret-phrase").value = "";
+                closeDevAuthModal();
+                openDevDashboard();
+            } else {
+                showToast("Acceso Denegado", "Credenciales incorrectas.");
+            }
+        };
+
+        function openDevDashboard() {
+            document.getElementById("dev-dashboard-modal").classList.remove("hidden");
+            loadDeveloperData();
+        }
+
+        window.closeDevDashboard = function() {
+            document.getElementById("dev-dashboard-modal").classList.add("hidden");
+        };
+
+        window.switchAdminTab = function(tab) {
+            ["readings", "users", "reviews"].forEach(t => {
+                document.getElementById(`admin-panel-${t}`).classList.toggle("hidden", t !== tab);
+                const btn = document.getElementById(`admin-tab-${t}`);
+                btn.classList.toggle("bg-vamp", t === tab);
+                btn.classList.toggle("text-white", t === tab);
+                btn.classList.toggle("bg-velvet", t !== tab);
+                btn.classList.toggle("text-gray-300", t !== tab);
+            });
+        };
+
+        function loadDeveloperData() {
+            if (!firebaseReady || !db) return;
+
+            // Subscribe to Users
+            onSnapshot(collection(db, "artifacts", appId, "public", "data", "users"), (snap) => {
+                const tbody = document.getElementById("admin-users-tbody");
+                tbody.innerHTML = "";
+                let totalRefs = 0;
+                const users = [];
+                snap.forEach(d => users.push(d.data()));
+                users.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+
+                document.getElementById("stat-total-users").textContent = users.length;
+
+                users.forEach(u => {
+                    const refs = u.dailyReferralsCount || 0;
+                    totalRefs += refs;
+                    const arc = MAJOR_ARCANA.find(c => c.id === u.lifeArcanaId);
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-2 font-semibold text-white">${escapeHTML(u.name || "N/A")}</td>
+                        <td class="py-2.5 px-2">${escapeHTML(u.dob || "-")}</td>
+                        <td class="py-2.5 px-2 text-gold">${arc ? arc.name : "-"}</td>
+                        <td class="py-2.5 px-2 font-mono text-[10px] text-gray-400">${escapeHTML(u.deviceFp || "-")}</td>
+                        <td class="py-2.5 px-2 text-vampLight">${refs}</td>
+                        <td class="py-2.5 px-2 text-gray-400">${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "-"}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                document.getElementById("stat-total-referrals").textContent = totalRefs;
+            }, err => console.warn(err));
+
+            // Subscribe to Readings
+            onSnapshot(collection(db, "artifacts", appId, "public", "data", "readings"), (snap) => {
+                const tbody = document.getElementById("admin-readings-tbody");
+                tbody.innerHTML = "";
+                const readings = [];
+                snap.forEach(d => readings.push(d.data()));
+                readings.sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""));
+
+                document.getElementById("stat-total-readings").textContent = readings.length;
+
+                readings.forEach(r => {
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td class="py-2.5 px-2 text-gray-400 whitespace-nowrap">${r.timestamp ? new Date(r.timestamp).toLocaleString() : "-"}</td>
+                        <td class="py-2.5 px-2 font-semibold text-white">${escapeHTML(r.userName || "Anónimo")}</td>
+                        <td class="py-2.5 px-2 text-vampLight">${escapeHTML(r.oracleType || "-")}</td>
+                        <td class="py-2.5 px-2 italic text-gray-300">${escapeHTML(r.context || "-")}</td>
+                        <td class="py-2.5 px-2 text-gold font-medium">${escapeHTML(r.cards || "-")}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }, err => console.warn(err));
+        }
+
+        // ---------------------------------------------------------------------
+        // 11. UI HELPERS, MODALS & INIT
+        // ---------------------------------------------------------------------
+        function updateUIStatus() {
+            document.getElementById("energy-display").textContent = `${userState.energy}/2`;
+            if (userState.userId && userState.name) {
+                const arc = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
+                document.getElementById("user-badge").classList.remove("hidden");
+                document.getElementById("header-username").textContent = userState.name;
+                document.getElementById("header-arcana-short").textContent = arc.name;
+            }
+            updateEnergyLockoutUI();
+        }
+
+        function updateEnergyLockoutUI() {
+            if (currentOracle === "life") return;
+            if (userState.energy <= 0) {
+                document.getElementById("draw-action-area").classList.add("hidden");
+                document.getElementById("zero-energy-banner").classList.remove("hidden");
+            } else {
+                document.getElementById("draw-action-area").classList.remove("hidden");
+                document.getElementById("zero-energy-banner").classList.add("hidden");
+            }
+        }
+
+        window.openInviteModal = function() {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const refUrl = `${baseUrl}?ref=${userState.userId || "GUEST"}`;
+            document.getElementById("referral-link-input").value = refUrl;
+            document.getElementById("daily-referrals-count").textContent = userState.dailyReferralsCount || 0;
+            document.getElementById("invite-modal").classList.remove("hidden");
+        };
+
+        window.closeInviteModal = function() {
+            document.getElementById("invite-modal").classList.add("hidden");
+        };
+
+        window.copyReferralLink = function() {
+            const input = document.getElementById("referral-link-input");
+            input.select();
+            input.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            showToast("Enlace Copiado", "Envíaselo a un amigo por Instagram o WhatsApp. Cuando haga su lectura recibirás +2 tiradas.");
+        };
+
+        function showToast(title, msg) {
+            const box = document.getElementById("toast-box");
+            document.getElementById("toast-title").textContent = title;
+            document.getElementById("toast-msg").textContent = msg;
+            box.classList.remove("hidden");
+            setTimeout(() => box.classList.add("hidden"), 4500);
+        }
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[tag]));
+        }
+
+        // Spawn subtle floating particles
+        function initParticles() {
+            const container = document.getElementById("particles-container");
+            for (let i = 0; i < 16; i++) {
+                const p = document.createElement("div");
+                p.className = "particle";
+                const size = Math.random() * 4 + 2;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = `${Math.random() * 100}vw`;
+                p.style.background = i % 2 === 0 ? "#ff4d94" : "#d4af37";
+                p.style.animationDuration = `${Math.random() * 12 + 10}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(p);
+            }
+        }
+
+        // Boot App
+        window.addEventListener("DOMContentLoaded", () => {
+            initParticles();
+            checkDailyResets();
+            updateUIStatus();
+
+            if (!userState.userId || !userState.name) {
+                document.getElementById("onboarding-modal").classList.remove("hidden");
+            }
+        });
+    </script>
+</body>
+</html>
