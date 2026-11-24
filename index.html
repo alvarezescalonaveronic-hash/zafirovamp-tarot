@@ -121,12 +121,12 @@
                     <span id="streak-display">1d · Iniciado</span>
                 </div>
 
-                <div id="user-badge" class="hidden md:flex items-center gap-2 bg-velvet/80 border border-gold/30 px-3 py-1.5 rounded-full text-xs">
-                    <span class="text-gold">✦</span>
-                    <span id="header-username" class="font-medium text-gray-200">Visitante</span>
-                    <span class="text-gray-500">|</span>
-                    <span id="header-arcana-short" class="text-vampLight font-gothic">Arcano</span>
-                </div>
+                <a href="#mi-perfil-section" id="user-badge" class="flex items-center gap-2 bg-velvet/80 hover:border-vamp border border-gold/30 px-3 py-1.5 rounded-full text-xs transition-all">
+                    <span class="text-gold">👤</span>
+                    <span id="header-username" class="font-medium text-gray-200">Mi Perfil</span>
+                    <span class="text-gray-500 hidden sm:inline">|</span>
+                    <span id="header-arcana-short" class="text-vampLight font-gothic hidden sm:inline">Cuenta</span>
+                </a>
 
                 <div class="flex items-center gap-1.5 bg-abyss border border-vamp/50 px-3 py-1.5 rounded-full text-xs font-semibold shadow-inner">
                     <span class="w-2 h-2 rounded-full bg-vamp animate-ping"></span>
@@ -145,12 +145,12 @@
     <div id="banned-banner" class="hidden max-w-6xl mx-auto mt-4 px-4 relative z-20">
         <div class="bg-red-950/90 border border-red-500 rounded-2xl p-4 text-center">
             <p class="font-gothic font-bold text-red-300 text-sm">🚫 Acceso Comunitario Restringido</p>
-            <p class="text-xs text-red-200 mt-1">Este dispositivo fue bloqueado para publicar experiencias o mensajes por incumplir las normas del espacio.</p>
+            <p class="text-xs text-red-200 mt-1">Este dispositivo fue bloqueado para publicar en el chat, experiencias o reseñas por incumplir las normas.</p>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-12 relative z-10">
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 space-y-14 relative z-10">
 
         <!-- Hero Section -->
         <section class="text-center max-w-3xl mx-auto space-y-4">
@@ -351,7 +351,154 @@
             </div>
         </section>
 
-        <!-- Interactive Gadgets: Digital Intention Candle & Long-Term Streak Path -->
+        <!-- SECCIÓN DE PERFIL DE USUARIO -->
+        <section id="mi-perfil-section" class="bg-abyss/95 border border-gold/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+                <div>
+                    <span class="text-xs font-gothic uppercase tracking-widest text-gold">Espacio Personal</span>
+                    <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white">👤 Mi Perfil Místico</h3>
+                </div>
+                <div id="profile-auth-status-badge" class="text-xs bg-velvet border border-vamp/40 px-3 py-1.5 rounded-full text-vampLight">
+                    Modo Invitado
+                </div>
+            </div>
+
+            <!-- Vista 1: Usuario SIN cuenta guardada -->
+            <div id="profile-guest-view" class="grid lg:grid-cols-2 gap-6 items-start">
+                <div class="bg-void/80 border border-white/10 rounded-2xl p-5 space-y-4">
+                    <div class="flex gap-2 border-b border-white/10 pb-3">
+                        <button type="button" onclick="switchProfileAuthMode('register')" id="tab-auth-register" class="px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold">Crear Cuenta Única</button>
+                        <button type="button" onclick="switchProfileAuthMode('login')" id="tab-auth-login" class="px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Iniciar Sesión</button>
+                        <button type="button" onclick="switchProfileAuthMode('recover')" id="tab-auth-recover" class="px-3.5 py-1.5 rounded-lg bg-velvet text-gold text-xs font-bold">Recuperar Clave</button>
+                    </div>
+
+                    <form id="form-profile-register" onsubmit="registerUniqueAccount(event)" class="space-y-3">
+                        <p class="text-xs text-gray-300">Guarda tu progreso, racha, biografía y publicaciones con un <strong class="text-gold">@usuario único</strong> (no se permiten nombres repetidos).</p>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">Nombre de usuario único (sin espacios) *</label>
+                            <div class="flex items-center bg-abyss border border-white/20 rounded-xl px-3">
+                                <span class="text-vamp font-bold text-sm">@</span>
+                                <input type="text" id="reg-username" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_.]+" placeholder="ej: luna_oscura" class="w-full bg-transparent py-2.5 px-2 text-xs text-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] text-gray-400 mb-1">Contraseña *</label>
+                                <input type="password" id="reg-password" required minlength="4" maxlength="32" placeholder="Mín. 4 caracteres" class="w-full bg-abyss border border-white/20 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-gold mb-1">PIN de Recuperación (4-6 dígitos) *</label>
+                                <input type="text" id="reg-pin" required pattern="[0-9]{4,6}" maxlength="6" placeholder="Ej: 1998" class="w-full bg-abyss border border-gold/40 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">Tu Descripción / Biografía (opcional)</label>
+                            <textarea id="reg-bio" maxlength="180" rows="2" placeholder="Ej: Escorpio ♏ · Buscando claridad en el amor y nuevos comienzos..." class="w-full bg-abyss border border-white/20 rounded-xl p-2.5 text-xs text-white resize-none focus:outline-none"></textarea>
+                        </div>
+                        <button type="submit" id="btn-reg-submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-vamp to-pink-600 text-white font-bold text-xs shadow-lg">
+                            Guardar mi Perfil Único
+                        </button>
+                    </form>
+
+                    <form id="form-profile-login" onsubmit="loginUniqueAccount(event)" class="hidden space-y-3">
+                        <p class="text-xs text-gray-300">Ingresa con tu <strong class="text-gold">@usuario</strong> y contraseña (máximo 7 intentos).</p>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">@Usuario *</label>
+                            <input type="text" id="login-username" required placeholder="ej: luna_oscura" class="w-full bg-abyss border border-white/20 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">Contraseña *</label>
+                            <input type="password" id="login-password" required placeholder="Tu contraseña" class="w-full bg-abyss border border-white/20 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div id="login-attempts-warning" class="hidden text-xs text-red-300 bg-red-950/70 border border-red-500/40 rounded-lg px-3 py-2"></div>
+                        <button type="submit" id="btn-login-submit" class="w-full py-2.5 rounded-xl bg-vamp text-white font-bold text-xs">
+                            Entrar a mi Perfil
+                        </button>
+                    </form>
+
+                    <form id="form-profile-recover" onsubmit="recoverAccountPassword(event)" class="hidden space-y-3">
+                        <p class="text-xs text-gray-300">Escribe tu <strong class="text-gold">@usuario</strong> y el <strong class="text-vampLight">PIN de recuperación</strong> que creaste para asignar una contraseña nueva.</p>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">@Usuario *</label>
+                            <input type="text" id="rec-username" required placeholder="ej: luna_oscura" class="w-full bg-abyss border border-white/20 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[11px] text-gold mb-1">Tu PIN Secreto *</label>
+                                <input type="text" id="rec-pin" required pattern="[0-9]{4,6}" maxlength="6" placeholder="Ej: 1998" class="w-full bg-abyss border border-gold/40 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] text-gray-400 mb-1">Nueva Contraseña *</label>
+                                <input type="password" id="rec-new-password" required minlength="4" maxlength="32" placeholder="Nueva clave" class="w-full bg-abyss border border-white/20 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-goldDim to-gold text-void font-bold text-xs">
+                            Restablecer Contraseña
+                        </button>
+                        <p class="text-[11px] text-gray-400 pt-1">¿Olvidaste también tu PIN? <a href="https://wa.me/584160502813?text=Hola%20Zafiro,%20olvid%C3%A9%20la%20clave%20y%20el%20PIN%20de%20mi%20perfil" target="_blank" class="text-vampLight underline">Pide reseteo manual a Zafiro por WhatsApp</a>.</p>
+                    </form>
+                </div>
+
+                <div class="bg-void/60 border border-dashed border-gold/30 rounded-2xl p-5 space-y-3">
+                    <h4 class="font-gothic text-base font-bold text-gold">✦ Beneficios de guardar tu Perfil</h4>
+                    <ul class="text-xs text-gray-300 space-y-2 leading-relaxed">
+                        <li>🔒 <strong class="text-white">Nombre exclusivo:</strong> Nadie más puede usar tu `@usuario` en el chat ni en el muro.</li>
+                        <li>📝 <strong class="text-white">Biografía y Avatar:</strong> Personaliza tu descripción mística y foto de perfil.</li>
+                        <li>📸 <strong class="text-white">Galería de tus Posts:</strong> Todas las experiencias y capturas que publiques quedan guardadas en tu perfil.</li>
+                        <li>📱 <strong class="text-white">Acceso multi-dispositivo:</strong> Abre tu cuenta en otro teléfono sin perder tu racha ni tus tiradas.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Vista 2: Usuario LOGUEADO -->
+            <div id="profile-logged-view" class="hidden space-y-6">
+                <div class="bg-void/90 border border-vamp/30 rounded-2xl p-5 flex flex-col md:flex-row gap-5 items-start md:items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="relative">
+                            <img id="my-profile-avatar" src="" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-2 border-gold bg-velvet hidden">
+                            <div id="my-profile-initials" class="w-20 h-20 rounded-full bg-gradient-to-br from-vamp to-velvet border-2 border-gold flex items-center justify-center font-gothic text-2xl font-bold text-white">☾</div>
+                            <label class="mt-1.5 block text-center text-[10px] text-vampLight cursor-pointer hover:underline">
+                                📷 Cambiar foto
+                                <input type="file" accept="image/*" onchange="updateProfileAvatar(event)" class="hidden">
+                            </label>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h4 id="my-profile-handle" class="font-gothic text-xl font-bold text-gold">@usuario</h4>
+                                <span id="my-profile-rank" class="text-[11px] bg-vamp/20 border border-vamp/40 text-vampLight px-2.5 py-0.5 rounded-full">Iniciado</span>
+                            </div>
+                            <p id="my-profile-arcana" class="text-xs text-gray-300">Arcano de Vida: -</p>
+                            <p id="my-profile-bio-text" class="text-xs text-gray-200 italic pt-1">"Sin descripción aún."</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 self-end md:self-center">
+                        <button onclick="toggleEditBioBox()" class="px-4 py-2 rounded-xl bg-velvet border border-gold/40 text-gold hover:bg-gold hover:text-void text-xs font-bold transition-all">
+                            ✏️ Editar Descripción
+                        </button>
+                        <button onclick="logoutProfileAccount()" class="px-4 py-2 rounded-xl bg-void border border-white/15 text-gray-400 hover:text-red-300 text-xs font-bold transition-all">
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                </div>
+
+                <form id="edit-bio-form" onsubmit="saveProfileBio(event)" class="hidden bg-void border border-gold/40 rounded-2xl p-4 space-y-3">
+                    <label class="block text-xs font-bold text-gold">Actualiza tu descripción o estado místico:</label>
+                    <textarea id="edit-bio-textarea" maxlength="180" rows="2" class="w-full bg-abyss border border-white/20 rounded-xl p-3 text-xs text-white resize-none focus:outline-none"></textarea>
+                    <div class="flex gap-2">
+                        <button type="submit" class="px-4 py-2 rounded-lg bg-vamp text-white font-bold text-xs">Guardar Descripción</button>
+                        <button type="button" onclick="toggleEditBioBox()" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs">Cancelar</button>
+                    </div>
+                </form>
+
+                <div class="space-y-3">
+                    <h4 class="font-gothic text-base font-bold text-vampLight">📸 Mis Publicaciones y Capturas (<span id="my-posts-count">0</span>)</h4>
+                    <div id="my-profile-posts-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Gadgets -->
         <section class="grid md:grid-cols-2 gap-6">
             <div class="bg-abyss/90 border border-gold/30 rounded-3xl p-6 space-y-4">
                 <h3 class="font-gothic text-lg font-bold text-gold">🕯️ Vela de Intención Digital</h3>
@@ -388,7 +535,7 @@
             </div>
         </section>
 
-        <!-- Private Consultations & Catalog Section -->
+        <!-- Private Consultations -->
         <section id="servicios" class="space-y-6">
             <div class="text-center max-w-2xl mx-auto">
                 <span class="text-xs font-gothic tracking-widest uppercase text-vampLight">Lecturas Personalizadas</span>
@@ -442,14 +589,14 @@
             </div>
         </section>
 
-        <!-- Community Chat: Círculo de Almas -->
+        <!-- SECCIÓN 1: CÍRCULO DE ALMAS -->
         <section id="comunidad" class="bg-abyss/90 border border-vamp/30 rounded-3xl p-6 space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
                 <div>
-                    <span class="text-xs font-gothic uppercase tracking-widest text-vampLight">Comunidad en Vivo</span>
+                    <span class="text-xs font-gothic uppercase tracking-widest text-vampLight">Chat Comunitario en Vivo</span>
                     <h3 class="font-gothic text-xl sm:text-2xl font-bold text-white">💬 Círculo de Almas</h3>
                 </div>
-                <span class="text-xs text-gray-400">Comparte qué carta te salió hoy y conversa con respeto</span>
+                <span class="text-xs text-gray-400">Haz clic en cualquier @usuario para ver su perfil</span>
             </div>
 
             <div id="community-chat-box" class="max-h-72 overflow-y-auto bg-void/90 border border-white/10 rounded-2xl p-4 space-y-2.5">
@@ -457,32 +604,72 @@
             </div>
 
             <form onsubmit="sendCommunityMessage(event)" class="flex flex-wrap gap-2">
-                <input type="text" id="chat-msg-input" maxlength="200" required placeholder="Escribe un mensaje a la comunidad..." class="flex-grow bg-void border border-white/15 focus:border-vamp rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none">
+                <input type="text" id="chat-msg-input" maxlength="200" required placeholder="Escribe un mensaje en el chat..." class="flex-grow bg-void border border-white/15 focus:border-vamp rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none">
                 <button type="submit" class="px-5 py-2.5 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs transition-all">
                     Enviar
                 </button>
             </form>
         </section>
 
-        <!-- Experiences Wall with Photos & User History Filter -->
-        <section id="resenas" class="space-y-6">
+        <!-- SECCIÓN 2: MURO DE EXPERIENCIAS Y CAPTURAS -->
+        <section id="muro-experiencias" class="space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
                 <div>
-                    <span class="text-xs font-gothic tracking-widest uppercase text-gold">Comunidad & Aciertos</span>
-                    <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1">Muro de Experiencias y Capturas</h3>
+                    <span class="text-xs font-gothic tracking-widest uppercase text-vampLight">Aciertos & Historias</span>
+                    <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1">📸 Muro de Experiencias y Capturas</h3>
+                    <p class="text-xs text-gray-400 mt-1">Sube la captura de tu carta, tu lectura privada o cuenta cómo acertó el Tarot en tu caso.</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="setReviewFilter('all')" id="btn-filter-all" class="px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold">Todas</button>
-                    <button onclick="setReviewFilter('mine')" id="btn-filter-mine" class="px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Mis Publicaciones</button>
+                    <button onclick="setExpFilter('all')" id="btn-exp-all" class="px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold">Todas</button>
+                    <button onclick="setExpFilter('mine')" id="btn-exp-mine" class="px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Mis Publicaciones</button>
                 </div>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-6">
                 <div class="bg-abyss border border-vamp/30 rounded-2xl p-5 space-y-4 self-start">
-                    <h4 class="font-gothic text-lg font-bold text-vampLight">Comparte tu Experiencia</h4>
-                    <form id="review-form" onsubmit="submitAnonymousReview(event)" class="space-y-3">
+                    <h4 class="font-gothic text-lg font-bold text-vampLight">Publicar Experiencia o Captura</h4>
+                    <form id="experience-form" onsubmit="submitExperiencePost(event)" class="space-y-3">
+                        <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+                            <input type="checkbox" id="exp-anonymous-check" class="accent-vamp">
+                            <span>Publicar como Anónimo (si lo dejas sin marcar sale con tu @usuario)</span>
+                        </label>
                         <div>
-                            <label class="block text-xs text-gray-400 mb-1">Calificación</label>
+                            <textarea id="exp-text" required maxlength="300" rows="3" placeholder="Cuenta qué carta te salió o cómo se cumplió tu lectura..." class="w-full bg-void border border-white/15 focus:border-vamp rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none resize-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gold mb-1">📷 Subir captura o foto (opcional)</label>
+                            <input type="file" id="exp-photo-input" accept="image/*" class="w-full text-xs text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-velvet file:text-vampLight">
+                        </div>
+                        <button type="submit" id="btn-submit-exp" class="w-full py-2.5 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs transition-all">
+                            Subir al Muro
+                        </button>
+                    </form>
+                </div>
+
+                <div id="experiences-list" class="lg:col-span-2 grid sm:grid-cols-2 gap-4 max-h-[540px] overflow-y-auto pr-1"></div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: RESEÑAS Y CALIFICACIONES -->
+        <section id="resenas" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
+                <div>
+                    <span class="text-xs font-gothic tracking-widest uppercase text-gold">Valoraciones de Consultantes</span>
+                    <h3 class="font-gothic text-2xl sm:text-3xl font-bold text-white mt-1">⭐ Reseñas y Calificaciones</h3>
+                    <p class="text-xs text-gray-400 mt-1">Califica tu atención y lectura con @zafirovamp_tarotista.</p>
+                </div>
+                <div class="flex items-center gap-2 bg-velvet/80 border border-gold/30 px-4 py-2 rounded-xl text-xs">
+                    <span class="text-gold text-base">★★★★★</span>
+                    <span id="avg-rating-badge" class="font-bold text-white">5.0 / 5.0</span>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="bg-abyss border border-gold/30 rounded-2xl p-5 space-y-4 self-start">
+                    <h4 class="font-gothic text-lg font-bold text-gold">Deja tu Calificación</h4>
+                    <form id="review-form" onsubmit="submitStarReview(event)" class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Puntuación</label>
                             <div class="flex gap-2" id="star-selector">
                                 <button type="button" onclick="setRating(1)" class="star-btn text-2xl text-gold">★</button>
                                 <button type="button" onclick="setRating(2)" class="star-btn text-2xl text-gold">★</button>
@@ -492,23 +679,19 @@
                             </div>
                         </div>
                         <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
-                            <input type="checkbox" id="review-anonymous-check" checked class="accent-vamp">
+                            <input type="checkbox" id="review-anonymous-check" class="accent-gold">
                             <span>Publicar como Anónimo</span>
                         </label>
                         <div>
-                            <textarea id="review-text" required maxlength="260" rows="3" placeholder="Cuenta cómo te fue con el oráculo o con tu lectura privada..." class="w-full bg-void border border-white/15 focus:border-vamp rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none resize-none"></textarea>
+                            <textarea id="review-text" required maxlength="250" rows="3" placeholder="¿Qué te pareció la atención y claridad de tu consulta?" class="w-full bg-void border border-white/15 focus:border-gold rounded-xl p-3 text-xs text-white placeholder-gray-500 focus:outline-none resize-none"></textarea>
                         </div>
-                        <div>
-                            <label class="block text-xs text-gold mb-1">📷 Subir captura o foto (opcional)</label>
-                            <input type="file" id="review-photo-input" accept="image/*" class="w-full text-xs text-gray-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-velvet file:text-vampLight">
-                        </div>
-                        <button type="submit" id="btn-submit-review" class="w-full py-2.5 rounded-xl bg-vamp hover:bg-pink-500 text-white font-bold text-xs transition-all">
-                            Publicar Ahora
+                        <button type="submit" id="btn-submit-review" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-goldDim to-gold text-void font-bold text-xs transition-all">
+                            Publicar Reseña
                         </button>
                     </form>
                 </div>
 
-                <div id="reviews-list" class="lg:col-span-2 grid sm:grid-cols-2 gap-4 max-h-[520px] overflow-y-auto pr-1"></div>
+                <div id="reviews-list" class="lg:col-span-2 grid sm:grid-cols-2 gap-4 max-h-[480px] overflow-y-auto pr-1"></div>
             </div>
         </section>
 
@@ -583,13 +766,35 @@
         <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
     </a>
 
+    <!-- MODAL PUBLIC PROFILE VIEWER -->
+    <div id="public-profile-modal" class="fixed inset-0 z-50 hidden bg-void/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-abyss border border-gold/50 rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="flex justify-between items-start border-b border-white/10 pb-3">
+                <div class="flex items-center gap-3">
+                    <img id="pub-prof-avatar" src="" class="w-14 h-14 rounded-full object-cover border border-gold hidden">
+                    <div id="pub-prof-initials" class="w-14 h-14 rounded-full bg-velvet border border-gold flex items-center justify-center font-gothic text-xl font-bold text-vampLight">☾</div>
+                    <div>
+                        <h3 id="pub-prof-handle" class="font-gothic text-lg font-bold text-gold">@usuario</h3>
+                        <p id="pub-prof-meta" class="text-xs text-gray-400">Arcano · Rango</p>
+                    </div>
+                </div>
+                <button onclick="document.getElementById('public-profile-modal').classList.add('hidden')" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            <p id="pub-prof-bio" class="text-xs text-gray-200 italic bg-void/70 p-3 rounded-xl border border-white/10"></p>
+            <div class="space-y-2">
+                <h4 class="font-gothic text-xs font-bold uppercase tracking-wider text-vampLight">Publicaciones recientes</h4>
+                <div id="pub-prof-posts" class="space-y-2.5"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL 1: ONBOARDING -->
     <div id="onboarding-modal" class="fixed inset-0 z-50 hidden bg-void/95 backdrop-blur-lg flex items-center justify-center p-4">
         <div class="bg-abyss border-2 border-vamp/60 rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <div class="w-14 h-14 mx-auto rounded-full bg-velvet border border-gold flex items-center justify-center text-vamp text-2xl shadow-lg">☾</div>
                 <h2 class="font-gothic text-2xl font-bold text-white">Antes de abrir el mazo...</h2>
-                <p class="text-xs text-gray-300 leading-relaxed">Para conectar las 78 cartas contigo y calcular tu <span class="text-gold font-semibold">Carta Personal de Vida</span>, ingresa tus datos reales.</p>
+                <p class="text-xs text-gray-300 leading-relaxed">Para conectar las 78 cartas contigo y calcular tu <span class="text-gold font-semibold">Carta Personal de Vida</span>, ingresa tus datos.</p>
             </div>
             <form id="onboarding-form" onsubmit="completeOnboarding(event)" class="space-y-4">
                 <div>
@@ -647,7 +852,7 @@
         </div>
     </div>
 
-    <!-- MODAL 4: PRIVATE DEVELOPER DASHBOARD -->
+    <!-- MODAL 4: PRIVATE DEVELOPER DASHBOARD (WITH LOCAL BACKUP & RESTORE) -->
     <div id="dev-dashboard-modal" class="fixed inset-0 z-50 hidden bg-void/98 backdrop-blur-xl overflow-y-auto p-4 sm:p-8">
         <div class="max-w-6xl mx-auto space-y-6">
             <div class="flex flex-wrap items-center justify-between gap-4 border-b border-vamp/40 pb-4">
@@ -655,12 +860,23 @@
                     <span class="text-xs font-mono text-vamp uppercase tracking-widest">Modo Desarrolladora Activo</span>
                     <h2 class="font-gothic text-2xl sm:text-3xl font-bold text-white">Panel Privado de Zafirovamp</h2>
                 </div>
-                <button onclick="closeDevDashboard()" class="px-4 py-2 rounded-xl bg-velvet border border-vamp text-vampLight hover:bg-vamp hover:text-white text-xs font-bold">Cerrar Panel Secreto</button>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="exportLocalBackupJSON()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-goldDim to-gold text-void font-bold text-xs shadow-lg hover:brightness-110 transition-all">
+                        📥 Descargar Respaldo Local (.json)
+                    </button>
+                    <label class="px-3.5 py-2 rounded-xl bg-velvet border border-gold/50 text-gold hover:bg-gold hover:text-void font-bold text-xs cursor-pointer transition-all">
+                        📤 Restaurar Respaldo
+                        <input type="file" accept=".json,application/json" onchange="importLocalBackupJSON(event)" class="hidden">
+                    </label>
+                    <button onclick="closeDevDashboard()" class="px-4 py-2 rounded-xl bg-velvet border border-vamp text-vampLight hover:bg-vamp hover:text-white text-xs font-bold">
+                        Cerrar Panel
+                    </button>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-6 gap-3">
                 <div class="bg-abyss border border-white/10 rounded-xl p-4">
-                    <div class="text-xs text-gray-400">Usuarios</div>
+                    <div class="text-xs text-gray-400">Perfiles / Usuarios</div>
                     <div id="stat-total-users" class="font-gothic text-2xl font-bold text-white mt-1">0</div>
                 </div>
                 <div class="bg-abyss border border-white/10 rounded-xl p-4">
@@ -669,6 +885,10 @@
                 </div>
                 <div class="bg-abyss border border-white/10 rounded-xl p-4">
                     <div class="text-xs text-gray-400">Experiencias</div>
+                    <div id="stat-total-exps" class="font-gothic text-2xl font-bold text-pink-400 mt-1">0</div>
+                </div>
+                <div class="bg-abyss border border-white/10 rounded-xl p-4">
+                    <div class="text-xs text-gray-400">Reseñas</div>
                     <div id="stat-total-reviews" class="font-gothic text-2xl font-bold text-emerald-400 mt-1">0</div>
                 </div>
                 <div class="bg-abyss border border-white/10 rounded-xl p-4">
@@ -682,11 +902,12 @@
             </div>
 
             <div class="flex flex-wrap gap-2 border-b border-white/10 pb-2">
-                <button onclick="switchAdminTab('readings')" id="admin-tab-readings" class="px-4 py-2 rounded-lg bg-vamp text-white text-xs font-bold">Tiradas</button>
-                <button onclick="switchAdminTab('reviews')" id="admin-tab-reviews" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Moderar Experiencias</button>
-                <button onclick="switchAdminTab('chat')" id="admin-tab-chat" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Moderar Chat</button>
-                <button onclick="switchAdminTab('supports')" id="admin-tab-supports" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">🖤 Comprobantes Apoyo</button>
-                <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">Usuarios & Baneos</button>
+                <button onclick="switchAdminTab('readings')" id="admin-tab-readings" class="px-3.5 py-2 rounded-lg bg-vamp text-white text-xs font-bold">Tiradas</button>
+                <button onclick="switchAdminTab('exps')" id="admin-tab-exps" class="px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">📸 Experiencias</button>
+                <button onclick="switchAdminTab('reviews')" id="admin-tab-reviews" class="px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">⭐ Reseñas</button>
+                <button onclick="switchAdminTab('chat')" id="admin-tab-chat" class="px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">💬 Chat</button>
+                <button onclick="switchAdminTab('supports')" id="admin-tab-supports" class="px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">🖤 Comprobantes</button>
+                <button onclick="switchAdminTab('users')" id="admin-tab-users" class="px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold">👤 Perfiles, Claves & Baneos</button>
             </div>
 
             <div id="admin-panel-readings" class="bg-abyss border border-white/10 rounded-2xl p-4 overflow-x-auto">
@@ -696,6 +917,10 @@
                     </thead>
                     <tbody id="admin-readings-tbody" class="divide-y divide-white/5 text-gray-200"></tbody>
                 </table>
+            </div>
+
+            <div id="admin-panel-exps" class="hidden space-y-3">
+                <div id="admin-exps-list" class="grid sm:grid-cols-2 gap-4"></div>
             </div>
 
             <div id="admin-panel-reviews" class="hidden space-y-3">
@@ -713,7 +938,13 @@
             <div id="admin-panel-users" class="hidden bg-abyss border border-white/10 rounded-2xl p-4 overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead class="text-gray-400 border-b border-white/10 uppercase">
-                        <tr><th class="py-3 px-2">Nombre</th><th class="py-3 px-2">Nacimiento</th><th class="py-3 px-2">Device FP</th><th class="py-3 px-2">Acción</th></tr>
+                        <tr>
+                            <th class="py-3 px-2">@Usuario / Nombre</th>
+                            <th class="py-3 px-2">Bio</th>
+                            <th class="py-3 px-2">PIN Recup.</th>
+                            <th class="py-3 px-2">Device FP</th>
+                            <th class="py-3 px-2">Acciones</th>
+                        </tr>
                     </thead>
                     <tbody id="admin-users-tbody" class="divide-y divide-white/5 text-gray-200"></tbody>
                 </table>
@@ -763,14 +994,15 @@
                     firebaseReady = true;
                     await checkBanStatus();
                     syncUserWithCloud();
-                    subscribeToPublicReviews();
                     subscribeToCommunityChat();
+                    subscribeToExperiences();
+                    subscribeToStarReviews();
                 }
             });
         } catch (e) {}
 
         // =====================================================================
-        // BARAJA DE 78 CARTAS (DIRECTA, CONCRETA Y SIN REPETICIONES)
+        // BARAJA DE 78 CARTAS
         // =====================================================================
         const MAJOR_ARCANA = [
             { id: 0, num: "0", name: "El Loco", suit: "major", raw: "Actúa por impulso y sin medir consecuencias; no quiere compromisos serios.", love: "Vive el momento sin hacer planes a futuro; química rápida pero cero estabilidad.", money: "Evita gastos impulsivos o meterte en negocios sin revisar las condiciones.", advice: "Suelta lo que te pesa, pero mantén los pies en la tierra para que no jueguen con tu tiempo." },
@@ -850,8 +1082,17 @@
         }
 
         // =====================================================================
-        // DEVICE FINGERPRINT, LONG-TERM STREAK & ANTI-CHEAT USER STATE
+        // CRYPTO SHA-256 PARA CONTRASEÑAS + DEVICE FINGERPRINT + USER STATE
         // =====================================================================
+        async function hashSecret(str) {
+            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("ZV_" + str.trim()));
+            return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        function normalizeUsername(raw) {
+            return String(raw || "").trim().toLowerCase().replace(/^@+/, "").replace(/[^a-z0-9_.]/g, "");
+        }
+
         function computeDeviceFingerprint() {
             const raw = [navigator.userAgent, navigator.language, screen.width + "x" + screen.height, Intl.DateTimeFormat().resolvedOptions().timeZone].join("|");
             let hash = 0;
@@ -864,10 +1105,24 @@
         const TODAY_STR = new Date().toISOString().split("T")[0];
 
         let userState = {
-            userId: null, name: "", dob: "", lifeArcanaId: 0, deviceFp: DEVICE_FP,
-            energy: 2, lastReset: Date.now(), referredBy: REF_PARAM || null,
-            hasCompletedFirstReading: false, dailyReferralsCount: 0, lastReferralReset: Date.now(),
-            streakCount: 1, lastStreakDate: TODAY_STR, lunarShields: 0,
+            userId: null,
+            username: "",
+            isRegistered: false,
+            bio: "",
+            avatar: "",
+            name: "",
+            dob: "",
+            lifeArcanaId: 0,
+            deviceFp: DEVICE_FP,
+            energy: 2,
+            lastReset: Date.now(),
+            referredBy: REF_PARAM || null,
+            hasCompletedFirstReading: false,
+            dailyReferralsCount: 0,
+            lastReferralReset: Date.now(),
+            streakCount: 1,
+            lastStreakDate: TODAY_STR,
+            lunarShields: 0,
             createdAt: new Date().toISOString()
         };
 
@@ -881,6 +1136,10 @@
             if (days >= 7) return "Vidente ✨";
             if (days >= 3) return "Aprendiz 🌙";
             return "Iniciado 🕯️";
+        }
+
+        function getDisplayIdentity() {
+            return userState.isRegistered && userState.username ? `@${userState.username}` : (userState.name || "Visitante");
         }
 
         function checkDailyResetsAndStreak() {
@@ -917,7 +1176,8 @@
             localStorage.setItem("zafirovamp_user_v1", JSON.stringify(userState));
             updateUIStatus();
             if (firebaseReady && userState.userId && db) {
-                setDoc(doc(db, "artifacts", appId, "public", "data", "users", userState.userId), userState, { merge: true }).catch(() => {});
+                const { ...publicSafe } = userState;
+                setDoc(doc(db, "artifacts", appId, "public", "data", "users", userState.userId), publicSafe, { merge: true }).catch(() => {});
             }
         }
 
@@ -943,12 +1203,300 @@
                         showToast("¡Recompensa Acreditada!", "Un amigo invitado completó su lectura. Ganaste +2 tiradas.");
                     }
                     userState.dailyReferralsCount = cloudData.dailyReferralsCount || userState.dailyReferralsCount;
+                    if (cloudData.bio !== undefined) userState.bio = cloudData.bio;
+                    if (cloudData.avatar !== undefined) userState.avatar = cloudData.avatar;
                     saveUserState();
                 } else {
                     await setDoc(doc(db, "artifacts", appId, "public", "data", "users", userState.userId), userState);
                 }
             } catch (e) {}
         }
+
+        // =====================================================================
+        // SISTEMA DE PERFILES ÚNICOS + 7 INTENTOS + RECUPERACIÓN CON PIN
+        // =====================================================================
+        window.switchProfileAuthMode = function(mode) {
+            ["register", "login", "recover"].forEach(m => {
+                document.getElementById(`form-profile-${m}`).classList.toggle("hidden", m !== mode);
+                const btn = document.getElementById(`tab-auth-${m}`);
+                btn.className = m === mode
+                    ? "px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold"
+                    : "px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
+            });
+        };
+
+        window.registerUniqueAccount = async function(e) {
+            e.preventDefault();
+            if (!firebaseReady || !db) return showToast("Sin conexión", "Espera un segundo a que conecte la base de datos.");
+
+            const cleanUser = normalizeUsername(document.getElementById("reg-username").value);
+            const pass = document.getElementById("reg-password").value;
+            const pin = document.getElementById("reg-pin").value.trim();
+            const bio = document.getElementById("reg-bio").value.trim();
+
+            if (cleanUser.length < 3) return showToast("Usuario inválido", "El nombre debe tener al menos 3 letras o números.");
+
+            const btn = document.getElementById("btn-reg-submit");
+            btn.disabled = true; btn.textContent = "Verificando disponibilidad...";
+
+            try {
+                const unameRef = doc(db, "artifacts", appId, "public", "data", "usernames", cleanUser);
+                const unameSnap = await getDoc(unameRef);
+                if (unameSnap.exists()) {
+                    btn.disabled = false; btn.textContent = "Guardar mi Perfil Único";
+                    return showToast("❌ Usuario ya ocupado", `El nombre @${cleanUser} ya está registrado por otra persona. Elige uno diferente.`);
+                }
+
+                const passHash = await hashSecret(pass);
+                const uid = userState.userId || ("USR_" + Date.now().toString(36).toUpperCase());
+
+                userState.userId = uid;
+                userState.username = cleanUser;
+                userState.isRegistered = true;
+                userState.bio = bio;
+                if (!userState.name) userState.name = cleanUser;
+
+                await setDoc(unameRef, {
+                    username: cleanUser,
+                    userId: uid,
+                    createdAt: new Date().toISOString()
+                });
+
+                await setDoc(doc(db, "artifacts", appId, "public", "data", "users", uid), {
+                    ...userState,
+                    passwordHash: passHash,
+                    recoveryPin: pin,
+                    failedAttempts: 0,
+                    lockUntil: 0
+                }, { merge: true });
+
+                saveUserState();
+                showToast("✨ Perfil Único Creado", `Bienvenido/a @${cleanUser}. Tu cuenta quedó protegida.`);
+            } catch (err) {
+                showToast("Error", "No se pudo registrar el perfil.");
+            } finally {
+                btn.disabled = false; btn.textContent = "Guardar mi Perfil Único";
+            }
+        };
+
+        window.loginUniqueAccount = async function(e) {
+            e.preventDefault();
+            if (!firebaseReady || !db) return;
+
+            const cleanUser = normalizeUsername(document.getElementById("login-username").value);
+            const pass = document.getElementById("login-password").value;
+            const warnBox = document.getElementById("login-attempts-warning");
+            const btn = document.getElementById("btn-login-submit");
+            btn.disabled = true; btn.textContent = "Verificando...";
+
+            try {
+                const unameSnap = await getDoc(doc(db, "artifacts", appId, "public", "data", "usernames", cleanUser));
+                if (!unameSnap.exists()) {
+                    btn.disabled = false; btn.textContent = "Entrar a mi Perfil";
+                    return showToast("No encontrado", `No existe ninguna cuenta con @${cleanUser}.`);
+                }
+
+                const uid = unameSnap.data().userId;
+                const userRef = doc(db, "artifacts", appId, "public", "data", "users", uid);
+                const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    btn.disabled = false; btn.textContent = "Entrar a mi Perfil";
+                    return showToast("Error", "Datos de usuario no disponibles.");
+                }
+
+                const uData = userSnap.data();
+
+                if (uData.lockUntil && Date.now() < uData.lockUntil) {
+                    const minsLeft = Math.ceil((uData.lockUntil - Date.now()) / 60000);
+                    warnBox.textContent = `🔒 Cuenta bloqueada por seguridad tras 7 intentos fallidos. Intenta de nuevo en ${minsLeft} minuto(s) o usa "Recuperar Clave".`;
+                    warnBox.classList.remove("hidden");
+                    btn.disabled = false; btn.textContent = "Entrar a mi Perfil";
+                    return;
+                }
+
+                const inputHash = await hashSecret(pass);
+                if (inputHash !== uData.passwordHash) {
+                    const newAttempts = (uData.failedAttempts || 0) + 1;
+                    const remaining = Math.max(0, 7 - newAttempts);
+                    const updates = { failedAttempts: newAttempts };
+
+                    if (newAttempts >= 7) {
+                        updates.lockUntil = Date.now() + (15 * 60 * 1000);
+                        updates.failedAttempts = 0;
+                        warnBox.textContent = "🔒 Has agotado los 7 intentos permitidos. Cuenta bloqueada durante 15 minutos.";
+                    } else {
+                        warnBox.textContent = `⚠️ Contraseña incorrecta. Te quedan ${remaining} de 7 intentos.`;
+                    }
+                    warnBox.classList.remove("hidden");
+                    await updateDoc(userRef, updates);
+                    btn.disabled = false; btn.textContent = "Entrar a mi Perfil";
+                    return;
+                }
+
+                await updateDoc(userRef, { failedAttempts: 0, lockUntil: 0, deviceFp: DEVICE_FP });
+                warnBox.classList.add("hidden");
+
+                userState = {
+                    ...userState,
+                    ...uData,
+                    userId: uid,
+                    username: cleanUser,
+                    isRegistered: true,
+                    deviceFp: DEVICE_FP
+                };
+                delete userState.passwordHash;
+                delete userState.recoveryPin;
+                saveUserState();
+                showToast(`✨ Hola de nuevo, @${cleanUser}`, "Tu perfil y publicaciones se han cargado.");
+            } catch (err) {
+                showToast("Error", "No se pudo iniciar sesión.");
+            } finally {
+                btn.disabled = false; btn.textContent = "Entrar a mi Perfil";
+            }
+        };
+
+        window.recoverAccountPassword = async function(e) {
+            e.preventDefault();
+            if (!firebaseReady || !db) return;
+
+            const cleanUser = normalizeUsername(document.getElementById("rec-username").value);
+            const pin = document.getElementById("rec-pin").value.trim();
+            const newPass = document.getElementById("rec-new-password").value;
+
+            const unameSnap = await getDoc(doc(db, "artifacts", appId, "public", "data", "usernames", cleanUser));
+            if (!unameSnap.exists()) return showToast("Error", `El usuario @${cleanUser} no existe.`);
+
+            const uid = unameSnap.data().userId;
+            const userRef = doc(db, "artifacts", appId, "public", "data", "users", uid);
+            const userSnap = await getDoc(userRef);
+            const uData = userSnap.data();
+
+            if (String(uData.recoveryPin || "") !== pin) {
+                return showToast("❌ PIN Incorrecto", "El PIN secreto no coincide con esta cuenta.");
+            }
+
+            const newHash = await hashSecret(newPass);
+            await updateDoc(userRef, { passwordHash: newHash, failedAttempts: 0, lockUntil: 0 });
+            showToast("✅ Contraseña Actualizada", "Ya puedes iniciar sesión con tu nueva clave.");
+            switchProfileAuthMode("login");
+        };
+
+        window.toggleEditBioBox = () => {
+            const form = document.getElementById("edit-bio-form");
+            form.classList.toggle("hidden");
+            if (!form.classList.contains("hidden")) {
+                document.getElementById("edit-bio-textarea").value = userState.bio || "";
+            }
+        };
+
+        window.saveProfileBio = async function(e) {
+            e.preventDefault();
+            userState.bio = document.getElementById("edit-bio-textarea").value.trim();
+            saveUserState();
+            toggleEditBioBox();
+            showToast("Perfil Actualizado", "Tu descripción se guardó correctamente.");
+        };
+
+        window.updateProfileAvatar = async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const b64 = await compressImageToBase64(file, 260, 0.7);
+            userState.avatar = b64;
+            saveUserState();
+            showToast("Foto Actualizada", "Tu imagen de perfil ya es visible.");
+        };
+
+        window.logoutProfileAccount = function() {
+            if (!confirm("¿Cerrar sesión de tu perfil en este navegador?")) return;
+            userState.isRegistered = false;
+            userState.username = "";
+            userState.bio = "";
+            userState.avatar = "";
+            saveUserState();
+            showToast("Sesión Cerrada", "Volviste al modo invitado.");
+        };
+
+        function renderMyProfileUI() {
+            const guestView = document.getElementById("profile-guest-view");
+            const loggedView = document.getElementById("profile-logged-view");
+            const statusBadge = document.getElementById("profile-auth-status-badge");
+
+            if (userState.isRegistered && userState.username) {
+                guestView.classList.add("hidden");
+                loggedView.classList.remove("hidden");
+                statusBadge.textContent = `Conectado como @${userState.username}`;
+
+                const arc = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
+                document.getElementById("my-profile-handle").textContent = `@${userState.username}`;
+                document.getElementById("my-profile-rank").textContent = `${userState.streakCount || 1}d · ${getRankTitle(userState.streakCount || 1)}`;
+                document.getElementById("my-profile-arcana").textContent = `Arcano de Vida: ${arc.num} — ${arc.name}`;
+                document.getElementById("my-profile-bio-text").textContent = userState.bio ? `"${userState.bio}"` : `"Sin descripción aún. Haz clic en Editar Descripción."`;
+
+                const imgEl = document.getElementById("my-profile-avatar");
+                const initEl = document.getElementById("my-profile-initials");
+                if (userState.avatar) {
+                    imgEl.src = userState.avatar;
+                    imgEl.classList.remove("hidden");
+                    initEl.classList.add("hidden");
+                } else {
+                    imgEl.classList.add("hidden");
+                    initEl.classList.remove("hidden");
+                    initEl.textContent = userState.username.substring(0, 2).toUpperCase();
+                }
+
+                const myPosts = allExperiencesCache.filter(p => p.userId === userState.userId || p.author === `@${userState.username}`);
+                document.getElementById("my-posts-count").textContent = myPosts.length;
+                const grid = document.getElementById("my-profile-posts-grid");
+                grid.innerHTML = myPosts.map(p => `
+                    <div class="bg-void border border-white/10 rounded-2xl p-3.5 space-y-2">
+                        <div class="flex justify-between items-center text-[10px] text-gray-400">
+                            <span>${p.createdAt ? new Date(p.createdAt).toLocaleDateString() : ""}</span>
+                            <button onclick="deleteExpAdmin('${p.id}')" class="text-red-300 hover:underline">Borrar</button>
+                        </div>
+                        <p class="text-xs text-gray-200">"${escapeHTML(p.text)}"</p>
+                        ${p.photo ? `<img src="${p.photo}" class="w-full h-40 object-cover rounded-xl border border-white/10">` : ""}
+                    </div>
+                `).join("") || `<p class="col-span-3 text-xs text-gray-500">Aún no has publicado experiencias con esta cuenta. ¡Sube una en el Muro de Experiencias!</p>`;
+            } else {
+                guestView.classList.remove("hidden");
+                loggedView.classList.add("hidden");
+                statusBadge.textContent = "Modo Invitado (Sin cuenta)";
+            }
+        }
+
+        window.openPublicUserProfile = async function(targetUserId, displayAuthor) {
+            if (!targetUserId || !firebaseReady || !db) return;
+            try {
+                const snap = await getDoc(doc(db, "artifacts", appId, "public", "data", "users", targetUserId));
+                if (!snap.exists()) return showToast("Perfil", `${displayAuthor} publica como invitado.`);
+                const u = snap.data();
+                const arc = MAJOR_ARCANA.find(c => c.id === (u.lifeArcanaId || 0)) || MAJOR_ARCANA[0];
+                const handle = u.username ? `@${u.username}` : (u.name || displayAuthor);
+
+                document.getElementById("pub-prof-handle").textContent = handle;
+                document.getElementById("pub-prof-meta").textContent = `Arcano: ${arc.name} · Racha: ${u.streakCount || 1}d (${getRankTitle(u.streakCount || 1)})`;
+                document.getElementById("pub-prof-bio").textContent = u.bio ? `"${u.bio}"` : "Este usuario aún no ha escrito su biografía.";
+
+                const avImg = document.getElementById("pub-prof-avatar");
+                const avInit = document.getElementById("pub-prof-initials");
+                if (u.avatar) {
+                    avImg.src = u.avatar; avImg.classList.remove("hidden"); avInit.classList.add("hidden");
+                } else {
+                    avImg.classList.add("hidden"); avInit.classList.remove("hidden");
+                    avInit.textContent = handle.replace("@", "").substring(0, 2).toUpperCase();
+                }
+
+                const userPosts = allExperiencesCache.filter(p => p.userId === targetUserId);
+                document.getElementById("pub-prof-posts").innerHTML = userPosts.map(p => `
+                    <div class="bg-void border border-white/10 rounded-xl p-3 space-y-1.5">
+                        <p class="text-xs text-gray-200">"${escapeHTML(p.text)}"</p>
+                        ${p.photo ? `<img src="${p.photo}" class="w-full max-h-44 object-cover rounded-lg">` : ""}
+                    </div>
+                `).join("") || `<p class="text-xs text-gray-500">No tiene publicaciones públicas todavía.</p>`;
+
+                document.getElementById("public-profile-modal").classList.remove("hidden");
+            } catch (e) {}
+        };
 
         // =====================================================================
         // LIFE ARCANA & SYNASTRY
@@ -962,7 +1510,7 @@
         function renderLifeArcanaSection() {
             const arcana = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
             document.getElementById("life-card-visual").innerHTML = `<div class="w-44 h-64 shadow-2xl">${getCardSVG(arcana)}</div>`;
-            document.getElementById("life-user-meta").textContent = `${userState.name} · Nacido/a el ${userState.dob}`;
+            document.getElementById("life-user-meta").textContent = `${getDisplayIdentity()} · Nacido/a el ${userState.dob || "-"}`;
             document.getElementById("life-arcana-title").textContent = `${arcana.num} — ${arcana.name}`;
             document.getElementById("life-arcana-light").textContent = arcana.raw;
             document.getElementById("life-arcana-shadow").textContent = arcana.love;
@@ -1043,7 +1591,7 @@
         }
 
         // =====================================================================
-        // ORACLES (CONCISE, DIRECT & ZERO-REDUNDANCY READINGS)
+        // ORACLES
         // =====================================================================
         let currentOracle = "daily";
         let lastReadingData = null;
@@ -1173,14 +1721,14 @@
                 document.getElementById("reading-result-area").classList.remove("hidden");
 
                 const cardNames = drawnCards.map(c => c.name).join(" + ");
-                const waText = encodeURIComponent(`Hola Zafiro, soy ${userState.name || "Visitante"}. Hice "${ORACLES_META[currentOracle].title}" en tu web${contextText ? ` sobre "${contextText}"` : ""} y me salió: ${cardNames}. Quiero profundizar en privado.`);
+                const waText = encodeURIComponent(`Hola Zafiro, soy ${getDisplayIdentity()}. Hice "${ORACLES_META[currentOracle].title}" en tu web${contextText ? ` sobre "${contextText}"` : ""} y me salió: ${cardNames}. Quiero profundizar en privado.`);
                 document.getElementById("deepen-whatsapp-link").href = `https://wa.me/584160502813?text=${waText}`;
 
                 lastReadingData = { oracleTitle: ORACLES_META[currentOracle].title, cards: drawnCards, plainSummary: document.getElementById("interpretation-content").innerText };
 
                 if (firebaseReady && db) {
                     addDoc(collection(db, "artifacts", appId, "public", "data", "readings"), {
-                        userId: userState.userId, userName: userState.name, oracleType: ORACLES_META[currentOracle].title,
+                        userId: userState.userId, userName: getDisplayIdentity(), oracleType: ORACLES_META[currentOracle].title,
                         context: contextText || "(Sin contexto)", cards: cardNames, timestamp: new Date().toISOString()
                     }).catch(() => {});
                 }
@@ -1273,7 +1821,7 @@
         };
 
         // =====================================================================
-        // IMAGE COMPRESSION + REVIEWS + COMMUNITY CHAT + SUPPORT RECEIPTS
+        // IMAGE COMPRESSION
         // =====================================================================
         function compressImageToBase64(file, maxW = 680, quality = 0.65) {
             return new Promise((resolve) => {
@@ -1293,101 +1841,9 @@
             });
         }
 
-        let selectedRating = 5;
-        let allReviewsCache = [];
-        let reviewFilterMode = "all";
-
-        window.setRating = function(r) {
-            selectedRating = r;
-            document.querySelectorAll(".star-btn").forEach((btn, idx) => {
-                btn.classList.toggle("text-gold", idx < r);
-                btn.classList.toggle("text-gray-600", idx >= r);
-            });
-        };
-
-        window.setReviewFilter = function(mode) {
-            reviewFilterMode = mode;
-            document.getElementById("btn-filter-all").className = mode === "all" ? "px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold" : "px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
-            document.getElementById("btn-filter-mine").className = mode === "mine" ? "px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold" : "px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
-            renderReviewsWall();
-        };
-
-        window.submitAnonymousReview = async function(e) {
-            e.preventDefault();
-            if (isDeviceBanned) return showToast("Restringido", "No tienes permiso para publicar.");
-            const text = document.getElementById("review-text").value.trim();
-            if (!text || !firebaseReady || !db) return;
-
-            const btn = document.getElementById("btn-submit-review");
-            btn.disabled = true; btn.textContent = "Publicando...";
-
-            try {
-                const isAnon = document.getElementById("review-anonymous-check").checked;
-                const file = document.getElementById("review-photo-input").files[0];
-                const photo = file ? await compressImageToBase64(file) : "";
-
-                await addDoc(collection(db, "artifacts", appId, "public", "data", "reviews"), {
-                    userId: userState.userId,
-                    deviceFp: DEVICE_FP,
-                    author: isAnon ? "Anónimo" : (userState.name || "Visitante"),
-                    rank: getRankTitle(userState.streakCount || 1),
-                    rating: selectedRating,
-                    text: text,
-                    photo: photo,
-                    createdAt: new Date().toISOString()
-                });
-                document.getElementById("review-form").reset();
-                showToast("¡Publicado!", "Tu experiencia ya aparece en el muro.");
-            } catch (err) {
-                showToast("Error", "No se pudo subir la publicación.");
-            } finally {
-                btn.disabled = false; btn.textContent = "Publicar Ahora";
-            }
-        };
-
-        function subscribeToPublicReviews() {
-            if (!firebaseReady || !db) return;
-            onSnapshot(collection(db, "artifacts", appId, "public", "data", "reviews"), (snapshot) => {
-                allReviewsCache = [];
-                snapshot.forEach(d => allReviewsCache.push({ id: d.id, ...d.data() }));
-                allReviewsCache.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
-                document.getElementById("stat-total-reviews").textContent = allReviewsCache.length;
-                renderReviewsWall();
-                renderAdminReviews();
-            });
-        }
-
-        function renderReviewsWall() {
-            const list = document.getElementById("reviews-list");
-            const filtered = reviewFilterMode === "mine"
-                ? allReviewsCache.filter(r => r.deviceFp === DEVICE_FP || r.userId === userState.userId)
-                : allReviewsCache;
-
-            if (!filtered.length) {
-                list.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-gray-500 border border-dashed border-white/10 rounded-2xl">${reviewFilterMode === "mine" ? "Aún no has publicado experiencias desde este dispositivo." : "Sé la primera persona en compartir tu experiencia."}</div>`;
-                return;
-            }
-
-            list.innerHTML = filtered.map(rev => {
-                const stars = "★".repeat(rev.rating || 5) + "☆".repeat(5 - (rev.rating || 5));
-                const isMine = rev.deviceFp === DEVICE_FP || rev.userId === userState.userId;
-                return `
-                    <div class="bg-abyss border border-white/10 rounded-2xl p-4 space-y-2">
-                        <div class="flex justify-between items-center gap-2">
-                            <div>
-                                <span class="text-xs font-bold text-vampLight">${escapeHTML(rev.author || "Anónimo")}</span>
-                                <span class="text-[10px] bg-gold/15 text-gold px-2 py-0.5 rounded ml-1">${escapeHTML(rev.rank || "Iniciado")}</span>
-                            </div>
-                            ${isMine ? `<button onclick="deleteReviewAdmin('${rev.id}')" class="text-[10px] text-red-300 hover:underline">Borrar</button>` : `<span class="text-gold text-xs">${stars}</span>`}
-                        </div>
-                        <p class="text-xs text-gray-200 leading-relaxed">"${escapeHTML(rev.text)}"</p>
-                        ${rev.photo ? `<img src="${rev.photo}" class="w-full max-h-60 object-cover rounded-xl border border-white/10 mt-2" alt="Captura Tarot">` : ""}
-                    </div>
-                `;
-            }).join("");
-        }
-
-        // Community Chat
+        // =====================================================================
+        // SECCIÓN 1: CÍRCULO DE ALMAS
+        // =====================================================================
         let allChatCache = [];
         window.sendCommunityMessage = async function(e) {
             e.preventDefault();
@@ -1399,7 +1855,7 @@
             await addDoc(collection(db, "artifacts", appId, "public", "data", "community_chat"), {
                 userId: userState.userId,
                 deviceFp: DEVICE_FP,
-                author: userState.name || "Visitante",
+                author: getDisplayIdentity(),
                 rank: getRankTitle(userState.streakCount || 1),
                 message: msg,
                 createdAt: new Date().toISOString()
@@ -1415,7 +1871,7 @@
                 const box = document.getElementById("community-chat-box");
                 box.innerHTML = allChatCache.slice(-50).map(m => `
                     <div class="bg-velvet/70 border-l-2 border-vamp rounded-r-xl px-3 py-2 text-xs">
-                        <span class="font-bold text-gold">${escapeHTML(m.author)}</span>
+                        <button type="button" onclick="openPublicUserProfile('${m.userId || ""}','${escapeHTML(m.author)}')" class="font-bold text-gold hover:underline">${escapeHTML(m.author)}</button>
                         <span class="text-[10px] text-vampLight ml-1">[${escapeHTML(m.rank || "Iniciado")}]</span>:
                         <span class="text-gray-200 ml-1">${escapeHTML(m.message)}</span>
                     </div>
@@ -1425,7 +1881,184 @@
             });
         }
 
-        // Support Creator Section
+        // =====================================================================
+        // SECCIÓN 2: MURO DE EXPERIENCIAS Y CAPTURAS
+        // =====================================================================
+        let allExperiencesCache = [];
+        let expFilterMode = "all";
+
+        window.setExpFilter = function(mode) {
+            expFilterMode = mode;
+            document.getElementById("btn-exp-all").className = mode === "all" ? "px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold" : "px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
+            document.getElementById("btn-exp-mine").className = mode === "mine" ? "px-3.5 py-1.5 rounded-lg bg-vamp text-white text-xs font-bold" : "px-3.5 py-1.5 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
+            renderExperiencesWall();
+        };
+
+        window.submitExperiencePost = async function(e) {
+            e.preventDefault();
+            if (isDeviceBanned) return showToast("Restringido", "No tienes permiso para publicar.");
+            const text = document.getElementById("exp-text").value.trim();
+            if (!text || !firebaseReady || !db) return;
+
+            const btn = document.getElementById("btn-submit-exp");
+            btn.disabled = true; btn.textContent = "Subiendo...";
+
+            try {
+                const isAnon = document.getElementById("exp-anonymous-check").checked;
+                const file = document.getElementById("exp-photo-input").files[0];
+                const photo = file ? await compressImageToBase64(file) : "";
+
+                await addDoc(collection(db, "artifacts", appId, "public", "data", "experiences"), {
+                    userId: userState.userId,
+                    deviceFp: DEVICE_FP,
+                    author: isAnon ? "Anónimo" : getDisplayIdentity(),
+                    rank: getRankTitle(userState.streakCount || 1),
+                    text: text,
+                    photo: photo,
+                    createdAt: new Date().toISOString()
+                });
+                document.getElementById("experience-form").reset();
+                showToast("¡Publicado en el Muro!", "Tu experiencia y captura ya son visibles.");
+            } catch (err) {
+                showToast("Error", "No se pudo subir la publicación.");
+            } finally {
+                btn.disabled = false; btn.textContent = "Subir al Muro";
+            }
+        };
+
+        function subscribeToExperiences() {
+            if (!firebaseReady || !db) return;
+            onSnapshot(collection(db, "artifacts", appId, "public", "data", "experiences"), (snapshot) => {
+                allExperiencesCache = [];
+                snapshot.forEach(d => allExperiencesCache.push({ id: d.id, ...d.data() }));
+                allExperiencesCache.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+                document.getElementById("stat-total-exps").textContent = allExperiencesCache.length;
+                renderExperiencesWall();
+                renderMyProfileUI();
+                renderAdminExperiences();
+            });
+        }
+
+        function renderExperiencesWall() {
+            const list = document.getElementById("experiences-list");
+            const filtered = expFilterMode === "mine"
+                ? allExperiencesCache.filter(r => r.deviceFp === DEVICE_FP || r.userId === userState.userId)
+                : allExperiencesCache;
+
+            if (!filtered.length) {
+                list.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-gray-500 border border-dashed border-white/10 rounded-2xl">${expFilterMode === "mine" ? "Aún no has subido experiencias desde este dispositivo." : "Sé la primera persona en subir tu experiencia o captura."}</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(exp => {
+                const isMine = exp.deviceFp === DEVICE_FP || exp.userId === userState.userId;
+                return `
+                    <div class="bg-abyss border border-vamp/20 rounded-2xl p-4 space-y-2">
+                        <div class="flex justify-between items-center gap-2">
+                            <div>
+                                <button type="button" onclick="openPublicUserProfile('${exp.userId || ""}','${escapeHTML(exp.author)}')" class="text-xs font-bold text-vampLight hover:underline">${escapeHTML(exp.author || "Anónimo")}</button>
+                                <span class="text-[10px] bg-vamp/15 text-vampLight px-2 py-0.5 rounded ml-1">${escapeHTML(exp.rank || "Iniciado")}</span>
+                            </div>
+                            ${isMine ? `<button onclick="deleteExpAdmin('${exp.id}')" class="text-[10px] text-red-300 hover:underline">Borrar</button>` : `<span class="text-[10px] text-gray-500">✦ Experiencia</span>`}
+                        </div>
+                        <p class="text-xs text-gray-200 leading-relaxed">"${escapeHTML(exp.text)}"</p>
+                        ${exp.photo ? `<img src="${exp.photo}" class="w-full max-h-60 object-cover rounded-xl border border-white/10 mt-2" alt="Captura Tarot">` : ""}
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // =====================================================================
+        // SECCIÓN 3: RESEÑAS Y CALIFICACIONES
+        // =====================================================================
+        let selectedRating = 5;
+        let allStarReviewsCache = [];
+
+        window.setRating = function(r) {
+            selectedRating = r;
+            document.querySelectorAll(".star-btn").forEach((btn, idx) => {
+                btn.classList.toggle("text-gold", idx < r);
+                btn.classList.toggle("text-gray-600", idx >= r);
+            });
+        };
+
+        window.submitStarReview = async function(e) {
+            e.preventDefault();
+            if (isDeviceBanned) return showToast("Restringido", "No tienes permiso para publicar reseñas.");
+            const text = document.getElementById("review-text").value.trim();
+            if (!text || !firebaseReady || !db) return;
+
+            const btn = document.getElementById("btn-submit-review");
+            btn.disabled = true; btn.textContent = "Publicando...";
+
+            try {
+                const isAnon = document.getElementById("review-anonymous-check").checked;
+                await addDoc(collection(db, "artifacts", appId, "public", "data", "reviews"), {
+                    userId: userState.userId,
+                    deviceFp: DEVICE_FP,
+                    author: isAnon ? "Anónimo" : getDisplayIdentity(),
+                    rank: getRankTitle(userState.streakCount || 1),
+                    rating: selectedRating,
+                    text: text,
+                    createdAt: new Date().toISOString()
+                });
+                document.getElementById("review-form").reset();
+                setRating(5);
+                showToast("¡Reseña Publicada!", "Gracias por calificar tu consulta.");
+            } catch (err) {
+                showToast("Error", "No se pudo guardar la reseña.");
+            } finally {
+                btn.disabled = false; btn.textContent = "Publicar Reseña";
+            }
+        };
+
+        function subscribeToStarReviews() {
+            if (!firebaseReady || !db) return;
+            onSnapshot(collection(db, "artifacts", appId, "public", "data", "reviews"), (snapshot) => {
+                allStarReviewsCache = [];
+                snapshot.forEach(d => allStarReviewsCache.push({ id: d.id, ...d.data() }));
+                allStarReviewsCache.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || ""));
+                document.getElementById("stat-total-reviews").textContent = allStarReviewsCache.length;
+
+                if (allStarReviewsCache.length > 0) {
+                    const avg = (allStarReviewsCache.reduce((acc, r) => acc + (r.rating || 5), 0) / allStarReviewsCache.length).toFixed(1);
+                    document.getElementById("avg-rating-badge").textContent = `${avg} / 5.0 (${allStarReviewsCache.length})`;
+                }
+
+                renderStarReviewsWall();
+                renderAdminReviews();
+            });
+        }
+
+        function renderStarReviewsWall() {
+            const list = document.getElementById("reviews-list");
+            if (!allStarReviewsCache.length) {
+                list.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-gray-500 border border-dashed border-white/10 rounded-2xl">Sé la primera persona en dejar tu calificación con estrellas.</div>`;
+                return;
+            }
+
+            list.innerHTML = allStarReviewsCache.map(rev => {
+                const stars = "★".repeat(rev.rating || 5) + "☆".repeat(5 - (rev.rating || 5));
+                const isMine = rev.deviceFp === DEVICE_FP || rev.userId === userState.userId;
+                return `
+                    <div class="bg-abyss border border-gold/20 rounded-2xl p-4 space-y-2">
+                        <div class="flex justify-between items-center gap-2">
+                            <div>
+                                <span class="text-xs font-bold text-white">${escapeHTML(rev.author || "Anónimo")}</span>
+                                <span class="text-[10px] bg-gold/15 text-gold px-2 py-0.5 rounded ml-1">${escapeHTML(rev.rank || "Iniciado")}</span>
+                            </div>
+                            <span class="text-gold text-xs tracking-wider">${stars}</span>
+                        </div>
+                        <p class="text-xs text-gray-300 leading-relaxed">"${escapeHTML(rev.text)}"</p>
+                        ${isMine ? `<div class="text-right"><button onclick="deleteReviewAdmin('${rev.id}')" class="text-[10px] text-red-300 hover:underline">Borrar mi reseña</button></div>` : ""}
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // =====================================================================
+        // SUPPORT CREATOR SECTION
+        // =====================================================================
         let currentSelectedPayText = "";
         window.toggleSupportBox = () => document.getElementById("support-expand-box").classList.toggle("hidden");
         window.selectPayMethod = (key) => {
@@ -1466,8 +2099,12 @@
         };
 
         // =====================================================================
-        // HIDDEN DEVELOPER DASHBOARD + MODERATION + BANNING
+        // HIDDEN DEVELOPER DASHBOARD + LOCAL BACKUP EXPORT/IMPORT
         // =====================================================================
+        let cachedAllUsers = [];
+        let cachedAllReadings = [];
+        let cachedAllSupports = [];
+
         let sigilClicks = 0, sigilTimer = null;
         document.getElementById("secret-sigil").addEventListener("click", () => {
             sigilClicks++;
@@ -1496,28 +2133,109 @@
         }
         window.closeDevDashboard = () => document.getElementById("dev-dashboard-modal").classList.add("hidden");
 
+        window.exportLocalBackupJSON = function() {
+            const backupPayload = {
+                exportedAt: new Date().toISOString(),
+                platform: "Zafirovamp Tarot",
+                users: cachedAllUsers,
+                experiences: allExperiencesCache,
+                reviews: allStarReviewsCache,
+                readings: cachedAllReadings,
+                chat: allChatCache
+            };
+            const blob = new Blob([JSON.stringify(backupPayload, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `respaldo-zafirovamp-${new Date().toISOString().split("T")[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("📥 Respaldo Descargado", `Se guardaron ${cachedAllUsers.length} perfiles y sus datos en tu PC.`);
+        };
+
+        window.importLocalBackupJSON = function(e) {
+            const file = e.target.files[0];
+            if (!file || !firebaseReady || !db) return;
+            const reader = new FileReader();
+            reader.onload = async (ev) => {
+                try {
+                    const data = JSON.parse(ev.target.result);
+                    if (!Array.isArray(data.users)) return showToast("Archivo inválido", "El archivo JSON no corresponde a un respaldo válido.");
+                    if (!confirm(`Se restaurarán ${data.users.length} usuarios y sus perfiles en la base de datos. ¿Continuar?`)) return;
+
+                    for (const u of data.users) {
+                        const uid = u.id || u.userId;
+                        if (!uid) continue;
+                        await setDoc(doc(db, "artifacts", appId, "public", "data", "users", uid), u, { merge: true });
+                        if (u.username) {
+                            await setDoc(doc(db, "artifacts", appId, "public", "data", "usernames", normalizeUsername(u.username)), {
+                                username: normalizeUsername(u.username),
+                                userId: uid,
+                                createdAt: u.createdAt || new Date().toISOString()
+                            }, { merge: true });
+                        }
+                    }
+
+                    if (Array.isArray(data.experiences)) {
+                        for (const exp of data.experiences) {
+                            if (exp.id) await setDoc(doc(db, "artifacts", appId, "public", "data", "experiences", exp.id), exp, { merge: true });
+                        }
+                    }
+
+                    if (Array.isArray(data.reviews)) {
+                        for (const rev of data.reviews) {
+                            if (rev.id) await setDoc(doc(db, "artifacts", appId, "public", "data", "reviews", rev.id), rev, { merge: true });
+                        }
+                    }
+
+                    showToast("✅ Respaldo Restaurado", "Todos los perfiles y contraseñas han sido restaurados.");
+                } catch (err) {
+                    showToast("Error al restaurar", "No se pudo leer el archivo JSON.");
+                }
+            };
+            reader.readAsText(file);
+            e.target.value = "";
+        };
+
         window.switchAdminTab = function(tab) {
-            ["readings", "reviews", "chat", "supports", "users"].forEach(t => {
+            ["readings", "exps", "reviews", "chat", "supports", "users"].forEach(t => {
                 document.getElementById(`admin-panel-${t}`).classList.toggle("hidden", t !== tab);
                 const btn = document.getElementById(`admin-tab-${t}`);
-                btn.className = t === tab ? "px-4 py-2 rounded-lg bg-vamp text-white text-xs font-bold" : "px-4 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
+                btn.className = t === tab ? "px-3.5 py-2 rounded-lg bg-vamp text-white text-xs font-bold" : "px-3.5 py-2 rounded-lg bg-velvet text-gray-300 text-xs font-bold";
             });
         };
+
+        function renderAdminExperiences() {
+            const box = document.getElementById("admin-exps-list");
+            if (!box) return;
+            box.innerHTML = allExperiencesCache.map(exp => `
+                <div class="bg-void border border-white/15 rounded-xl p-3 space-y-2">
+                    <div class="flex justify-between items-center text-xs">
+                        <strong class="text-vampLight">${escapeHTML(exp.author || "Anónimo")} <span class="text-gray-500">(${exp.deviceFp || "?"})</span></strong>
+                        <div class="flex gap-1.5">
+                            <button onclick="deleteExpAdmin('${exp.id}')" class="px-2 py-1 rounded bg-red-900/60 text-red-200 text-[10px] font-bold">Borrar</button>
+                            ${exp.deviceFp ? `<button onclick="banDeviceAdmin('${exp.deviceFp}','${escapeHTML(exp.author)}')" class="px-2 py-1 rounded bg-red-600 text-white text-[10px] font-bold">🚫 Banear</button>` : ""}
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-300">${escapeHTML(exp.text)}</p>
+                    ${exp.photo ? `<img src="${exp.photo}" class="max-h-36 rounded-lg border border-white/10">` : ""}
+                </div>
+            `).join("");
+        }
 
         function renderAdminReviews() {
             const adminList = document.getElementById("admin-reviews-list");
             if (!adminList) return;
-            adminList.innerHTML = allReviewsCache.map(rev => `
+            adminList.innerHTML = allStarReviewsCache.map(rev => `
                 <div class="bg-void border border-white/15 rounded-xl p-3 space-y-2">
                     <div class="flex justify-between items-center text-xs">
-                        <strong class="text-vampLight">${escapeHTML(rev.author || "Anónimo")} <span class="text-gray-500">(${rev.deviceFp || "?"})</span></strong>
+                        <strong class="text-gold">${escapeHTML(rev.author || "Anónimo")} (${rev.rating || 5}★) <span class="text-gray-500">(${rev.deviceFp || "?"})</span></strong>
                         <div class="flex gap-1.5">
                             <button onclick="deleteReviewAdmin('${rev.id}')" class="px-2 py-1 rounded bg-red-900/60 text-red-200 text-[10px] font-bold">Borrar</button>
                             ${rev.deviceFp ? `<button onclick="banDeviceAdmin('${rev.deviceFp}','${escapeHTML(rev.author)}')" class="px-2 py-1 rounded bg-red-600 text-white text-[10px] font-bold">🚫 Banear</button>` : ""}
                         </div>
                     </div>
                     <p class="text-xs text-gray-300">${escapeHTML(rev.text)}</p>
-                    ${rev.photo ? `<img src="${rev.photo}" class="max-h-36 rounded-lg border border-white/10">` : ""}
                 </div>
             `).join("");
         }
@@ -1536,7 +2254,8 @@
             `).join("");
         }
 
-        window.deleteReviewAdmin = async (id) => { await deleteDoc(doc(db, "artifacts", appId, "public", "data", "reviews", id)); showToast("Eliminado", "Publicación borrada."); };
+        window.deleteExpAdmin = async (id) => { await deleteDoc(doc(db, "artifacts", appId, "public", "data", "experiences", id)); showToast("Eliminado", "Experiencia borrada."); };
+        window.deleteReviewAdmin = async (id) => { await deleteDoc(doc(db, "artifacts", appId, "public", "data", "reviews", id)); showToast("Eliminado", "Reseña borrada."); };
         window.deleteChatAdmin = async (id) => { await deleteDoc(doc(db, "artifacts", appId, "public", "data", "community_chat", id)); showToast("Eliminado", "Mensaje borrado."); };
         window.banDeviceAdmin = async (fp, name) => {
             if (!confirm(`¿Banear permanentemente el dispositivo de ${name}?`)) return;
@@ -1544,25 +2263,50 @@
             showToast("🚫 Usuario Baneado", `${name} ya no podrá publicar ni comentar.`);
         };
 
+        window.adminResetUserPass = async (uid, handle) => {
+            const temp = prompt(`Escribe una nueva contraseña temporal para ${handle}:`);
+            if (!temp || temp.trim().length < 4) return;
+            const newHash = await hashSecret(temp.trim());
+            await updateDoc(doc(db, "artifacts", appId, "public", "data", "users", uid), {
+                passwordHash: newHash,
+                failedAttempts: 0,
+                lockUntil: 0
+            });
+            showToast("🔑 Clave Restablecida", `Nueva contraseña asignada a ${handle}.`);
+        };
+
         function loadDeveloperData() {
             if (!firebaseReady || !db) return;
             onSnapshot(collection(db, "artifacts", appId, "public", "data", "users"), (snap) => {
                 const tbody = document.getElementById("admin-users-tbody");
                 tbody.innerHTML = "";
-                const users = []; snap.forEach(d => users.push(d.data()));
-                document.getElementById("stat-total-users").textContent = users.length;
-                users.forEach(u => {
-                    tbody.innerHTML += `<tr><td class="py-2 px-2 font-bold text-white">${escapeHTML(u.name || "N/A")}</td><td class="py-2 px-2">${escapeHTML(u.dob || "-")}</td><td class="py-2 px-2 font-mono text-[10px]">${escapeHTML(u.deviceFp || "-")}</td><td class="py-2 px-2"><button onclick="banDeviceAdmin('${u.deviceFp}','${escapeHTML(u.name)}')" class="px-2 py-0.5 rounded bg-red-600 text-white text-[10px]">🚫 Banear</button></td></tr>`;
+                cachedAllUsers = [];
+                snap.forEach(d => cachedAllUsers.push({ id: d.id, ...d.data() }));
+                document.getElementById("stat-total-users").textContent = cachedAllUsers.length;
+                cachedAllUsers.forEach(u => {
+                    const label = u.username ? `@${u.username} (${u.name || ""})` : (u.name || "N/A");
+                    tbody.innerHTML += `
+                        <tr>
+                            <td class="py-2 px-2 font-bold text-white">${escapeHTML(label)}</td>
+                            <td class="py-2 px-2 text-gray-400 max-w-[180px] truncate">${escapeHTML(u.bio || "-")}</td>
+                            <td class="py-2 px-2 font-mono text-gold">${escapeHTML(u.recoveryPin || "-")}</td>
+                            <td class="py-2 px-2 font-mono text-[10px]">${escapeHTML(u.deviceFp || "-")}</td>
+                            <td class="py-2 px-2 flex gap-1.5">
+                                ${u.username ? `<button onclick="adminResetUserPass('${u.id}','@${escapeHTML(u.username)}')" class="px-2 py-0.5 rounded bg-gold text-void font-bold text-[10px]">🔑 Clave</button>` : ""}
+                                <button onclick="banDeviceAdmin('${u.deviceFp}','${escapeHTML(label)}')" class="px-2 py-0.5 rounded bg-red-600 text-white text-[10px]">🚫 Ban</button>
+                            </td>
+                        </tr>`;
                 });
             });
 
             onSnapshot(collection(db, "artifacts", appId, "public", "data", "readings"), (snap) => {
                 const tbody = document.getElementById("admin-readings-tbody");
                 tbody.innerHTML = "";
-                const readings = []; snap.forEach(d => readings.push(d.data()));
-                readings.sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""));
-                document.getElementById("stat-total-readings").textContent = readings.length;
-                readings.forEach(r => {
+                cachedAllReadings = [];
+                snap.forEach(d => cachedAllReadings.push(d.data()));
+                cachedAllReadings.sort((a, b) => (b.timestamp || "").localeCompare(a.timestamp || ""));
+                document.getElementById("stat-total-readings").textContent = cachedAllReadings.length;
+                cachedAllReadings.forEach(r => {
                     tbody.innerHTML += `<tr><td class="py-2 px-2 text-gray-400">${r.timestamp ? new Date(r.timestamp).toLocaleString() : "-"}</td><td class="py-2 px-2 font-bold text-white">${escapeHTML(r.userName)}</td><td class="py-2 px-2 text-vampLight">${escapeHTML(r.oracleType)}</td><td class="py-2 px-2 italic">${escapeHTML(r.context)}</td><td class="py-2 px-2 text-gold">${escapeHTML(r.cards)}</td></tr>`;
                 });
             });
@@ -1570,9 +2314,10 @@
             onSnapshot(collection(db, "artifacts", appId, "public", "data", "support_receipts"), (snap) => {
                 const box = document.getElementById("admin-supports-list");
                 box.innerHTML = "";
-                const list = []; snap.forEach(d => list.push(d.data()));
-                document.getElementById("stat-total-supports").textContent = list.length;
-                list.forEach(s => {
+                cachedAllSupports = [];
+                snap.forEach(d => cachedAllSupports.push(d.data()));
+                document.getElementById("stat-total-supports").textContent = cachedAllSupports.length;
+                cachedAllSupports.forEach(s => {
                     box.innerHTML += `<div class="bg-void border border-gold/40 rounded-xl p-3 space-y-2"><strong class="text-gold text-xs">${escapeHTML(s.sender)} — ${escapeHTML(s.amount)}</strong><p class="text-xs text-gray-300">"${escapeHTML(s.note)}"</p>${s.receipt ? `<img src="${s.receipt}" class="max-h-52 rounded-lg">` : ""}</div>`;
                 });
             });
@@ -1608,12 +2353,12 @@
                 document.getElementById("streak-30-box").classList.remove("hidden");
                 document.getElementById("streak-30-code").textContent = `ZAF30-${DEVICE_FP}`;
             }
-            if (userState.userId && userState.name) {
-                const arc = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
-                document.getElementById("user-badge").classList.remove("hidden");
-                document.getElementById("header-username").textContent = userState.name;
-                document.getElementById("header-arcana-short").textContent = arc.name;
-            }
+
+            const arc = MAJOR_ARCANA.find(c => c.id === userState.lifeArcanaId) || MAJOR_ARCANA[0];
+            document.getElementById("header-username").textContent = getDisplayIdentity();
+            document.getElementById("header-arcana-short").textContent = userState.isRegistered ? arc.name : "Guardar Perfil";
+
+            renderMyProfileUI();
             updateEnergyLockoutUI();
         }
 
